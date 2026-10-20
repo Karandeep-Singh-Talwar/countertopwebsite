@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Temporary debug, test scripts and screenshots
+/*.png
+/*.jpg
+/*.jpeg
+/*.pdf
+/*.html
+/check_*.py
+/find_supabase.js
+/inspect_mobbin.js
+__pycache__/
+
