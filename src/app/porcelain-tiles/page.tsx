@@ -9,24 +9,24 @@ import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
 import { RequestQuoteModal } from '@/components/request-quote-modal';
 import { PORCELAIN_CATALOG, PorcelainMaterial } from '@/data/porcelain-catalog-data';
-import { Sparkles, Grid3X3, Layers, ShieldCheck, Box, Calculator, Check, ArrowRight, Filter, Info } from 'lucide-react';
+import { ArrowRight, Calculator, X } from 'lucide-react';
 
 export default function PorcelainTilesPage() {
   const [selectedFormat, setSelectedFormat] = useState<'all' | '600x1200' | '600x600'>('all');
   const [activeMaterial, setActiveMaterial] = useState<PorcelainMaterial | null>(null);
 
-  // Quick Tile Box Calculator state
-  const [tileSqFt, setTileSqFt] = useState<number>(150);
+  // Simple Tile Packaging Calculator State
+  const [tileSqFt, setTileSqFt] = useState<number>(180);
+  const sqFtPerBox = 15.5; // 2 pcs of 600x1200mm = ~1.44 m2 = 15.5 sq.ft
+  const boxesNeeded = Math.ceil(tileSqFt / sqFtPerBox);
+  const totalWeightKg = boxesNeeded * 29; // 29kg per box
+  const pricePerSqFt = 19; // avg $19/sq.ft
+  const estimatedCost = Math.round(tileSqFt * pricePerSqFt);
 
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const [modalInitialMaterial, setModalInitialMaterial] = useState('Calcatta Extra (600x1200mm Matching Porcelain Tile)');
-  const [modalInitialSqFt, setModalInitialSqFt] = useState(150);
-
-  // Tile coverage math (1.44 sq.m = 15.5 sq.ft per 2-tile box)
-  const boxesNeeded = Math.ceil(tileSqFt / 15.5);
-  const totalWeightKg = boxesNeeded * 29;
-  const estimatedCost = tileSqFt * 18;
+  const [modalInitialMaterial, setModalInitialMaterial] = useState('Matching Calcatta Extra Porcelain Tile');
+  const [modalInitialSqFt, setModalInitialSqFt] = useState(180);
 
   const handleOpenBookCall = (opts?: { material?: string; sqFt?: number; service?: string }) => {
     if (opts?.material) setModalInitialMaterial(opts.material);
@@ -48,66 +48,66 @@ export default function PorcelainTilesPage() {
       />
 
       <main className="flex-1 pt-24 md:pt-32">
-        {/* Category Hero */}
-        <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-12 md:py-16 border-b border-[#E8E4DC]">
+        {/* Category Hero: Open & Borderless */}
+        <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-16 md:py-24 border-b border-[#1A1A1A]/10">
           <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-stone-600/20 bg-stone-100 text-stone-800 text-[11px] uppercase tracking-[0.2em] font-medium rounded-full">
-              <Grid3X3 className="w-3.5 h-3.5 text-stone-700" />
-              <span>Architectural Continuity Sizing</span>
+            <div className="text-[11px] uppercase tracking-[0.25em] text-[#8C827A] mb-3 font-mono">
+              03 / Architectural Continuity Sizing
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-[#1A1A1A] leading-[1.08]">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-light tracking-tight text-[#1A1A1A] leading-[1.05]">
               Porcelain Tiles Catalogue
             </h1>
-            <p className="mt-5 text-[#1A1A1A]/75 text-base sm:text-xl font-light leading-relaxed">
-              Large-format 600x1200mm (24"x48") and 600x600mm (24"x24") vitrified floor and wall tiles. Pressed with the exact same high-gloss and silk glazes as our porcelain countertops—allowing unbroken material continuity across your floors, feature walls, shower enclosures, and exterior terraces.
+            <p className="mt-6 text-[#59534E] text-base sm:text-xl font-light leading-relaxed">
+              Large-format 600×1200mm (24"×48") and 600×600mm (24"×24") vitrified floor and wall tiles. Pressed with the exact same high-gloss and silk glazes as our porcelain countertops—allowing unbroken material continuity across your floors, feature walls, shower enclosures, and exterior terraces.
             </p>
 
-            {/* Quick Tile Box Estimator Card */}
-            <div className="mt-8 p-6 bg-white border border-[#E8E4DC] rounded-2xl shadow-sm">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            {/* Open Crate & Tile Packaging Console (ZERO BOXES) */}
+            <div className="mt-12 pt-8 border-t border-[#1A1A1A]/10">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#1A1A1A] flex items-center gap-2">
-                    <Box className="w-4 h-4 text-amber-700" />
-                    <span>Quick Crate &amp; Tile Box Coverage Estimator</span>
-                  </span>
-                  <p className="text-[11px] text-[#767168] mt-0.5">
-                    Standard box: 2 pcs (15.5 sq.ft / 1.44 sq.m) · 29 kg per box
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-[#767168]">Your Floor / Wall Area:</span>
-                  <div className="flex items-center bg-[#FAF8F5] border border-[#D9D4CC] rounded-lg px-2.5 py-1">
-                    <input
-                      type="number"
-                      min={15}
-                      max={2000}
-                      step={10}
-                      value={tileSqFt}
-                      onChange={(e) => setTileSqFt(Math.max(15, Number(e.target.value)))}
-                      className="w-16 bg-transparent text-sm font-mono font-bold text-[#1A1A1A] text-right focus:outline-none mr-1"
-                    />
-                    <span className="text-xs text-[#767168]">sq.ft</span>
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#8C827A] font-mono mb-1">
+                    Jobsite Crate Packaging Calculator
                   </div>
+                  <div className="text-sm text-[#59534E] font-light">
+                    Standard crate box: 2 pcs (15.5 sq.ft / 1.44 m²) · 29 kg per freight box
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-mono uppercase text-[#8C827A]">Coverage Area:</span>
+                  <input
+                    type="number"
+                    min={15}
+                    max={3000}
+                    step={10}
+                    value={tileSqFt}
+                    onChange={(e) => setTileSqFt(Math.max(15, Number(e.target.value)))}
+                    className="w-24 bg-transparent border-b border-[#1A1A1A]/30 focus:border-amber-800 text-xl font-mono text-[#1A1A1A] text-right py-0.5 outline-none"
+                  />
+                  <span className="text-xs font-mono text-[#8C827A]">sq.ft</span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-[#F0EDE6] text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 font-mono">
                 <div>
-                  <span className="text-[#767168] block text-[11px]">Boxes Required:</span>
-                  <span className="font-mono font-bold text-base text-[#1A1A1A]">{boxesNeeded} Boxes</span>
+                  <div className="text-3xl font-serif text-[#1A1A1A] font-light">{boxesNeeded}</div>
+                  <div className="text-xs uppercase tracking-wider text-[#8C827A] mt-1">Boxes Needed</div>
+                  <div className="text-[11px] text-[#A39281] font-sans mt-0.5">15.5 sq.ft per box</div>
                 </div>
                 <div>
-                  <span className="text-[#767168] block text-[11px]">Total Pallet Weight:</span>
-                  <span className="font-mono font-bold text-base text-[#1A1A1A]">{totalWeightKg} kg (~{Math.round(totalWeightKg * 2.204)} lbs)</span>
+                  <div className="text-3xl font-serif text-[#1A1A1A] font-light">{totalWeightKg} kg</div>
+                  <div className="text-xs uppercase tracking-wider text-[#8C827A] mt-1">Pallet Mass</div>
+                  <div className="text-[11px] text-[#A39281] font-sans mt-0.5">~{Math.round(totalWeightKg * 2.204)} lbs freight</div>
                 </div>
                 <div>
-                  <span className="text-[#767168] block text-[11px]">Est. Wholesale Material:</span>
-                  <span className="font-mono font-bold text-base text-emerald-800">${estimatedCost.toLocaleString()}</span>
+                  <div className="text-3xl font-serif text-emerald-800 font-light">${estimatedCost.toLocaleString()}</div>
+                  <div className="text-xs uppercase tracking-wider text-[#8C827A] mt-1">Wholesale Cost</div>
+                  <div className="text-[11px] text-[#A39281] font-sans mt-0.5">Direct jobsite freight</div>
                 </div>
                 <div className="flex items-end">
                   <button
                     onClick={() => handleOpenQuoteModal({ material: `Porcelain Tile Crate (${boxesNeeded} Boxes / ${tileSqFt} sq.ft)`, sqFt: tileSqFt })}
-                    className="w-full py-2 px-3 bg-[#1A1A1A] hover:bg-amber-800 text-white text-[11px] uppercase tracking-wider font-medium transition rounded-lg cursor-pointer flex items-center justify-center gap-1.5"
+                    className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
                   >
                     <Calculator className="w-3.5 h-3.5" />
                     <span>Get Tile Crate Quote</span>
@@ -119,110 +119,88 @@ export default function PorcelainTilesPage() {
         </section>
 
         {/* Tile Gallery */}
-        <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-16">
+        <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-20">
           {/* Format Tabs & Count */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-10 pb-6 border-b border-[#E8E4DC]">
-            <div className="flex items-center gap-2">
-              <span className="text-[12px] uppercase tracking-wider text-[#767168] mr-2 font-medium">
-                Format:
-              </span>
+          <div className="flex flex-wrap items-center justify-between gap-6 mb-16 pb-4 border-b border-[#1A1A1A]/10">
+            <div className="flex items-center gap-8 text-xs uppercase tracking-[0.18em] font-mono">
               {[
                 { id: 'all', label: 'All Formats' },
-                { id: '600x1200', label: '600x1200 mm (24x48 in)' },
-                { id: '600x600', label: '600x600 mm (24x24 in)' },
+                { id: '600x1200', label: '600×1200 mm (24×48 in)' },
+                { id: '600x600', label: '600×600 mm (24×24 in)' },
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setSelectedFormat(tab.id as any)}
-                  className={`px-3 py-1.5 text-[11px] uppercase tracking-wider transition-all cursor-pointer ${
+                  className={`py-1 relative transition-colors cursor-pointer ${
                     selectedFormat === tab.id
-                      ? 'border-b-2 border-[#1A1A1A] text-[#1A1A1A] font-semibold'
-                      : 'text-[#767168] hover:text-[#1A1A1A]'
+                      ? 'text-[#1A1A1A] font-medium'
+                      : 'text-[#8C827A] hover:text-[#1A1A1A]'
                   }`}
                 >
-                  {tab.label}
+                  <span>{tab.label}</span>
+                  {selectedFormat === tab.id && (
+                    <span className="absolute bottom-0 left-0 right-0 h-px bg-[#1A1A1A]" />
+                  )}
                 </button>
               ))}
             </div>
 
-            <div className="text-[12px] text-[#767168] font-normal">
+            <div className="text-xs text-[#8C827A] font-mono tracking-wider">
               Showing <span className="font-semibold text-[#1A1A1A]">{PORCELAIN_CATALOG.length}</span> matching vitrified architectural tiles
             </div>
           </div>
 
-          {/* Tiles Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          {/* Tiles Grid: BORDERLESS ART GALLERY (ZERO BOXES) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
             {PORCELAIN_CATALOG.map((tile) => (
               <motion.div
                 key={tile.id}
                 layout
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
                 onClick={() => setActiveMaterial(tile)}
-                className="group flex flex-col justify-between bg-white border border-[#E8E4DC] hover:border-[#1A1A1A]/40 transition-all duration-300 shadow-sm hover:shadow-xl cursor-pointer"
+                className="group cursor-pointer flex flex-col justify-between"
               >
                 <div>
-                  {/* Tile Image (Applied Room View) */}
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone-100 border-b border-[#E8E4DC]">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#ECE8E1]">
                     <Image
                       src={tile.roomImage}
                       alt={tile.name}
                       fill
                       sizes="(max-width: 1024px) 100vw, 33vw"
-                      className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                      className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
 
-                    <div className="absolute top-3 left-3 z-10 flex gap-2">
-                      <span className="px-2.5 py-0.5 bg-black/75 backdrop-blur-md text-white text-[10px] uppercase tracking-wider font-medium">
-                        Matching Tile Series
-                      </span>
-                      <span className="px-2.5 py-0.5 bg-emerald-700/85 backdrop-blur-md text-white text-[10px] uppercase tracking-wider font-medium">
-                        PEI IV Wear Class
-                      </span>
-                    </div>
-
-                    <div className="absolute bottom-3 right-3 z-10">
-                      <span className="px-2.5 py-1 bg-white/95 text-[#1A1A1A] text-[11px] font-semibold tracking-wide shadow-sm">
-                        $18 – $26 / sq.ft
-                      </span>
+                    <div className="absolute top-4 right-4 text-[11px] uppercase tracking-wider text-white bg-black/50 backdrop-blur-md px-3 py-1 font-mono">
+                      $18 – $26 / sq.ft
                     </div>
                   </div>
 
-                  {/* Tile Content */}
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[11px] uppercase tracking-[0.16em] text-amber-700 font-medium">
-                        Vitrified Ceramic Body
-                      </span>
-                      <span className="text-[11px] uppercase tracking-wider text-[#767168]">
-                        {tile.randomFaces} Faces
-                      </span>
+                  <div className="pt-6">
+                    <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-[#8C827A] mb-1.5 font-mono">
+                      <span>PEI IV Wear Class</span>
+                      <span>{tile.randomFaces} Faces</span>
                     </div>
 
-                    <h3 className="text-2xl font-sans font-light tracking-tight text-[#1A1A1A] mb-2 group-hover:text-amber-900 transition-colors">
-                      {tile.name} Architectural Tile
+                    <h3 className="text-2xl sm:text-3xl font-serif font-light tracking-tight text-[#1A1A1A] mb-2 group-hover:text-amber-800 transition-colors">
+                      {tile.name} Tile
                     </h3>
 
-                    <p className="text-[13px] leading-relaxed text-[#1A1A1A]/75 mb-4 line-clamp-2">
+                    <p className="text-[14px] leading-relaxed text-[#59534E] font-light line-clamp-2 mb-3">
                       {tile.description}
                     </p>
 
-                    <div className="p-3 bg-[#FAF8F5] border border-[#E8E4DC] text-xs text-[#1A1A1A]/90 rounded-none mb-4 flex items-start gap-2">
-                      <Layers className="w-4 h-4 text-stone-600 shrink-0 mt-0.5" />
-                      <span>Exact color and pattern match to our {tile.name} countertop slabs.</span>
-                    </div>
-
-                    {/* Applications */}
-                    <div className="flex flex-wrap gap-1.5 text-[11px] text-[#767168]">
-                      {['Continuous Flooring', 'Shower Walls', 'Accent Facades', 'R10 Slip Rating'].map((app, i) => (
-                        <span key={i} className="px-2 py-0.5 bg-[#F2EFE9] border border-[#E8E4DC]">
-                          {app}
-                        </span>
-                      ))}
-                    </div>
+                    <p className="text-xs text-amber-800 font-light italic">
+                      Direct match to {tile.name} countertop slabs.
+                    </p>
                   </div>
+                </div>
+
+                <div className="pt-4 flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-[#1A1A1A] group-hover:translate-x-1 transition-transform">
+                  <span>View Tile Specifications</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </motion.div>
             ))}
@@ -236,17 +214,24 @@ export default function PorcelainTilesPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 sm:p-6"
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-6"
               onClick={() => setActiveMaterial(null)}
             >
               <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
+                initial={{ scale: 0.98, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
+                exit={{ scale: 0.98, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-                className="max-w-3xl w-full bg-[#FAF8F5] border border-[#E8E4DC] shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+                className="max-w-4xl w-full bg-[#FAF8F5] shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] relative"
               >
-                <div className="md:w-1/2 relative bg-black min-h-[300px]">
+                <button
+                  onClick={() => setActiveMaterial(null)}
+                  className="absolute top-4 right-4 z-20 p-2 text-[#1A1A1A]/60 hover:text-[#1A1A1A] transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                <div className="md:w-1/2 relative bg-black min-h-[340px]">
                   <Image
                     src={activeMaterial.roomImage}
                     alt={activeMaterial.name}
@@ -254,64 +239,64 @@ export default function PorcelainTilesPage() {
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-6 left-6 right-6 text-white">
-                    <span className="text-[10px] uppercase tracking-widest text-amber-300 block mb-1">
-                      {activeMaterial.collection} Collection · Tile
+                  <div className="absolute bottom-8 left-8 right-8 text-white">
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 block mb-2 font-mono">
+                      Architectural Tile Series
                     </span>
-                    <h4 className="text-3xl font-sans font-light tracking-tight">{activeMaterial.name}</h4>
-                    <p className="text-xs text-white/70 mt-1">600x1200mm &amp; 600x600mm Vitrified Tiles</p>
+                    <h4 className="text-3xl sm:text-4xl font-serif font-light tracking-tight">{activeMaterial.name}</h4>
+                    <p className="text-xs text-white/70 mt-1 font-light">600×1200mm &amp; 600×600mm Vitrified Tile</p>
                   </div>
                 </div>
 
-                <div className="md:w-1/2 p-6 sm:p-8 space-y-5 text-[#1A1A1A] overflow-y-auto">
+                <div className="md:w-1/2 p-8 sm:p-10 space-y-6 text-[#1A1A1A] overflow-y-auto">
                   <div>
-                    <h5 className="text-[11px] uppercase tracking-[0.18em] text-[#767168] mb-1">Packaging &amp; Technical Specs</h5>
-                    <p className="text-xs text-[#1A1A1A]/80 leading-relaxed">{activeMaterial.description}</p>
+                    <h5 className="text-[11px] uppercase tracking-[0.2em] text-[#8C827A] mb-2 font-mono">Tile Specification</h5>
+                    <p className="text-[14px] leading-relaxed text-[#59534E] font-light">
+                      {activeMaterial.description}
+                    </p>
                   </div>
 
-                  <div className="border border-[#E8E4DC] divide-y divide-[#E8E4DC] text-xs bg-white">
-                    <div className="flex justify-between p-2.5">
-                      <span className="text-[#767168]">Formats:</span>
-                      <span className="font-semibold">600x1200 mm &amp; 600x600 mm</span>
+                  <div className="space-y-3 pt-4 border-t border-[#1A1A1A]/10 text-xs font-mono">
+                    <div className="flex justify-between py-1">
+                      <span className="text-[#8C827A]">Available Formats:</span>
+                      <span className="text-[#1A1A1A] font-medium">600×1200mm · 600×600mm</span>
                     </div>
-                    <div className="flex justify-between p-2.5">
-                      <span className="text-[#767168]">Thickness:</span>
-                      <span className="font-semibold">9 mm Rectified Monocaliber</span>
+                    <div className="flex justify-between py-1">
+                      <span className="text-[#8C827A]">Slip Rating:</span>
+                      <span className="text-[#1A1A1A] font-medium">R10 Wet / Dry</span>
                     </div>
-                    <div className="flex justify-between p-2.5">
-                      <span className="text-[#767168]">Box Packing:</span>
-                      <span className="font-semibold">2 pcs / box (15.5 sq.ft / 1.44 sq.m)</span>
+                    <div className="flex justify-between py-1">
+                      <span className="text-[#8C827A]">Wear Rating:</span>
+                      <span className="text-[#1A1A1A] font-medium">PEI IV Commercial Heavy</span>
                     </div>
-                    <div className="flex justify-between p-2.5">
-                      <span className="text-[#767168]">Box Weight:</span>
-                      <span className="font-semibold">29 kg (64 lbs)</span>
+                    <div className="flex justify-between py-1">
+                      <span className="text-[#8C827A]">Crate Coverage:</span>
+                      <span className="text-[#1A1A1A] font-medium">15.5 sq.ft (2 pcs / box)</span>
                     </div>
-                    <div className="flex justify-between p-2.5">
-                      <span className="text-[#767168]">Water Absorption:</span>
-                      <span className="font-semibold text-emerald-800">&lt; 0.04% (Stain-proof)</span>
-                    </div>
-                    <div className="flex justify-between p-2.5">
-                      <span className="text-[#767168]">Traffic Rating:</span>
-                      <span className="font-semibold">PEI IV Heavy Residential &amp; Light Commercial</span>
+                    <div className="flex justify-between py-1">
+                      <span className="text-[#8C827A]">Rate Range:</span>
+                      <span className="text-amber-800 font-bold">$18 – $26 / sq.ft</span>
                     </div>
                   </div>
 
-                  <div className="flex gap-2 pt-2">
+                  <div className="pt-6 border-t border-[#1A1A1A]/10 flex items-center gap-4">
                     <button
                       onClick={() => {
-                        const name = activeMaterial.name;
                         setActiveMaterial(null);
-                        handleOpenQuoteModal({ material: `${name} Architectural Tile (600x1200mm)` });
+                        handleOpenQuoteModal({ material: `${activeMaterial.name} Tile` });
                       }}
-                      className="flex-1 py-3 bg-[#1A1A1A] hover:bg-amber-800 text-white text-[11px] uppercase tracking-wider font-medium transition cursor-pointer"
+                      className="flex-1 py-3 bg-[#1A1A1A] hover:bg-amber-800 text-white text-xs uppercase tracking-[0.2em] font-medium transition cursor-pointer"
                     >
-                      Request Tile Crate Quote
+                      Request Quote
                     </button>
                     <button
-                      onClick={() => setActiveMaterial(null)}
-                      className="px-4 py-3 border border-[#E8E4DC] hover:bg-stone-200 text-xs transition cursor-pointer"
+                      onClick={() => {
+                        setActiveMaterial(null);
+                        handleOpenBookCall({ material: `${activeMaterial.name} Tile`, service: 'Tile Project Consultation' });
+                      }}
+                      className="flex-1 py-3 border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white text-xs uppercase tracking-[0.2em] font-medium transition cursor-pointer"
                     >
-                      Close
+                      Book Consultation
                     </button>
                   </div>
                 </div>

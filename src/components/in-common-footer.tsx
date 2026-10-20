@@ -75,28 +75,27 @@ export function InCommonFooter({
             </p>
           </div>
 
-          {/* Quick Online Action Box (4 cols) */}
-          <div className="lg:col-span-4 bg-white border border-[#E8E4DC] p-5 rounded-none space-y-3 shadow-sm">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#1A1A1A]">
-              <Truck className="w-4 h-4 text-amber-700" />
-              <span>Direct Jobsite Crate Logistics</span>
+          {/* Quick Direct Actions: Open, borderless */}
+          <div className="lg:col-span-4 space-y-3 font-mono text-xs">
+            <div className="text-[11px] uppercase tracking-[0.2em] text-[#8C827A]">
+              Direct Jobsite Logistics
             </div>
-            <p className="text-[11px] text-[#767168] leading-normal">
-              Need a crate count calculation or contractor miter advice? Request an instant estimate or talk directly with a technical material specialist.
+            <p className="text-[13px] text-[#59534E] font-light font-sans leading-relaxed">
+              Wholesale crates dispatched directly to jobsites nationwide. Speak with an architectural advisor or request digital CAD layouts.
             </p>
-            <div className="flex gap-2 pt-1">
+            <div className="flex items-center gap-6 pt-2">
               <button
                 onClick={() => onOpenQuoteModal()}
-                className="flex-1 py-2.5 px-3 bg-[#1A1A1A] hover:bg-amber-800 text-white text-[11px] uppercase tracking-wider font-medium transition cursor-pointer flex items-center justify-center gap-1.5"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
-                <Calculator className="w-3 h-3" />
+                <Calculator className="w-3.5 h-3.5" />
                 <span>Instant Quote</span>
               </button>
               <button
                 onClick={() => onOpenBookCall({ service: 'Online Contractor Consultation' })}
-                className="flex-1 py-2.5 px-3 border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white text-[#1A1A1A] text-[11px] uppercase tracking-wider font-medium transition cursor-pointer flex items-center justify-center gap-1.5"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-[#59534E] hover:text-[#1A1A1A] py-1 border-b border-[#1A1A1A]/20 hover:border-[#1A1A1A] transition-colors cursor-pointer"
               >
-                <Calendar className="w-3 h-3" />
+                <Calendar className="w-3.5 h-3.5" />
                 <span>Book Call</span>
               </button>
             </div>

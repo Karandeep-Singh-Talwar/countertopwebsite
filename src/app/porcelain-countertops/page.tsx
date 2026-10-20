@@ -35,55 +35,54 @@ export default function PorcelainCountertopsPage() {
       />
 
       <main className="flex-1 pt-24 md:pt-32">
-        {/* Dedicated Hero Section */}
-        <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-12 md:py-16 border-b border-[#E8E4DC]">
+        {/* Dedicated Hero Section: Open, borderless, airy */}
+        <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-16 md:py-24 border-b border-[#1A1A1A]/10">
           <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-amber-500/30 bg-amber-500/10 text-amber-800 text-[11px] uppercase tracking-[0.2em] font-medium rounded-full">
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-              <span>Our Flagship Category USP</span>
+            <div className="text-[11px] uppercase tracking-[0.25em] text-[#8C827A] mb-3 font-mono">
+              01 / Flagship Technology & Catalogue
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-[#1A1A1A] leading-[1.08]">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-light tracking-tight text-[#1A1A1A] leading-[1.05]">
               Porcelain Countertops Catalogue
             </h1>
-            <p className="mt-5 text-[#1A1A1A]/75 text-base sm:text-xl font-light leading-relaxed">
+            <p className="mt-6 text-[#59534E] text-base sm:text-xl font-light leading-relaxed">
               Monolithic 9mm vitrified porcelain slabs engineered for kitchen countertops, island waterfalls, and full-height continuous splashbacks. Sized and calibrated so your existing general contractor or tile setter can cut and install using standard diamond wet saws—eliminating expensive stone fabricator markups.
             </p>
 
-            {/* USP Metric Badges */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-[#E8E4DC]">
-              <div className="p-3.5 bg-white border border-[#E8E4DC] rounded-xl">
-                <Hammer className="w-4 h-4 text-amber-700 mb-2" />
-                <div className="text-xs font-semibold text-[#1A1A1A]">General Contractor Installable</div>
-                <div className="text-[11px] text-[#767168] mt-0.5">Cut on-site with standard wet saw</div>
+            {/* Open Architectural Metric Row (ZERO BOXES) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mt-12 pt-8 border-t border-[#1A1A1A]/10 font-mono">
+              <div>
+                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-light">9 mm</div>
+                <div className="text-xs uppercase tracking-wider text-[#1A1A1A] font-medium mt-1">Contractor Installed</div>
+                <div className="text-[11px] text-[#8C827A] mt-0.5 font-sans">Cut on-site with diamond wet saw</div>
               </div>
-              <div className="p-3.5 bg-white border border-[#E8E4DC] rounded-xl">
-                <DollarSign className="w-4 h-4 text-emerald-700 mb-2" />
-                <div className="text-xs font-semibold text-[#1A1A1A]">40–60% Lower Total Cost</div>
-                <div className="text-[11px] text-[#767168] mt-0.5">$24 – $38 / sq.ft wholesale</div>
+              <div>
+                <div className="text-3xl sm:text-4xl font-serif text-amber-800 font-light">40–60%</div>
+                <div className="text-xs uppercase tracking-wider text-[#1A1A1A] font-medium mt-1">Lower Total Cost</div>
+                <div className="text-[11px] text-[#8C827A] mt-0.5 font-sans">$24 – $38 / sq.ft wholesale</div>
               </div>
-              <div className="p-3.5 bg-white border border-[#E8E4DC] rounded-xl">
-                <Flame className="w-4 h-4 text-amber-700 mb-2" />
-                <div className="text-xs font-semibold text-[#1A1A1A]">1000°C Heat Proof</div>
-                <div className="text-[11px] text-[#767168] mt-0.5">Direct hot pan safe, zero scorching</div>
+              <div>
+                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-light">1000°C</div>
+                <div className="text-xs uppercase tracking-wider text-[#1A1A1A] font-medium mt-1">Heat Proof</div>
+                <div className="text-[11px] text-[#8C827A] mt-0.5 font-sans">Direct hot pan safe, no scorch</div>
               </div>
-              <div className="p-3.5 bg-white border border-[#E8E4DC] rounded-xl">
-                <ShieldCheck className="w-4 h-4 text-emerald-700 mb-2" />
-                <div className="text-xs font-semibold text-[#1A1A1A]">&lt;0.04% Porosity</div>
-                <div className="text-[11px] text-[#767168] mt-0.5">Stain-proof against wine & turmeric</div>
+              <div>
+                <div className="text-3xl sm:text-4xl font-serif text-emerald-800 font-light">&lt;0.04%</div>
+                <div className="text-xs uppercase tracking-wider text-[#1A1A1A] font-medium mt-1">Zero Porosity</div>
+                <div className="text-[11px] text-[#8C827A] mt-0.5 font-sans">Impervious to wine & turmeric</div>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 mt-8">
+            <div className="flex flex-wrap items-center gap-8 mt-10">
               <Link
                 href="/#savings-calculator"
-                className="px-6 py-3 bg-[#1A1A1A] hover:bg-amber-800 text-white text-xs uppercase tracking-widest font-medium transition flex items-center gap-2 rounded-lg cursor-pointer"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
                 <Calculator className="w-3.5 h-3.5" />
                 <span>Calculate Your Project Savings</span>
               </Link>
               <button
                 onClick={() => handleOpenQuoteModal({ material: 'Porcelain Countertops Collection' })}
-                className="px-6 py-3 border border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white text-[#1A1A1A] text-xs uppercase tracking-widest font-medium transition flex items-center gap-2 rounded-lg cursor-pointer"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#59534E] hover:text-[#1A1A1A] py-1 border-b border-[#1A1A1A]/20 hover:border-[#1A1A1A] transition-colors cursor-pointer"
               >
                 <span>Request Custom Quote</span>
               </button>

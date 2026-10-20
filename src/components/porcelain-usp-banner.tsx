@@ -8,15 +8,9 @@ import {
   Layers, 
   DollarSign, 
   Palette, 
-  Flame, 
   ShieldCheck, 
-  Droplets, 
-  CheckCircle2, 
-  XCircle, 
   ArrowRight, 
-  Calculator,
-  Download,
-  Sparkles
+  Calculator
 } from 'lucide-react';
 
 interface PorcelainUspBannerProps {
@@ -36,81 +30,86 @@ export function PorcelainUspBanner({
     {
       id: 'contractor' as const,
       icon: Hammer,
-      title: 'Any Contractor Can Install',
-      highlight: 'Zero Specialized Stone Cutters Required',
+      tabTitle: 'Contractor Installable',
+      title: 'Any General Contractor or Tile Setter Can Install',
+      highlight: 'Zero Specialized CNC Stone Fabrication Required',
       description:
-        'Standard 3cm granite or quartzite slabs require heavy crane logistics, expensive waterjet fabrication shops, and specialized stone cutters charging upwards of $70–$100 per square foot for labor. At 9mm thickness, our high-gloss vitrified porcelain can be precision-cut, mitred, and installed directly on-site by your existing tile installer or general contractor.',
+        'Standard 3cm granite or quartzite slabs require heavy crane logistics, expensive waterjet fabrication shops, and specialized stone cutters charging $70–$100/sq.ft for labor. At 9mm thickness, our high-gloss vitrified porcelain can be precision-cut, mitred, and installed directly on-site by your existing tile installer or general contractor.',
       stat: '50–70% Lower Labor Cost',
       image: '/catalog/products/room_volcano_green.jpg',
       points: [
         'Installs with standard commercial tile wet saws & diamond blades',
-        'Lightweight (29 kg / box) – no reinforced cabinet framing required',
-        'Eliminates 4–6 week delays waiting for third-party stone fabricators',
-        'Straightforward mitred edges or edge-profile trims',
+        'Lightweight (29 kg / box) – no reinforced cabinetry required',
+        'Eliminates 4–6 week delays waiting for third-party stone cutters',
+        'Straightforward on-site mitred waterfall edges & backsplashes',
       ],
     },
     {
       id: 'continuity' as const,
       icon: Layers,
-      title: 'Seamless Multi-Surface Continuity',
-      highlight: 'Island + Full Backsplash + Floor in 1 Exact Match',
+      tabTitle: 'Surface Continuity',
+      title: 'Seamless Island, Backsplash & Floor Harmony',
+      highlight: 'Island + Full Backsplash + Floor in 1 Exact Batch',
       description:
-        'Traditional stone requires buying multiple disparate materials for countertops, backsplashes, and floor tile. With our architectural porcelain, the exact same slab design flows effortlessly from the kitchen island, up the full-height backsplash wall, and seamlessly across the kitchen floor.',
+        'Traditional stone requires buying disparate materials for countertops, backsplashes, and floor tile. With our architectural porcelain, the exact same high-gloss vitrified slab design flows effortlessly from the kitchen island, up the full-height backsplash wall, and seamlessly across the kitchen floor.',
       stat: '100% Color & Vein Harmony',
       image: '/catalog/products/room_calcatta_extra.jpg',
       points: [
         'Single material order covers countertops, backsplashes, and flooring',
-        'Large-format 600x1200 mm reduces grout lines by up to 80%',
-        'Bookmatched continuous random faces for realistic natural veining',
-        'Suitable for indoor kitchens, outdoor BBQs, and wet bathrooms',
+        'Large-format 600×1200mm eliminates up to 80% of grout lines',
+        'Continuous random faces prevent artificial pattern repetition',
+        'Suitable for indoor kitchens, outdoor BBQs, and wet bath walls',
       ],
     },
     {
       id: 'cost' as const,
       icon: DollarSign,
-      title: 'Affordable High-End Luxury',
-      highlight: 'Italian Marble Elegance at 40–60% Less Cost',
+      tabTitle: 'Direct Wholesale Cost',
+      title: 'High-End Italian Luxury at 40–60% Less Cost',
+      highlight: 'Italian Marble Elegance Starting at $24/sq.ft',
       description:
-        'Natural quarried Calacatta Gold or Brazilian Amazonite easily costs $120–$250/sq.ft plus heavy fabrication waste. Our vitrified porcelain delivers the identical high-gloss crystalline visual depth starting from just $24–$38/sq.ft, saving thousands on home and commercial renovations.',
+        'Natural quarried Calacatta Gold or Brazilian Amazonite easily costs $120–$250/sq.ft plus heavy fabrication waste. Our vitrified porcelain delivers the identical high-gloss crystalline visual depth starting from just $24–$38/sq.ft, saving thousands on renovations.',
       stat: '$24–$38 / sq.ft vs $150+ Natural Stone',
       image: '/catalog/products/room_amazonite.jpg',
       points: [
         '40% to 60% total project cost savings including installation',
         'Zero waste from fractured quarry stone fissures',
-        'Consistent pricing without unpredictable quarry tier premiums',
-        'High resale value with zero ongoing sealing costs',
+        'Transparent direct-to-jobsite pallet freight pricing',
+        'Zero ongoing chemical sealant or re-polishing costs',
       ],
     },
     {
       id: 'designs' as const,
       icon: Palette,
-      title: 'Vast Design Library (80+ Styles)',
-      highlight: 'Exotic Gemstones, Crystalline Onyx & Bookmatched Veining',
+      tabTitle: '80+ Design Library',
+      title: 'Exotic Gemstones, Crystalline Minerals & Bookmatching',
+      highlight: 'Rare Geologies Replicated with Italian Glazing Precision',
       description:
-        'Natural stone quarries are limited by what is mined underground. Advanced high-definition vitrified glazing technology replicates the worlds rarest geological minerals: dramatic Calacatta Renoir, jade Bellagio Green, iridescent Labradorite, and 24k gold Fuji Black—all available on-demand.',
-      stat: '80+ High-Gloss Designs in Catalog',
+        'Natural stone quarries are limited by what is mined underground. Advanced Italian high-definition vitrified glazing technology replicates the worlds rarest geological minerals: dramatic Calacatta Renoir, jade Bellagio Green, iridescent Labradorite, and 24k gold Fuji Black.',
+      stat: '80+ Vitrified Slab Designs',
       image: '/catalog/products/room_fuji_gold.jpg',
       points: [
-        'High-definition Italian glazing technology for deep 3D optical clarity',
-        'Up to 8 continuous random faces per design to prevent repeat patterns',
+        'Deep optical 3D clarity mimicking million-year natural crystallization',
+        'Up to 8 continuous random faces per design to ensure organic flow',
         'Mirror high-gloss finish reflects natural interior daylight',
-        'Matching 600x600 mm and 600x1200 mm formats for flexible layouts',
+        'Available in matching 600×1200mm and 600×600mm formats',
       ],
     },
     {
       id: 'durability' as const,
       icon: ShieldCheck,
-      title: 'Indestructible Performance',
-      highlight: '< 0.04% Water Absorption · 100% Heat & Acid Proof',
+      tabTitle: 'Indestructible Performance',
+      title: 'Non-Porous, Hot Pan Safe & Zero Maintenance',
+      highlight: 'Fired at 1200°C · <0.04% Water Absorption',
       description:
-        'Unlike natural marble which etches from lemon juice, coffee, or wine, and engineered quartz which melts under hot pots above 300°F, vitrified porcelain is fired at over 1200°C. Place scorching pans directly on the surface and wipe away turmeric, oil, or red wine with zero staining.',
-      stat: '< 0.04% Porosity (Impermeable)',
-      image: '/catalog/products/room_grigio_collemandian.jpg',
+        'Unlike porous marble that etches from lemon juice or quartz that discolors from hot pots, vitrified porcelain is completely vitrified at extreme temperatures. Place boiling Dutch ovens directly on the surface without trivets, and wipe red wine or turmeric clean with zero staining.',
+      stat: '0% Chemical Sealing Ever Required',
+      image: '/catalog/products/room_bellagio_green.jpg',
       points: [
-        'Zero sealing required ever—stain-proof against red wine, oils, and coffee',
-        'Thermal shock resistant—place hot cookware directly on the slab',
-        'Mohs 5+ hardness resists knife scratches and kitchen utensil impacts',
-        'UV ray proof—will never yellow, discolor, or fade in sunny spaces',
+        '100% heat proof: place hot pans directly without heat mats',
+        'Impervious to coffee, red wine, curry, and citrus acid stains',
+        'UV & weather resistant: flawless for outdoor kitchens & bars',
+        'Hygienic NSF-equivalent non-porous food prep surface',
       ],
     },
   ];
@@ -118,229 +117,230 @@ export function PorcelainUspBanner({
   const currentPillar = pillars.find((p) => p.id === activeTab) || pillars[0];
 
   return (
-    <section id="usp-section" className="scroll-mt-20 w-full bg-[#18181A] text-white py-20 md:py-28 select-none border-b border-[#2D2D30]">
+    <section id="usp-section" className="scroll-mt-20 w-full bg-[#111113] py-24 md:py-36 text-white border-t border-white/5">
       <div className="max-w-[1680px] mx-auto px-6 md:px-12">
-        {/* Header Block */}
-        <div className="max-w-3xl mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-amber-500/30 bg-amber-950/40 text-amber-300 text-[11px] uppercase tracking-[0.2em] font-medium rounded-full">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>The Porcelain Countertop Advantage</span>
+        {/* Section Header: Open & Architectural */}
+        <div className="max-w-3xl mb-16">
+          <div className="text-[11px] uppercase tracking-[0.25em] text-amber-500/80 mb-3 font-mono">
+            01 / Flagship Technology
           </div>
-
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-sans font-light tracking-tight text-white leading-[1.08]">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-white leading-[1.08]">
             Why Modern Contractors & Designers Prefer Porcelain
           </h2>
-          <p className="mt-4 text-white/75 text-base sm:text-lg leading-relaxed font-light">
-            Traditional slab countertops require specialized stone fabricators, crane delivery, and high maintenance. Our large-format porcelain slabs empower your existing contractor to install luxury surfaces across countertops, backsplashes, and floors at half the cost.
+          <p className="mt-5 text-white/60 text-base sm:text-lg font-light leading-relaxed">
+            Eliminate specialized stone fabricator markups, crane delivery, and high maintenance. Our large-format 9mm vitrified slabs empower your existing contractor to install luxury surfaces across countertops, backsplashes, and floors at half the cost.
           </p>
         </div>
 
-        {/* 5 Interactive Pillars Navigation */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 mb-10 pb-6 border-b border-white/10">
+        {/* Minimalist Tab Navigation: Seamless underline, ZERO box buttons */}
+        <div className="flex items-center gap-8 md:gap-12 overflow-x-auto pb-4 mb-16 border-b border-white/10 no-scrollbar">
           {pillars.map((pillar) => {
-            const Icon = pillar.icon;
             const isActive = activeTab === pillar.id;
 
             return (
               <button
                 key={pillar.id}
                 onClick={() => setActiveTab(pillar.id)}
-                className={`flex items-center gap-2.5 p-3.5 sm:p-4 text-left border transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? 'border-amber-500 bg-white/10 text-white shadow-lg'
-                    : 'border-white/10 bg-white/[0.02] text-white/60 hover:text-white hover:border-white/30'
+                className={`group pb-4 text-xs sm:text-[13px] uppercase tracking-[0.18em] font-medium transition-all relative whitespace-nowrap cursor-pointer ${
+                  isActive ? 'text-amber-400' : 'text-white/40 hover:text-white'
                 }`}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-amber-400' : 'text-white/40'}`} />
-                <span className="text-[12px] sm:text-[13px] font-medium tracking-wide line-clamp-1">
-                  {pillar.title}
-                </span>
+                <span>{pillar.tabTitle}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="uspTabIndicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-400"
+                    transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                  />
+                )}
               </button>
             );
           })}
         </div>
 
-        {/* Active Pillar Feature Presentation */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center bg-[#212124] border border-white/10 p-6 sm:p-10 lg:p-12 mb-16">
-          {/* Left Text Detail */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="flex items-center gap-3">
-              <span className="px-3 py-1 bg-amber-500/20 text-amber-300 text-[11px] font-semibold tracking-wider uppercase border border-amber-500/30 rounded">
-                {currentPillar.stat}
-              </span>
-              <span className="text-white/40 text-[12px] tracking-wider uppercase">
-                Architectural Vitrified Standard
-              </span>
+        {/* Fluid Split Presentation: ZERO container boxes */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center mb-28">
+          {/* Left: Refined Editorial Typography */}
+          <div className="lg:col-span-6 space-y-6">
+            <div className="text-[12px] font-mono tracking-[0.2em] uppercase text-amber-400/90">
+              {currentPillar.stat}
             </div>
 
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-sans font-light tracking-tight text-white">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light tracking-tight text-white leading-tight">
               {currentPillar.title}
             </h3>
 
-            <p className="text-amber-200/90 text-sm sm:text-base font-serif italic">
+            <p className="text-amber-200/80 text-sm sm:text-base font-serif italic">
               {currentPillar.highlight}
             </p>
 
-            <p className="text-white/80 text-[14px] sm:text-[15px] leading-relaxed font-normal">
+            <p className="text-white/70 text-[15px] sm:text-[16px] leading-relaxed font-light">
               {currentPillar.description}
             </p>
 
-            {/* Checklist */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-white/10">
+            {/* Clean Spec Points with Hairline Dividers */}
+            <div className="pt-6 border-t border-white/10 space-y-3">
               {currentPillar.points.map((pt, idx) => (
-                <div key={idx} className="flex items-start gap-2.5 text-[13px] text-white/90">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div key={idx} className="flex items-baseline gap-3 text-[14px] text-white/80 font-light">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 mt-1" />
                   <span>{pt}</span>
                 </div>
               ))}
             </div>
 
-            {/* Action buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-4">
+            {/* Borderless Editorial Actions */}
+            <div className="flex flex-wrap items-center gap-8 pt-6">
               <button
                 onClick={() => onOpenQuoteModal({ material: 'High Gloss Porcelain Slabs' })}
-                className="px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-black text-[12px] uppercase tracking-[0.16em] font-semibold transition-all flex items-center gap-2 cursor-pointer shadow-lg"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-amber-400 hover:text-amber-300 py-1 border-b border-amber-400/50 hover:border-amber-300 transition-all cursor-pointer"
               >
-                <Calculator className="w-3.5 h-3.5" />
-                <span>Calculate Porcelain Savings</span>
+                <Calculator className="w-4 h-4" />
+                <span>Calculate Your Project Savings</span>
               </button>
 
               <button
                 onClick={onExploreCatalog}
-                className="px-6 py-3.5 border border-white/30 hover:border-white text-white text-[12px] uppercase tracking-[0.16em] transition-all flex items-center gap-2 cursor-pointer"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-white/70 hover:text-white py-1 border-b border-white/20 hover:border-white transition-all cursor-pointer"
               >
                 <span>Browse Porcelain Slabs</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          {/* Right Image Showcase */}
-          <div className="lg:col-span-5">
-            <div className="relative aspect-[4/3] w-full overflow-hidden border border-white/20 bg-black/40 shadow-2xl">
+          {/* Right: Expansive Architectural Visual */}
+          <div className="lg:col-span-6">
+            <div className="relative aspect-[16/11] w-full overflow-hidden bg-black/50">
               <Image
                 src={currentPillar.image}
                 alt={currentPillar.title}
                 fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-center transition-transform duration-700 hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
-              <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between">
+              <div className="absolute bottom-6 left-6 right-6 z-10 flex items-end justify-between">
                 <div>
-                  <span className="text-[10px] uppercase tracking-widest text-amber-300 block">
-                    Actual Architectural Mockup
-                  </span>
-                  <span className="text-[13px] font-medium text-white">
-                    High Gloss Vitrified 600x1200mm
-                  </span>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-amber-400 font-mono">
+                    Architectural Interior Mockup
+                  </div>
+                  <div className="text-sm font-medium text-white mt-1">
+                    600×1200mm High-Gloss Vitrified Slabs
+                  </div>
                 </div>
-                <span className="text-[11px] text-white/70 px-2.5 py-1 bg-black/60 backdrop-blur-sm border border-white/20">
-                  9 mm Thickness
-                </span>
+                <div className="text-xs text-white/70 font-mono">
+                  9mm Monolithic Thickness
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Head-to-Head Comparison Table */}
-        <div className="border border-white/10 bg-[#1e1e22] overflow-x-auto">
-          <div className="p-6 border-b border-white/10">
-            <h4 className="text-xl font-sans font-light text-white">
-              Surface Comparison: Porcelain vs. Quarried Stone vs. Quartz
-            </h4>
-            <p className="text-xs text-white/60 mt-1">
-              Data verified against ASTM and ISO 13006 / ISO 10545 testing standards
+        {/* Head-to-Head Comparison Matrix: Open, Borderless Sheet with Hairlines */}
+        <div className="border-t border-white/10 pt-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.25em] text-white/40 mb-2 font-mono">
+                ASTM & ISO 13006 Verified Metrics
+              </div>
+              <h4 className="text-2xl sm:text-3xl font-serif font-light text-white">
+                Surface Comparison Matrix
+              </h4>
+            </div>
+            <p className="text-xs text-white/50 max-w-md font-light">
+              Benchmarked across national US residential renovation data for slab material, tooling, and labor overhead.
             </p>
           </div>
 
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-white/10 text-[11px] uppercase tracking-wider text-white/50 bg-black/30">
-                <th className="py-4 px-6 font-medium">Evaluation Criterion</th>
-                <th className="py-4 px-6 font-medium text-amber-400 bg-amber-950/20">
-                  Porcelain Countertop (Our Flagship USP)
-                </th>
-                <th className="py-4 px-6 font-medium">Traditional Natural Stone</th>
-                <th className="py-4 px-6 font-medium">Engineered Quartz</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5 text-[13px] text-white/80">
-              <tr>
-                <td className="py-3.5 px-6 font-medium text-white">Installation Process</td>
-                <td className="py-3.5 px-6 text-emerald-400 font-semibold bg-amber-950/10">
-                  Any tile setter or general contractor can install
-                </td>
-                <td className="py-3.5 px-6 text-white/60">
-                  Requires specialized stone cutter & crane crew
-                </td>
-                <td className="py-3.5 px-6 text-white/60">
-                  Requires specialized shop tooling
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3.5 px-6 font-medium text-white">Average Installed Cost</td>
-                <td className="py-3.5 px-6 text-emerald-400 font-semibold bg-amber-950/10">
-                  $35 – $65 / sq.ft (Total with Labor)
-                </td>
-                <td className="py-3.5 px-6 text-rose-300">
-                  $120 – $250+ / sq.ft
-                </td>
-                <td className="py-3.5 px-6 text-white/60">
-                  $75 – $140 / sq.ft
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3.5 px-6 font-medium text-white">Multi-Surface Continuity</td>
-                <td className="py-3.5 px-6 text-emerald-400 font-semibold bg-amber-950/10">
-                  Identical match for Countertop + Wall + Floor
-                </td>
-                <td className="py-3.5 px-6 text-white/60">
-                  Flooring slabs are too thick & heavy
-                </td>
-                <td className="py-3.5 px-6 text-white/60">
-                  Rarely usable as flooring tile
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3.5 px-6 font-medium text-white">Water Absorption / Porosity</td>
-                <td className="py-3.5 px-6 text-emerald-400 font-semibold bg-amber-950/10">
-                  &lt; 0.04% (Zero Sealing Ever Needed)
-                </td>
-                <td className="py-3.5 px-6 text-rose-300">
-                  0.5% – 2.0% (Must be sealed every 6–12 mos)
-                </td>
-                <td className="py-3.5 px-6 text-white/60">
-                  0.05% (Resin-bound)
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3.5 px-6 font-medium text-white">Heat & Hot Pan Resistance</td>
-                <td className="py-3.5 px-6 text-emerald-400 font-semibold bg-amber-950/10">
-                  Fired at 1200°C · Place hot pots directly
-                </td>
-                <td className="py-3.5 px-6 text-white/60">
-                  Good, but can crack from thermal shock
-                </td>
-                <td className="py-3.5 px-6 text-rose-300">
-                  Resin burns / discolors above 300°F
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3.5 px-6 font-medium text-white">Weight & Thickness</td>
-                <td className="py-3.5 px-6 text-emerald-400 font-semibold bg-amber-950/10">
-                  9 mm (Lightweight 29kg box, no frame reinforcement)
-                </td>
-                <td className="py-3.5 px-6 text-rose-300">
-                  20mm – 30mm (Extremely heavy, requires strong subfloor)
-                </td>
-                <td className="py-3.5 px-6 text-white/60">
-                  20mm – 30mm
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-white/20 text-[11px] uppercase tracking-[0.2em] text-white/40 font-mono">
+                  <th className="py-4 pr-6 font-normal">Criterion</th>
+                  <th className="py-4 px-6 font-medium text-amber-400">
+                    Vitrified Porcelain (Flagship)
+                  </th>
+                  <th className="py-4 px-6 font-normal">Natural Quarried Stone</th>
+                  <th className="py-4 pl-6 font-normal">Engineered Quartz</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/10 text-[14px]">
+                <tr>
+                  <td className="py-5 pr-6 font-medium text-white/90">Installation Method</td>
+                  <td className="py-5 px-6 text-emerald-400 font-medium">
+                    Any general contractor / tile setter with standard wet saw
+                  </td>
+                  <td className="py-5 px-6 text-white/60 font-light">
+                    Specialized stone fabrication shop & crane crew
+                  </td>
+                  <td className="py-5 pl-6 text-white/60 font-light">
+                    Specialized shop cutting & diamond polishers
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-5 pr-6 font-medium text-white/90">Total Installed Cost</td>
+                  <td className="py-5 px-6 text-emerald-400 font-medium">
+                    $35 – $65 / sq.ft (Material + On-Site Labor)
+                  </td>
+                  <td className="py-5 px-6 text-rose-300 font-light">
+                    $120 – $250+ / sq.ft
+                  </td>
+                  <td className="py-5 pl-6 text-white/60 font-light">
+                    $75 – $140 / sq.ft
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-5 pr-6 font-medium text-white/90">Multi-Surface Flow</td>
+                  <td className="py-5 px-6 text-emerald-400 font-medium">
+                    Identical slab matching for Island + Backsplash + Floor
+                  </td>
+                  <td className="py-5 px-6 text-white/60 font-light">
+                    Flooring slabs too thick & heavy (impossible continuity)
+                  </td>
+                  <td className="py-5 pl-6 text-white/60 font-light">
+                    Rarely calibrated for floor tile use
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-5 pr-6 font-medium text-white/90">Water Absorption</td>
+                  <td className="py-5 px-6 text-emerald-400 font-medium">
+                    &lt; 0.04% · Zero chemical sealing ever needed
+                  </td>
+                  <td className="py-5 px-6 text-rose-300 font-light">
+                    0.5% – 2.0% · Must be re-sealed every 6–12 months
+                  </td>
+                  <td className="py-5 pl-6 text-white/60 font-light">
+                    0.05% (Polymer resin-bound)
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-5 pr-6 font-medium text-white/90">Thermal Hot Pan Tolerance</td>
+                  <td className="py-5 px-6 text-emerald-400 font-medium">
+                    Fired at 1200°C · Direct hot pots safe
+                  </td>
+                  <td className="py-5 px-6 text-white/60 font-light">
+                    Susceptible to thermal shock cracking
+                  </td>
+                  <td className="py-5 pl-6 text-rose-300 font-light">
+                    Resin burns / turns yellow above 300°F
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-5 pr-6 font-medium text-white/90">Weight & Handling</td>
+                  <td className="py-5 px-6 text-emerald-400 font-medium">
+                    9mm lightweight (29kg box, no frame reinforcement)
+                  </td>
+                  <td className="py-5 px-6 text-rose-300 font-light">
+                    20–30mm heavy mass (requires reinforced cabinetry)
+                  </td>
+                  <td className="py-5 pl-6 text-white/60 font-light">
+                    20–30mm heavy mass
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>
