@@ -23,7 +23,6 @@ export function PorcelainCatalog({
   initialCategory = 'all',
 }: PorcelainCatalogProps) {
   const [selectedPalette, setSelectedPalette] = useState<'all' | 'white' | 'green' | 'black' | 'earth' | 'blue'>('all');
-  const [viewMode, setViewMode] = useState<'room' | 'slab'>('room');
   const [activeMaterial, setActiveMaterial] = useState<PorcelainMaterial | null>(null);
 
   const filteredMaterials = PORCELAIN_CATALOG.filter((mat) => {
@@ -35,50 +34,23 @@ export function PorcelainCatalog({
     <section id="porcelain-catalog-section" className="scroll-mt-20 w-full bg-[#FAF8F5] py-24 md:py-32 text-[#1A1A1A]">
       <div className="max-w-[1680px] mx-auto px-6 md:px-12">
         {/* Section Header: Open & Borderless */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-8 pb-8 border-b border-[#1A1A1A]/10">
-          <div>
-            <div className="text-[11px] uppercase tracking-[0.25em] text-[#8C827A] mb-3 font-mono">
+        <div className="mb-16 pb-8 border-b border-[#1A1A1A]/10">
+          <div className="max-w-3xl">
+            <div className="text-xs uppercase tracking-[0.25em] text-[#6C6863] mb-3 font-mono">
               Architectural Vitrified Collection
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-[#1A1A1A] leading-[1.08]">
-              High Gloss Vitrified Porcelain Slabs
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-normal tracking-tight text-[#1A1A1A] leading-[1.05]">
+              High Gloss Vitrified <span className="italic font-light text-amber-800">Porcelain Slabs</span>
             </h2>
-            <p className="mt-4 text-[#59534E] text-base sm:text-lg max-w-2xl font-light leading-relaxed">
+            <p className="mt-4 text-[#6C6863] text-base sm:text-lg font-normal leading-relaxed">
               600×1200mm (24×48 in) monolithic 9mm porcelain slabs. Engineered for kitchen countertops, island waterfalls, backsplashes, and unbroken floor continuity.
             </p>
-          </div>
-
-          {/* Minimalist View Mode Switcher: Pure text tabs with active underline, ZERO box container */}
-          <div className="flex items-center gap-6 text-xs uppercase tracking-[0.18em] font-mono">
-            <span className="text-[#8C827A]">Perspective:</span>
-            <button
-              onClick={() => setViewMode('room')}
-              className={`py-1 relative transition-colors cursor-pointer ${
-                viewMode === 'room' ? 'text-[#1A1A1A] font-medium' : 'text-[#8C827A] hover:text-[#1A1A1A]'
-              }`}
-            >
-              <span>Interior Applied</span>
-              {viewMode === 'room' && (
-                <span className="absolute bottom-0 left-0 right-0 h-px bg-[#1A1A1A]" />
-              )}
-            </button>
-            <button
-              onClick={() => setViewMode('slab')}
-              className={`py-1 relative transition-colors cursor-pointer ${
-                viewMode === 'slab' ? 'text-[#1A1A1A] font-medium' : 'text-[#8C827A] hover:text-[#1A1A1A]'
-              }`}
-            >
-              <span>Slab Specimen</span>
-              {viewMode === 'slab' && (
-                <span className="absolute bottom-0 left-0 right-0 h-px bg-[#1A1A1A]" />
-              )}
-            </button>
           </div>
         </div>
 
         {/* Minimalist Filter Navigation */}
         <div className="flex flex-wrap items-center justify-between gap-6 mb-16 pb-4 border-b border-[#1A1A1A]/10">
-          <div className="flex flex-wrap items-center gap-8 text-xs uppercase tracking-[0.18em] font-mono">
+          <div className="flex flex-wrap items-center gap-8 text-xs uppercase tracking-[0.2em] font-medium">
             {[
               { id: 'all', label: 'All Slabs' },
               { id: 'white', label: 'White Calacatta' },
@@ -112,7 +84,7 @@ export function PorcelainCatalog({
         {/* Materials Grid: BORDERLESS ART GALLERY (ZERO BOXES) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
           {filteredMaterials.map((mat) => {
-            const displayImg = viewMode === 'room' ? mat.roomImage : mat.slabImage;
+            const displayImg = mat.roomImage;
 
             return (
               <motion.div
@@ -137,23 +109,23 @@ export function PorcelainCatalog({
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
 
                     {/* Floating Price */}
-                    <div className="absolute top-4 right-4 text-[11px] uppercase tracking-wider text-white bg-black/50 backdrop-blur-md px-3 py-1 font-mono">
+                    <div className="absolute top-4 right-4 text-xs uppercase tracking-[0.2em] text-white bg-black/60 backdrop-blur-md px-3 py-1 font-sans font-medium">
                       {mat.priceEstimate}
                     </div>
                   </div>
 
                   {/* Editorial Spec Caption: Clean, borderless, typography-driven */}
                   <div className="pt-6">
-                    <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-[#8C827A] mb-1.5 font-mono">
+                    <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-[#6C6863] mb-1.5 font-mono">
                       <span>9mm Vitrified Porcelain</span>
                       <span>{mat.randomFaces} Faces</span>
                     </div>
 
-                    <h3 className="text-2xl sm:text-3xl font-serif font-light tracking-tight text-[#1A1A1A] mb-2 group-hover:text-amber-800 transition-colors">
+                    <h3 className="text-2xl sm:text-3xl font-serif font-normal tracking-tight text-[#1A1A1A] mb-2 group-hover:text-amber-800 transition-colors">
                       {mat.name}
                     </h3>
 
-                    <p className="text-[14px] leading-relaxed text-[#59534E] font-light line-clamp-2 mb-3">
+                    <p className="text-sm leading-relaxed text-[#6C6863] font-normal line-clamp-2 mb-3">
                       {mat.description}
                     </p>
 

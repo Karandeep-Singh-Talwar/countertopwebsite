@@ -1,75 +1,77 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import {
-  Calculator,
-  ArrowRight,
-  Sparkles,
   Check,
-  Send,
-  Ruler
+  ShieldCheck,
+  ArrowRight,
+  RotateCcw
 } from 'lucide-react';
 
 interface ContractorSavingsCalculatorProps {
   onOpenQuoteModal?: (opts?: { material?: string; sqFt?: number }) => void;
-  onOpenBookCall?: (opts?: { material?: string; sqFt?: number; service?: string }) => void;
+  onOpenBookCall?: (opts?: { service?: string; material?: string }) => void;
 }
+
+type PrimaryCategory = 'porcelain-countertops' | 'stone-countertops' | 'tiles';
 
 export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorProps> = ({
   onOpenQuoteModal,
   onOpenBookCall,
 }) => {
-  // Input Mode: 'total' (they know sq ft) vs 'dimensions' (length x breadth)
-  const [inputMode, setInputMode] = useState<'dimensions' | 'total'>('dimensions');
+  // 1. Core Primary Categories (3 Categories)
+  const [primaryCategory, setPrimaryCategory] = useState<PrimaryCategory>('porcelain-countertops');
 
-  // Mode 1: Direct Sq Ft
+  const categoryLabels: Record<PrimaryCategory, string> = {
+    'porcelain-countertops': 'Porcelain Countertops',
+    'stone-countertops': 'Stone Countertops',
+    'tiles': 'Tiles',
+  };
+
+  const handleCategoryChange = (cat: PrimaryCategory) => {
+    setPrimaryCategory(cat);
+  };
+
+  // 3. Sizing Mode: 'dimensions' (length x breadth) vs 'total' (direct sq ft)
+  const [inputMode, setInputMode] = useState<'dimensions' | 'total'>('dimensions');
   const [directSqFt, setDirectSqFt] = useState<number>(70);
 
-  // Mode 2: Length x Breadth Dimensions in Feet
-  // Countertop / Island
+  // Dimensions in Feet
   const [counterLength, setCounterLength] = useState<number>(10);
   const [counterBreadth, setCounterBreadth] = useState<number>(3);
 
-  // Backsplash
-  const [includeBacksplash, setIncludeBacksplash] = useState<boolean>(true);
-  const [backsplashLength, setBacksplashLength] = useState<number>(10);
-  const [backsplashHeight, setBacksplashHeight] = useState<number>(2.5);
+  // Stone Geology / Mineral Pattern
+  const [stoneGeology, setStoneGeology] = useState<string>('Calacatta Extra (Gold Vein)');
 
-  // Floor
-  const [includeFloor, setIncludeFloor] = useState<boolean>(false);
-  const [floorLength, setFloorLength] = useState<number>(12);
-  const [floorBreadth, setFloorBreadth] = useState<number>(10);
+  // Surface Finish
+  const [surfaceFinish, setSurfaceFinish] = useState<string>('High-Gloss Polished');
 
-  // Waterfall Miter Ends (0, 1, or 2 panels, standard 12 sq.ft each)
-  const [waterfallCount, setWaterfallCount] = useState<number>(1);
+  // Project Timeline
+  const [projectTimeline, setProjectTimeline] = useState<string>('Ready to Order (1–2 Weeks)');
 
-  // Natural Stone comparison type
-  const [stoneType, setStoneType] = useState<'quartzite' | 'marble' | 'quartz'>('quartzite');
+  // Benchmark Stone comparison
+  const [stoneType, setStoneType] = useState<'quartzite' | 'marble' | 'quartz'>('marble');
 
   // Lead Generation form state
+  const [leadName, setLeadName] = useState<string>('');
   const [leadEmail, setLeadEmail] = useState<string>('');
+  const [leadPhone, setLeadPhone] = useState<string>('');
   const [leadRole, setLeadRole] = useState<'homeowner' | 'contractor'>('homeowner');
   const [isSubmittingLead, setIsSubmittingLead] = useState<boolean>(false);
   const [leadSubmitted, setLeadSubmitted] = useState<boolean>(false);
   const [leadQuoteId, setLeadQuoteId] = useState<string>('');
 
-  // Math Calculation
+  // Math Calculations (Estimate total square footage directly no matter the use)
   const counterSqFtCalc = Math.round(counterLength * counterBreadth);
-  const backsplashSqFtCalc = includeBacksplash ? Math.round(backsplashLength * backsplashHeight) : 0;
-  const floorSqFtCalc = includeFloor ? Math.round(floorLength * floorBreadth) : 0;
-  const waterfallSqFt = waterfallCount * 12;
-
-  // Final Total Sq Ft based on active mode
   const totalSqFt =
     inputMode === 'total'
-      ? Math.max(10, directSqFt + waterfallSqFt)
-      : Math.max(10, counterSqFtCalc + backsplashSqFtCalc + floorSqFtCalc + waterfallSqFt);
+      ? Math.max(5, directSqFt)
+      : Math.max(5, counterSqFtCalc);
 
   // Rate constants ($/sq.ft)
-  const porcelainMaterialRate = 28;
-  const porcelainInstallRate = 16;
+  const porcelainMaterialRate = primaryCategory === 'tiles' ? 18 : 28;
+  const porcelainInstallRate = primaryCategory === 'tiles' ? 12 : 16;
   const porcelainDeliveryFlat = 150;
 
   const stoneConfig = {
@@ -79,7 +81,6 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
       fabricationRate: 50,
       installationRate: 40,
       deliveryFlat: 750,
-      annualMaintenance: 280,
     },
     marble: {
       name: 'Italian Calacatta Marble',
@@ -87,7 +88,6 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
       fabricationRate: 55,
       installationRate: 45,
       deliveryFlat: 800,
-      annualMaintenance: 350,
     },
     quartz: {
       name: 'Engineered Quartz',
@@ -95,7 +95,6 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
       fabricationRate: 35,
       installationRate: 30,
       deliveryFlat: 450,
-      annualMaintenance: 120,
     },
   }[stoneType];
 
@@ -122,19 +121,19 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: leadRole === 'contractor' ? 'Contractor Partner' : 'Valued Client',
+          name: leadName || (leadRole === 'contractor' ? 'Contractor Partner' : 'Valued Client'),
           email: leadEmail,
-          phone: 'Provided via instant calculator',
+          phone: leadPhone || 'Provided via valuation console',
           sqFt: totalSqFt,
-          materialName: 'High Gloss Vitrified Porcelain (600x1200mm)',
-          edgeProfile: 'Standard 45-degree Miter Edge',
+          materialName: `${categoryLabels[primaryCategory]} (${stoneGeology})`,
+          edgeProfile: 'Standard Factory Calibrated Edge',
           addons: [
-            waterfallCount > 0 ? `${waterfallCount} Mitered Waterfall Ends` : 'No Waterfalls',
-            includeBacksplash ? 'Full Backsplash Continuity' : 'No Backsplash',
-            includeFloor ? 'Matching Large Format Floor Tile' : 'Countertop Only',
+            `Category: ${categoryLabels[primaryCategory]}`,
+            `Finish: ${surfaceFinish}`,
+            `Timeline: ${projectTimeline}`,
           ],
           totalEstimate: porcelainTotal,
-          notes: `Calculated Savings: $${totalSaved.toLocaleString()} vs ${stoneConfig.name}. Role: ${leadRole}. Input mode: ${inputMode}. Boxes: ${estimatedBoxes}.`,
+          notes: `Category: ${categoryLabels[primaryCategory]}. Material: ${stoneGeology} (${surfaceFinish}). Calculated Savings: $${totalSaved.toLocaleString()} vs ${stoneConfig.name}. Role: ${leadRole}. Total SqFt: ${totalSqFt}. Boxes: ${estimatedBoxes}.`,
         }),
       });
 
@@ -147,7 +146,7 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
         particleCount: 70,
         spread: 60,
         origin: { y: 0.7 },
-        colors: ['#F59E0B', '#10B981', '#FFFFFF'],
+        colors: ['#D4AF37', '#10B981', '#FFFFFF'],
       });
     } catch {
       setLeadQuoteId(`VS-${Math.floor(10000 + Math.random() * 90000)}`);
@@ -158,260 +157,182 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
   };
 
   return (
-    <section id="savings-calculator" className="scroll-mt-20 w-full bg-[#0D0D0F] py-24 md:py-36 text-white border-t border-white/5">
+    <section id="savings-calculator" className="scroll-mt-20 w-full bg-[#131316] py-20 md:py-32 text-white border-t border-white/5">
       <div className="max-w-[1680px] mx-auto px-6 md:px-12">
         {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-8 pb-8 border-b border-white/10">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6 pb-8 border-b border-white/10">
           <div className="max-w-2xl">
-            <div className="text-[11px] uppercase tracking-[0.25em] text-amber-500/80 mb-3 font-mono">
+            <div className="text-xs uppercase tracking-[0.2em] text-[#D4AF37] mb-2.5 font-medium">
               02 / Transparent Valuation Console
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-white leading-[1.08]">
-              Project Sizing & Savings Console
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal tracking-tight text-white leading-tight">
+              Project Sizing &amp; <span className="italic font-light text-[#E5C378]">Customization Console</span>
             </h2>
-            <p className="mt-4 text-white/60 text-base sm:text-lg font-light leading-relaxed">
-              No guesswork or complex formulas. Enter your total area or room length × breadth to see direct wholesale porcelain costs versus traditional stone mason fabrication.
+            <p className="mt-3 text-white/70 text-sm sm:text-base font-normal leading-relaxed">
+              Select your category, dimensions, and specifications. Enter your email to unlock your itemized wholesale cost breakdown.
             </p>
           </div>
 
-          {/* Benchmark selector: Borderless text tabs */}
-          <div className="flex items-center gap-6 text-xs uppercase tracking-wider font-mono">
-            <span className="text-white/40">Benchmark Stone:</span>
+          {/* Benchmark comparison selector */}
+          <div className="flex items-center gap-4 text-xs font-sans">
+            <span className="text-white/50">Benchmark Against:</span>
             {(['quartzite', 'marble', 'quartz'] as const).map((type) => (
               <button
                 key={type}
+                type="button"
                 onClick={() => setStoneType(type)}
-                className={`transition-colors py-1 relative cursor-pointer ${
-                  stoneType === type ? 'text-amber-400 font-medium' : 'text-white/40 hover:text-white'
+                className={`capitalize transition-colors py-1 relative cursor-pointer text-xs sm:text-sm ${
+                  stoneType === type ? 'text-[#D4AF37] font-medium' : 'text-white/45 hover:text-white'
                 }`}
               >
                 <span>{type}</span>
                 {stoneType === type && (
-                  <span className="absolute bottom-0 left-0 right-0 h-px bg-amber-400" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37]" />
                 )}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Minimalist Split Console: ZERO chunky container cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
-          {/* LEFT: Sizing Configuration (7 cols) */}
-          <div className="lg:col-span-7 space-y-10">
-            {/* Sizing Mode Switcher */}
-            <div className="flex items-center gap-8 pb-4 border-b border-white/10">
-              <button
-                type="button"
-                onClick={() => setInputMode('dimensions')}
-                className={`text-xs sm:text-[13px] uppercase tracking-[0.2em] font-medium transition-colors py-1 relative cursor-pointer ${
-                  inputMode === 'dimensions' ? 'text-amber-400' : 'text-white/40 hover:text-white'
-                }`}
-              >
-                <span>Length × Breadth (Auto-Math)</span>
-                {inputMode === 'dimensions' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-px bg-amber-400" />
-                )}
-              </button>
+        {/* 2-Column Split Console */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* LEFT: Complete Customization Suite (7 cols) */}
+          <div className="lg:col-span-7 space-y-9">
+            {/* 01 / SELECT CORE CATEGORY (Stone Countertop, Tiles, Porcelain Countertops) */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs uppercase tracking-wider text-[#D4AF37]/90 font-medium font-sans">
+                  01 / Select Category
+                </span>
+                <span className="text-xs text-white/60 font-sans">
+                  {categoryLabels[primaryCategory]}
+                </span>
+              </div>
 
-              <button
-                type="button"
-                onClick={() => setInputMode('total')}
-                className={`text-xs sm:text-[13px] uppercase tracking-[0.2em] font-medium transition-colors py-1 relative cursor-pointer ${
-                  inputMode === 'total' ? 'text-amber-400' : 'text-white/40 hover:text-white'
-                }`}
-              >
-                <span>I Know Total Sq. Ft</span>
-                {inputMode === 'total' && (
-                  <span className="absolute bottom-0 left-0 right-0 h-px bg-amber-400" />
-                )}
-              </button>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  {
+                    id: 'porcelain-countertops' as const,
+                    label: 'Porcelain Countertops',
+                    desc: '9mm High-Gloss Vitrified Slabs · 1200°C Heat Proof',
+                  },
+                  {
+                    id: 'stone-countertops' as const,
+                    label: 'Stone Countertops',
+                    desc: 'Natural Marble, Exotic Quartzite & Quartz',
+                  },
+                  {
+                    id: 'tiles' as const,
+                    label: 'Tiles',
+                    desc: '600×1200mm Architectural Floor & Wall Slabs',
+                  },
+                ].map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => handleCategoryChange(cat.id)}
+                    className={`p-3.5 text-left border rounded-xs transition-all cursor-pointer ${
+                      primaryCategory === cat.id
+                        ? 'border-[#D4AF37] bg-[#D4AF37]/15 text-white shadow-md'
+                        : 'border-white/10 bg-white/[0.02] text-white/70 hover:text-white hover:border-white/25 hover:bg-white/[0.04]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="font-serif text-sm sm:text-base font-normal text-white">
+                        {cat.label}
+                      </div>
+                      {primaryCategory === cat.id && <Check className="w-4 h-4 text-[#D4AF37] shrink-0 ml-2" />}
+                    </div>
+                    <p className="text-[11px] text-white/50 leading-relaxed font-sans font-light">
+                      {cat.desc}
+                    </p>
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Sizing Fields */}
-            {inputMode === 'dimensions' ? (
-              <div className="space-y-8 divide-y divide-white/5">
-                {/* 1. Countertop Island */}
-                <div className="pt-2">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs uppercase tracking-[0.2em] text-white/50 font-mono">
-                      01 / Kitchen Counter & Island
+            {/* 02 / SIZING & DIMENSIONS */}
+            <div className="pt-7 border-t border-white/10">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-xs uppercase tracking-wider text-[#D4AF37]/90 font-medium font-sans">
+                  02 / Required Square Footage
+                </span>
+                <div className="flex items-center gap-4 text-xs font-sans">
+                  <button
+                    type="button"
+                    onClick={() => setInputMode('dimensions')}
+                    className={`py-1 transition-colors cursor-pointer ${
+                      inputMode === 'dimensions' ? 'text-white font-medium border-b border-[#D4AF37]' : 'text-white/50 hover:text-white'
+                    }`}
+                  >
+                    Length × Breadth (Auto-Math)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setInputMode('total')}
+                    className={`py-1 transition-colors cursor-pointer ${
+                      inputMode === 'total' ? 'text-white font-medium border-b border-[#D4AF37]' : 'text-white/50 hover:text-white'
+                    }`}
+                  >
+                    Direct Sq. Ft
+                  </button>
+                </div>
+              </div>
+
+              {inputMode === 'dimensions' ? (
+                <div className="bg-white/[0.015] border border-white/10 p-5 rounded-xs space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-white/80 font-medium font-sans">
+                      Enter Dimensions
                     </span>
-                    <span className="text-sm font-mono text-amber-400">
+                    <span className="text-xs font-mono text-[#D4AF37] bg-[#D4AF37]/10 px-2.5 py-1 border border-[#D4AF37]/20 rounded-xs">
                       {counterLength} ft × {counterBreadth} ft = {counterSqFtCalc} sq.ft
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-8">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[11px] uppercase tracking-wider text-white/40 block mb-1">Length (ft)</label>
-                      <input
-                        type="number"
-                        min="2"
-                        max="40"
-                        step="0.5"
-                        value={counterLength}
-                        onChange={(e) => setCounterLength(parseFloat(e.target.value) || 0)}
-                        className="w-full bg-transparent border-b border-white/20 focus:border-amber-400 py-2 text-2xl font-mono text-white outline-none transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[11px] uppercase tracking-wider text-white/40 block mb-1">Depth / Breadth (ft)</label>
+                      <label className="text-xs text-white/50 block mb-1 font-sans">Length (ft)</label>
                       <input
                         type="number"
                         min="1"
-                        max="10"
+                        max="100"
+                        step="0.5"
+                        value={counterLength}
+                        onChange={(e) => setCounterLength(parseFloat(e.target.value) || 0)}
+                        className="w-full bg-white/[0.03] border border-white/15 focus:border-[#D4AF37] rounded-xs px-3.5 py-2.5 text-lg font-mono text-white outline-none transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-white/50 block mb-1 font-sans">Depth / Width (ft)</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="50"
                         step="0.5"
                         value={counterBreadth}
                         onChange={(e) => setCounterBreadth(parseFloat(e.target.value) || 0)}
-                        className="w-full bg-transparent border-b border-white/20 focus:border-amber-400 py-2 text-2xl font-mono text-white outline-none transition-colors"
+                        className="w-full bg-white/[0.03] border border-white/15 focus:border-[#D4AF37] rounded-xs px-3.5 py-2.5 text-lg font-mono text-white outline-none transition-colors"
                       />
                     </div>
                   </div>
                 </div>
-
-                {/* 2. Full-Height Backsplash */}
-                <div className="pt-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={includeBacksplash}
-                        onChange={(e) => setIncludeBacksplash(e.target.checked)}
-                        className="w-4 h-4 rounded border-white/20 text-amber-500 bg-transparent focus:ring-0"
-                      />
-                      <span className="text-xs uppercase tracking-[0.2em] text-white/90 font-mono">
-                        02 / Full-Height Matching Backsplash
-                      </span>
-                    </label>
-                    {includeBacksplash && (
-                      <span className="text-sm font-mono text-amber-400">
-                        {backsplashLength} ft × {backsplashHeight} ft = {backsplashSqFtCalc} sq.ft
-                      </span>
-                    )}
-                  </div>
-
-                  {includeBacksplash && (
-                    <div className="grid grid-cols-2 gap-8 mt-4">
-                      <div>
-                        <label className="text-[11px] uppercase tracking-wider text-white/40 block mb-1">Wall Length (ft)</label>
-                        <input
-                          type="number"
-                          min="2"
-                          max="40"
-                          step="0.5"
-                          value={backsplashLength}
-                          onChange={(e) => setBacksplashLength(parseFloat(e.target.value) || 0)}
-                          className="w-full bg-transparent border-b border-white/20 focus:border-amber-400 py-2 text-2xl font-mono text-white outline-none transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[11px] uppercase tracking-wider text-white/40 block mb-1">Splash Height (ft)</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="8"
-                          step="0.5"
-                          value={backsplashHeight}
-                          onChange={(e) => setBacksplashHeight(parseFloat(e.target.value) || 0)}
-                          className="w-full bg-transparent border-b border-white/20 focus:border-amber-400 py-2 text-2xl font-mono text-white outline-none transition-colors"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* 3. Matching Tile Floor */}
-                <div className="pt-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={includeFloor}
-                        onChange={(e) => setIncludeFloor(e.target.checked)}
-                        className="w-4 h-4 rounded border-white/20 text-amber-500 bg-transparent focus:ring-0"
-                      />
-                      <span className="text-xs uppercase tracking-[0.2em] text-white/90 font-mono">
-                        03 / Continuous Matching Floor Tile
-                      </span>
-                    </label>
-                    {includeFloor && (
-                      <span className="text-sm font-mono text-amber-400">
-                        {floorLength} ft × {floorBreadth} ft = {floorSqFtCalc} sq.ft
-                      </span>
-                    )}
-                  </div>
-
-                  {includeFloor && (
-                    <div className="grid grid-cols-2 gap-8 mt-4">
-                      <div>
-                        <label className="text-[11px] uppercase tracking-wider text-white/40 block mb-1">Floor Length (ft)</label>
-                        <input
-                          type="number"
-                          min="4"
-                          max="60"
-                          step="1"
-                          value={floorLength}
-                          onChange={(e) => setFloorLength(parseFloat(e.target.value) || 0)}
-                          className="w-full bg-transparent border-b border-white/20 focus:border-amber-400 py-2 text-2xl font-mono text-white outline-none transition-colors"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[11px] uppercase tracking-wider text-white/40 block mb-1">Floor Width (ft)</label>
-                        <input
-                          type="number"
-                          min="4"
-                          max="60"
-                          step="1"
-                          value={floorBreadth}
-                          onChange={(e) => setFloorBreadth(parseFloat(e.target.value) || 0)}
-                          className="w-full bg-transparent border-b border-white/20 focus:border-amber-400 py-2 text-2xl font-mono text-white outline-none transition-colors"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* 4. Mitered Waterfall Edge */}
-                <div className="pt-8">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs uppercase tracking-[0.2em] text-white/50 font-mono">
-                      04 / Waterfall Miter Ends (36" drops)
-                    </span>
-                    <span className="text-sm font-mono text-amber-400">
-                      {waterfallCount > 0 ? `+${waterfallSqFt} sq.ft` : 'None'}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-6 pt-2">
-                    {[
-                      { count: 0, label: 'None' },
-                      { count: 1, label: '1 Side (+12 sq.ft)' },
-                      { count: 2, label: '2 Sides (+24 sq.ft)' },
-                    ].map((opt) => (
-                      <button
-                        key={opt.count}
-                        type="button"
-                        onClick={() => setWaterfallCount(opt.count)}
-                        className={`text-xs uppercase tracking-wider font-mono py-1 relative cursor-pointer ${
-                          waterfallCount === opt.count ? 'text-amber-400 font-medium' : 'text-white/40 hover:text-white'
-                        }`}
-                      >
-                        <span>{opt.label}</span>
-                        {waterfallCount === opt.count && (
-                          <span className="absolute bottom-0 left-0 right-0 h-px bg-amber-400" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              /* Direct Sq Ft Entry */
-              <div className="pt-4 space-y-6">
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs uppercase tracking-[0.2em] text-white/40 font-mono">
+              ) : (
+                <div className="bg-white/[0.015] border border-white/10 p-5 rounded-xs space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs uppercase tracking-wider text-white/60 font-sans font-medium">
                       Total Surface Square Footage
                     </label>
-                    <span className="text-2xl font-mono text-amber-400">{directSqFt} sq.ft</span>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="number"
+                        min="5"
+                        max="1000"
+                        value={directSqFt}
+                        onChange={(e) => setDirectSqFt(parseInt(e.target.value) || 0)}
+                        className="w-24 bg-white/[0.03] border border-white/15 focus:border-[#D4AF37] rounded-xs px-2.5 py-1 text-right text-lg font-mono text-[#D4AF37] outline-none"
+                      />
+                      <span className="text-xs font-mono text-white/50">sq.ft</span>
+                    </div>
                   </div>
                   <input
                     type="range"
@@ -420,134 +341,310 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
                     step="5"
                     value={directSqFt}
                     onChange={(e) => setDirectSqFt(parseInt(e.target.value))}
-                    className="w-full accent-amber-500 bg-white/10 h-1 cursor-pointer"
+                    className="w-full accent-[#D4AF37] bg-white/10 h-1.5 rounded-full cursor-pointer"
                   />
-                  <div className="flex justify-between text-[11px] text-white/30 font-mono mt-2">
-                    <span>15 sq.ft (Powder vanity)</span>
-                    <span>150 sq.ft (Full kitchen island & splash)</span>
-                    <span>500 sq.ft (Commercial / estate)</span>
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <span className="text-xs text-white/45 font-sans mr-1">Quick Presets:</span>
+                    {[35, 65, 100, 150, 250, 400].map((preset) => (
+                      <button
+                        key={preset}
+                        type="button"
+                        onClick={() => setDirectSqFt(preset)}
+                        className={`text-xs px-2.5 py-1 rounded-xs border transition-colors cursor-pointer ${
+                          directSqFt === preset
+                            ? 'border-[#D4AF37] bg-[#D4AF37]/15 text-white font-medium'
+                            : 'border-white/10 text-white/60 hover:text-white hover:border-white/20'
+                        }`}
+                      >
+                        {preset} sq.ft
+                      </button>
+                    ))}
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            {/* Total Surface Footprint Footnote */}
-            <div className="pt-6 border-t border-white/10 flex items-center justify-between text-xs font-mono">
-              <span className="text-white/40 uppercase tracking-wider">Total Calculated Surface Area:</span>
-              <span className="text-white font-medium text-base">
-                {totalSqFt} sq.ft · ~{estimatedBoxes} Freight Boxes
+            {/* 03 / DESIRED MINERAL PATTERN & FINISH */}
+            <div className="pt-7 border-t border-white/10">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs uppercase tracking-wider text-[#D4AF37]/90 font-medium font-sans">
+                  03 / Desired Mineral Pattern &amp; Sheen
+                </span>
+                <span className="text-xs text-white/60 font-sans">{stoneGeology}</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 mb-3.5">
+                {[
+                  'Calacatta Extra (Gold Vein)',
+                  'Volcano Green (Emerald Crystal)',
+                  'Brazilian Amazonite (Teal Glaze)',
+                  'Fuji Gold 24k (Black & Gold)',
+                  'Bellagio Jade (Translucent Onyx)',
+                ].map((stone) => (
+                  <button
+                    key={stone}
+                    type="button"
+                    onClick={() => setStoneGeology(stone)}
+                    className={`p-3 text-left border rounded-xs text-xs sm:text-sm font-sans transition-all flex items-center justify-between cursor-pointer ${
+                      stoneGeology === stone
+                        ? 'border-[#D4AF37] bg-[#D4AF37]/15 text-white font-medium shadow-xs'
+                        : 'border-white/10 bg-white/[0.02] text-white/70 hover:text-white hover:border-white/25'
+                    }`}
+                  >
+                    <span className="truncate">{stone}</span>
+                    {stoneGeology === stone && <Check className="w-3.5 h-3.5 text-[#D4AF37] shrink-0 ml-2" />}
+                  </button>
+                ))}
+              </div>
+
+              {/* Surface Finish */}
+              <div className="flex items-center gap-3 pt-1">
+                <span className="text-xs text-white/50 font-sans">Surface Sheen:</span>
+                {[
+                  'High-Gloss Polished',
+                  'Honed Matte / Satin Silk',
+                ].map((finish) => (
+                  <button
+                    key={finish}
+                    type="button"
+                    onClick={() => setSurfaceFinish(finish)}
+                    className={`py-1.5 px-3 border rounded-xs text-xs font-sans transition-all cursor-pointer ${
+                      surfaceFinish === finish
+                        ? 'border-[#D4AF37] bg-[#D4AF37]/10 text-white font-medium'
+                        : 'border-white/10 text-white/60 hover:text-white'
+                    }`}
+                  >
+                    {finish}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 04 / PROJECT TIMELINE */}
+            <div className="pt-7 border-t border-white/10">
+              <span className="text-xs uppercase tracking-wider text-[#D4AF37]/90 font-medium font-sans block mb-3">
+                04 / Project Timeline
               </span>
+              <div className="flex flex-wrap gap-2.5">
+                {[
+                  'Ready to Order (1–2 Weeks)',
+                  'In Renovation (30–60 Days)',
+                  'Planning & Blueprint Phase',
+                ].map((time) => (
+                  <button
+                    key={time}
+                    type="button"
+                    onClick={() => setProjectTimeline(time)}
+                    className={`py-2.5 px-4 border rounded-xs text-xs sm:text-sm font-sans transition-all cursor-pointer ${
+                      projectTimeline === time
+                        ? 'border-[#D4AF37] bg-[#D4AF37]/15 text-white font-medium shadow-xs'
+                        : 'border-white/10 bg-white/[0.02] text-white/65 hover:text-white hover:border-white/25'
+                    }`}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* RIGHT: Live Architectural Valuation & Direct Lead Dispatch (5 cols) */}
-          <div className="lg:col-span-5 space-y-8">
-            {/* Big Sculptural Savings Figure */}
-            <div className="pb-8 border-b border-white/10">
-              <div className="text-[11px] uppercase tracking-[0.25em] text-emerald-400 font-mono mb-2">
-                Estimated Project Savings ({savingsPercent}% Lower)
-              </div>
-              <div className="text-5xl sm:text-6xl font-serif font-light text-amber-400 tracking-tight">
-                ${totalSaved.toLocaleString()}
-              </div>
-              <div className="text-xs text-white/50 font-light mt-2">
-                Saved compared to quarry cutting & CNC fabrication for {stoneConfig.name}.
-              </div>
-            </div>
-
-            {/* Itemized Comparison Matrix: Pure Whitespace & Hairlines */}
-            <div className="space-y-4 text-xs font-mono">
-              <div className="flex justify-between pb-2 border-b border-white/10 text-white/40 uppercase tracking-wider">
-                <span>Cost Itemization</span>
-                <span>Vitrified Porcelain</span>
-              </div>
-
-              <div className="flex justify-between text-white/80">
-                <span>Slab Material ({totalSqFt} sq.ft @ $28):</span>
-                <span>${porcelainMaterialCost.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between text-white/80">
-                <span>General Contractor Setting (@ $16):</span>
-                <span>${porcelainLaborCost.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between text-white/80">
-                <span>Specialized CNC Shop Fabrication:</span>
-                <span className="text-emerald-400">$0 (Cut On-Site)</span>
-              </div>
-              <div className="flex justify-between text-white/80">
-                <span>Direct Pallet Freight Delivery:</span>
-                <span>${porcelainDeliveryFlat}</span>
-              </div>
-
-              <div className="flex justify-between pt-3 border-t border-white/10 text-white font-medium text-sm">
-                <span>Total Installed Porcelain:</span>
-                <span className="text-amber-400 font-bold">${porcelainTotal.toLocaleString()}</span>
-              </div>
-
-              <div className="flex justify-between text-white/40 pt-1">
-                <span>Traditional {stoneConfig.name}:</span>
-                <span className="line-through text-rose-300">${stoneTotal.toLocaleString()}</span>
-              </div>
-            </div>
-
-            {/* Direct 1-Line Email Lead Capture */}
-            <div className="pt-6 border-t border-white/10">
-              <div className="text-[11px] uppercase tracking-[0.2em] text-white/60 font-mono mb-2">
-                Receive Itemized Specification PDF
-              </div>
-              <p className="text-xs text-white/50 font-light mb-4">
-                We will email this complete {totalSqFt} sq.ft spec breakdown, crate packaging data, and the contractor installation guide directly to you.
-              </p>
-
-              {leadSubmitted ? (
-                <div className="py-4 text-emerald-400 text-xs font-mono flex items-center gap-2">
-                  <Check className="w-4 h-4 shrink-0" />
-                  <span>Estimate dispatched to {leadEmail} (Ref: {leadQuoteId}).</span>
+          {/* RIGHT: BLUEPRINT SUMMARY & GATED EMAIL VALUATION (5 cols) */}
+          <div className="lg:col-span-5 sticky top-28">
+            <div className="border border-white/15 bg-[#17171B] p-6 sm:p-7 rounded-xs shadow-2xl space-y-6">
+              {/* Specification Blueprint Summary */}
+              <div>
+                <div className="flex items-center justify-between pb-3.5 border-b border-white/10">
+                  <span className="text-xs uppercase tracking-wider text-[#D4AF37] font-medium font-sans">
+                    Configured Blueprint
+                  </span>
+                  <span className="text-xs font-mono text-white/70">
+                    {totalSqFt} sq.ft · ~{estimatedBoxes} Boxes
+                  </span>
                 </div>
-              ) : (
-                <form onSubmit={handleLeadSubmit} className="space-y-3">
-                  <div className="flex items-center gap-4 text-xs font-mono text-white/50 mb-2">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="leadRole"
-                        checked={leadRole === 'homeowner'}
-                        onChange={() => setLeadRole('homeowner')}
-                        className="accent-amber-500"
-                      />
-                      <span>Homeowner / Designer</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="leadRole"
-                        checked={leadRole === 'contractor'}
-                        onChange={() => setLeadRole('contractor')}
-                        className="accent-amber-500"
-                      />
-                      <span>General Contractor / Trade</span>
-                    </label>
+
+                <div className="space-y-3 pt-4 text-xs sm:text-sm font-sans">
+                  <div className="flex justify-between items-center">
+                    <span className="text-white/50">Category:</span>
+                    <span className="text-white font-medium truncate max-w-[210px]">{categoryLabels[primaryCategory]}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-white/50">Mineral Pattern:</span>
+                    <span className="text-white font-medium truncate max-w-[210px]">{stoneGeology}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-white/50">Surface Area:</span>
+                    <span className="text-white font-medium font-mono">{totalSqFt} sq.ft</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-white/50">Surface Sheen:</span>
+                    <span className="text-white font-medium truncate max-w-[210px]">{surfaceFinish}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-white/50">Timeline:</span>
+                    <span className="text-white font-medium">{projectTimeline}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* GATING: Only show price & comparison AFTER email submission */}
+              {leadSubmitted ? (
+                /* UNLOCKED: Shows Price, Savings & Detailed Comparison */
+                <div className="space-y-5 pt-4 border-t border-white/10">
+                  {/* Success Alert */}
+                  <div className="p-3.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-sans flex items-start gap-2.5 rounded-xs">
+                    <Check className="w-4 h-4 shrink-0 text-emerald-400 mt-0.5" />
+                    <div>
+                      <div className="font-semibold text-emerald-200">Price Breakdown Sent!</div>
+                      <div className="text-white/70 text-xs mt-0.5">
+                        Itemized PDF sent to <span className="text-white font-medium">{leadEmail}</span> (Ref: {leadQuoteId}).
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="flex items-center border-b border-white/30 focus-within:border-amber-400 transition-colors">
-                    <input
-                      type="email"
-                      required
-                      placeholder="Enter your email for specs..."
-                      value={leadEmail}
-                      onChange={(e) => setLeadEmail(e.target.value)}
-                      className="flex-1 bg-transparent py-2.5 text-sm text-white placeholder-white/30 outline-none"
-                    />
+                  {/* Savings Reveal */}
+                  <div className="pb-5 border-b border-white/10">
+                    <div className="text-xs uppercase tracking-wider text-emerald-400 font-sans font-medium mb-1">
+                      Estimated Savings ({savingsPercent}% Lower)
+                    </div>
+                    <div className="text-4xl sm:text-5xl font-serif text-[#D4AF37] tracking-tight">
+                      ${totalSaved.toLocaleString()}
+                    </div>
+                    <div className="text-xs text-white/60 font-sans mt-1.5 leading-relaxed">
+                      Saved compared to traditional quarry cutting &amp; CNC fabrication for {stoneConfig.name}.
+                    </div>
+                  </div>
+
+                  {/* Unlocked Itemized Comparison Table */}
+                  <div className="space-y-2.5 text-xs sm:text-sm font-sans">
+                    <div className="flex justify-between pb-2 border-b border-white/10 text-white/45 uppercase text-[11px] tracking-wider font-medium">
+                      <span>Cost Itemization</span>
+                      <span>{categoryLabels[primaryCategory]}</span>
+                    </div>
+
+                    <div className="flex justify-between text-white/80">
+                      <span>Material ({totalSqFt} sq.ft @ ${porcelainMaterialRate}):</span>
+                      <span className="font-mono">${porcelainMaterialCost.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-white/80">
+                      <span>Installation / Setting (@ ${porcelainInstallRate}):</span>
+                      <span className="font-mono">${porcelainLaborCost.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-white/80">
+                      <span>Edge &amp; Surface Preparation:</span>
+                      <span className="text-emerald-400 font-medium font-mono">$0 (Factory Calibrated)</span>
+                    </div>
+                    <div className="flex justify-between text-white/80">
+                      <span>Direct Pallet Freight Delivery:</span>
+                      <span className="font-mono">${porcelainDeliveryFlat}</span>
+                    </div>
+
+                    <div className="flex justify-between pt-3 border-t border-white/10 text-white font-medium">
+                      <span>Total Installed Estimate:</span>
+                      <span className="text-[#D4AF37] font-bold font-mono text-base">${porcelainTotal.toLocaleString()}</span>
+                    </div>
+
+                    <div className="flex justify-between text-white/40 pt-0.5">
+                      <span>Traditional {stoneConfig.name}:</span>
+                      <span className="line-through text-rose-300 font-mono">${stoneTotal.toLocaleString()}</span>
+                    </div>
+                  </div>
+
+                  {/* Post-submission Action */}
+                  <button
+                    type="button"
+                    onClick={() => setLeadSubmitted(false)}
+                    className="inline-flex items-center gap-1.5 text-xs font-sans text-white/45 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>Recalculate with different email or specs</span>
+                  </button>
+                </div>
+              ) : (
+                /* Gated Form: Enter email to receive itemized quote */
+                <div className="space-y-4 pt-4 border-t border-white/10">
+                  <form onSubmit={handleLeadSubmit} className="space-y-4">
+                    {/* Role selector */}
+                    <div className="flex items-center gap-5 text-xs sm:text-sm font-sans text-white/70">
+                      <label className="flex items-center gap-2 cursor-pointer select-none">
+                        <input
+                          type="radio"
+                          name="leadRole"
+                          checked={leadRole === 'homeowner'}
+                          onChange={() => setLeadRole('homeowner')}
+                          className="accent-[#D4AF37] cursor-pointer"
+                        />
+                        <span>Homeowner / Designer</span>
+                      </label>
+                      <label className="flex items-center gap-2 cursor-pointer select-none">
+                        <input
+                          type="radio"
+                          name="leadRole"
+                          checked={leadRole === 'contractor'}
+                          onChange={() => setLeadRole('contractor')}
+                          className="accent-[#D4AF37] cursor-pointer"
+                        />
+                        <span>General Contractor</span>
+                      </label>
+                    </div>
+
+                    {/* Email Input (Required) */}
+                    <div>
+                      <label className="text-xs font-sans font-medium text-white/80 block mb-1.5">
+                        Email Address for Itemized Price Breakdown *
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="you@domain.com"
+                        value={leadEmail}
+                        onChange={(e) => setLeadEmail(e.target.value)}
+                        className="w-full bg-white/[0.04] border border-white/20 focus:border-[#D4AF37] rounded-xs px-3.5 py-2.5 text-sm text-white placeholder-white/35 outline-none font-sans transition-colors"
+                      />
+                    </div>
+
+                    {/* Optional Name / Phone */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-xs font-sans text-white/50 block mb-1">
+                          Full Name (Optional)
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          value={leadName}
+                          onChange={(e) => setLeadName(e.target.value)}
+                          className="w-full bg-white/[0.04] border border-white/15 focus:border-[#D4AF37] rounded-xs px-3 py-2 text-xs sm:text-sm text-white placeholder-white/30 outline-none font-sans transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-sans text-white/50 block mb-1">
+                          Phone / Zip (Optional)
+                        </label>
+                        <input
+                          type="tel"
+                          placeholder="(555) 000-0000"
+                          value={leadPhone}
+                          onChange={(e) => setLeadPhone(e.target.value)}
+                          className="w-full bg-white/[0.04] border border-white/15 focus:border-[#D4AF37] rounded-xs px-3 py-2 text-xs sm:text-sm text-white placeholder-white/30 outline-none font-sans transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Submit Button */}
                     <button
                       type="submit"
                       disabled={isSubmittingLead}
-                      className="text-xs uppercase tracking-widest text-amber-400 hover:text-amber-300 font-medium flex items-center gap-2 py-2 px-3 transition-colors cursor-pointer"
+                      className="w-full py-3.5 px-5 bg-gradient-to-r from-[#D4AF37] via-[#DFBD4B] to-[#D4AF37] hover:brightness-105 text-[#111113] font-sans font-medium text-sm tracking-wide rounded-xs transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
                     >
-                      <span>{isSubmittingLead ? 'Sending...' : 'Send Specs'}</span>
-                      <Send className="w-3.5 h-3.5" />
+                      <span>{isSubmittingLead ? 'Sending Breakdown...' : 'Email My Price Breakdown & Unlock Quote'}</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
-                  </div>
-                </form>
+
+                    <div className="flex items-center justify-center gap-2 text-xs text-white/45 font-sans text-center pt-1">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <span>Instant email delivery · Zero spam · No unsolicited calls</span>
+                    </div>
+                  </form>
+                </div>
               )}
             </div>
           </div>

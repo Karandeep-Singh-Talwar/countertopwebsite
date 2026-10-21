@@ -80,15 +80,15 @@ export function CategoriesOverview({
         {/* Section Header: Open, borderless, airy */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8 pb-8 border-b border-[#1A1A1A]/10">
           <div>
-            <div className="text-[11px] uppercase tracking-[0.25em] text-[#8C827A] mb-3">
+            <div className="text-xs uppercase tracking-[0.25em] text-[#6C6863] mb-3 font-medium">
               Surface Collections
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-[#1A1A1A] leading-[1.08]">
-              Three Pillars of Surface Design
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-normal tracking-tight text-[#1A1A1A] leading-[1.05]">
+              Three Pillars of <span className="italic font-light text-amber-800">Surface Design</span>
             </h2>
           </div>
 
-          <p className="text-[#59534E] text-base sm:text-lg max-w-xl font-light leading-relaxed">
+          <p className="text-[#6C6863] text-base sm:text-lg max-w-xl font-normal leading-relaxed">
             From our groundbreaking <span className="text-[#1A1A1A] font-medium">9mm contractor-cut porcelain slabs</span> to monumental quarried quartzite and matching architectural tiles—crafted for seamless continuity.
           </p>
         </div>
@@ -113,34 +113,34 @@ export function CategoriesOverview({
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
 
                   {/* Clean, minimalist price floating top-right without bulky box */}
-                  <div className="absolute top-4 right-4 text-[11px] uppercase tracking-wider text-white bg-black/50 backdrop-blur-md px-3 py-1 font-mono">
+                  <div className="absolute top-4 right-4 text-xs uppercase tracking-[0.2em] text-white bg-black/60 backdrop-blur-md px-3 py-1 font-sans font-medium">
                     {cat.priceTag}
                   </div>
                 </Link>
 
                 {/* Editorial Metadata & Typography floating naturally */}
                 <div className="pt-8">
-                  <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.25em] text-[#8C827A] mb-2 font-mono">
+                  <div className="flex items-center justify-between text-xs uppercase tracking-[0.25em] text-[#6C6863] mb-2 font-medium">
                     <span>{cat.label}</span>
                     <span>{cat.num}</span>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl font-serif font-light tracking-tight text-[#1A1A1A] mb-2 group-hover:text-amber-800 transition-colors">
+                  <h3 className="text-3xl sm:text-4xl font-serif font-normal tracking-tight text-[#1A1A1A] mb-2 group-hover:text-amber-800 transition-colors">
                     <Link href={`/${cat.id}`}>{cat.title}</Link>
                   </h3>
 
-                  <p className="text-xs uppercase tracking-wider text-[#A39281] font-medium mb-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-[#8C827A] font-medium mb-4">
                     {cat.tagline}
                   </p>
 
-                  <p className="text-[14px] leading-relaxed text-[#59534E] font-light mb-6">
+                  <p className="text-base leading-relaxed text-[#6C6863] font-normal mb-6">
                     {cat.description}
                   </p>
 
                   {/* Clean spec list separated by hairline, NO checkboxes or colored boxes */}
                   <div className="border-t border-[#1A1A1A]/10 pt-4 space-y-2 mb-8">
                     {cat.specs.map((spec, i) => (
-                      <div key={i} className="flex items-center gap-3 text-[13px] text-[#2E2B29] font-light">
+                      <div key={i} className="flex items-center gap-3 text-sm text-[#2E2B29] font-normal">
                         <span className="w-1.5 h-1.5 rounded-full bg-amber-700/60 shrink-0" />
                         <span>{spec}</span>
                       </div>

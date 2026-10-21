@@ -50,21 +50,11 @@ export function InCommonHero({
           transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-4xl"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-white/20 bg-black/30 backdrop-blur-md rounded-full text-white/90 text-[11px] uppercase tracking-[0.2em]"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-            <span>High Gloss Vitrified Collection · Contractor Installable</span>
-          </motion.div>
-
-          <h1 className="text-white text-5xl sm:text-7xl md:text-8xl lg:text-[104px] font-sans font-light tracking-[-0.035em] leading-[0.95] text-balance drop-shadow-sm">
-            Verona Surfaces
+          <h1 className="text-white text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-serif font-normal tracking-tight leading-[0.9] text-balance drop-shadow-sm">
+            Verona <span className="italic font-light text-amber-200">Surfaces</span>
           </h1>
-          <p className="mt-3 text-white/80 text-lg sm:text-2xl md:text-3xl font-light tracking-tight font-serif italic">
-            Porcelain Countertops, Natural Stone & Large-Format Tiles
+          <p className="mt-4 text-white/80 text-lg sm:text-2xl md:text-3xl font-light tracking-tight font-serif italic">
+            Porcelain Countertops, Natural Stone &amp; Large-Format Tiles
           </p>
         </motion.div>
 
@@ -77,12 +67,12 @@ export function InCommonHero({
         >
           {/* Bottom Left: Editorial Statement matching In Common With */}
           <div className="md:col-span-7 lg:col-span-6 space-y-4">
-            <p className="text-white/85 text-[14px] sm:text-[15px] leading-relaxed max-w-lg font-normal tracking-wide">
+            <p className="text-white/85 text-base sm:text-lg leading-relaxed max-w-lg font-normal">
               The contractor-friendly porcelain revolution. Flow identical high-gloss Italian Calacatta, rare Amazonite, and deep Onyx from your kitchen island countertop, up the backsplash, and across the floor. Any tile contractor can install—zero specialized stone cutter fees.
             </p>
             <button
               onClick={onExploreClick}
-              className="group inline-flex items-center gap-3 text-white text-[13px] uppercase tracking-[0.16em] hover:text-amber-200 transition-colors cursor-pointer"
+              className="group inline-flex items-center gap-3 text-white text-xs uppercase tracking-[0.2em] font-medium hover:text-amber-200 transition-colors cursor-pointer"
             >
               <span>Explore Porcelain Slabs</span>
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5 font-light">
@@ -97,7 +87,7 @@ export function InCommonHero({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenQuoteModal}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-white/30 hover:border-white/70 bg-black/30 hover:bg-black/50 backdrop-blur-md text-white text-[12px] uppercase tracking-[0.15em] transition-all cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-white/30 hover:border-white/70 bg-black/30 hover:bg-black/50 backdrop-blur-md text-white text-xs uppercase tracking-[0.2em] font-medium transition-all cursor-pointer"
             >
               <Calculator className="w-3.5 h-3.5" />
               <span>Instant Slab Quote</span>
@@ -107,7 +97,7 @@ export function InCommonHero({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenBookCall}
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#FAF8F5] hover:bg-white text-[#1A1A1A] text-[12px] uppercase tracking-[0.15em] font-medium transition-all shadow-lg hover:shadow-xl cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#FAF8F5] hover:bg-white text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium transition-all shadow-lg hover:shadow-xl cursor-pointer"
             >
               <Calendar className="w-3.5 h-3.5" />
               <span>Book Virtual Call</span>

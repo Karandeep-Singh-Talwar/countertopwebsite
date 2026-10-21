@@ -51,13 +51,13 @@ export default function PorcelainTilesPage() {
         {/* Category Hero: Open & Borderless */}
         <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-16 md:py-24 border-b border-[#1A1A1A]/10">
           <div className="max-w-4xl">
-            <div className="text-[11px] uppercase tracking-[0.25em] text-[#8C827A] mb-3 font-mono">
+            <div className="text-xs uppercase tracking-[0.25em] text-[#6C6863] mb-3 font-mono">
               03 / Architectural Continuity Sizing
             </div>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-light tracking-tight text-[#1A1A1A] leading-[1.05]">
-              Porcelain Tiles Catalogue
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-normal tracking-tight text-[#1A1A1A] leading-[1.05]">
+              Porcelain Tiles <span className="italic font-light text-amber-800">Catalogue</span>
             </h1>
-            <p className="mt-6 text-[#59534E] text-base sm:text-xl font-light leading-relaxed">
+            <p className="mt-6 text-[#6C6863] text-base sm:text-lg font-normal leading-relaxed">
               Large-format 600×1200mm (24"×48") and 600×600mm (24"×24") vitrified floor and wall tiles. Pressed with the exact same high-gloss and silk glazes as our porcelain countertops—allowing unbroken material continuity across your floors, feature walls, shower enclosures, and exterior terraces.
             </p>
 
@@ -65,16 +65,16 @@ export default function PorcelainTilesPage() {
             <div className="mt-12 pt-8 border-t border-[#1A1A1A]/10">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[#8C827A] font-mono mb-1">
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] font-mono mb-1">
                     Jobsite Crate Packaging Calculator
                   </div>
-                  <div className="text-sm text-[#59534E] font-light">
+                  <div className="text-sm text-[#6C6863] font-normal leading-relaxed">
                     Standard crate box: 2 pcs (15.5 sq.ft / 1.44 m²) · 29 kg per freight box
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono uppercase text-[#8C827A]">Coverage Area:</span>
+                  <span className="text-xs font-mono uppercase text-[#6C6863]">Coverage Area:</span>
                   <input
                     type="number"
                     min={15}
@@ -84,25 +84,25 @@ export default function PorcelainTilesPage() {
                     onChange={(e) => setTileSqFt(Math.max(15, Number(e.target.value)))}
                     className="w-24 bg-transparent border-b border-[#1A1A1A]/30 focus:border-amber-800 text-xl font-mono text-[#1A1A1A] text-right py-0.5 outline-none"
                   />
-                  <span className="text-xs font-mono text-[#8C827A]">sq.ft</span>
+                  <span className="text-xs font-mono text-[#6C6863]">sq.ft</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 font-mono">
                 <div>
-                  <div className="text-3xl font-serif text-[#1A1A1A] font-light">{boxesNeeded}</div>
-                  <div className="text-xs uppercase tracking-wider text-[#8C827A] mt-1">Boxes Needed</div>
-                  <div className="text-[11px] text-[#A39281] font-sans mt-0.5">15.5 sq.ft per box</div>
+                  <div className="text-3xl font-serif text-[#1A1A1A] font-normal">{boxesNeeded}</div>
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] mt-1 font-medium">Boxes Needed</div>
+                  <div className="text-xs text-[#6C6863] font-sans mt-0.5">15.5 sq.ft per box</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-serif text-[#1A1A1A] font-light">{totalWeightKg} kg</div>
-                  <div className="text-xs uppercase tracking-wider text-[#8C827A] mt-1">Pallet Mass</div>
-                  <div className="text-[11px] text-[#A39281] font-sans mt-0.5">~{Math.round(totalWeightKg * 2.204)} lbs freight</div>
+                  <div className="text-3xl font-serif text-[#1A1A1A] font-normal">{totalWeightKg} kg</div>
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] mt-1 font-medium">Pallet Mass</div>
+                  <div className="text-xs text-[#6C6863] font-sans mt-0.5">~{Math.round(totalWeightKg * 2.204)} lbs freight</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-serif text-emerald-800 font-light">${estimatedCost.toLocaleString()}</div>
-                  <div className="text-xs uppercase tracking-wider text-[#8C827A] mt-1">Wholesale Cost</div>
-                  <div className="text-[11px] text-[#A39281] font-sans mt-0.5">Direct jobsite freight</div>
+                  <div className="text-3xl font-serif text-emerald-800 font-normal">${estimatedCost.toLocaleString()}</div>
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] mt-1 font-medium">Wholesale Cost</div>
+                  <div className="text-xs text-[#6C6863] font-sans mt-0.5">Direct jobsite freight</div>
                 </div>
                 <div className="flex items-end">
                   <button
@@ -122,7 +122,7 @@ export default function PorcelainTilesPage() {
         <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-20">
           {/* Format Tabs & Count */}
           <div className="flex flex-wrap items-center justify-between gap-6 mb-16 pb-4 border-b border-[#1A1A1A]/10">
-            <div className="flex items-center gap-8 text-xs uppercase tracking-[0.18em] font-mono">
+            <div className="flex items-center gap-8 text-xs uppercase tracking-[0.2em] font-medium">
               {[
                 { id: 'all', label: 'All Formats' },
                 { id: '600x1200', label: '600×1200 mm (24×48 in)' },

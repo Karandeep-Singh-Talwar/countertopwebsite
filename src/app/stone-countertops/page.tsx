@@ -48,37 +48,37 @@ export default function StoneCountertopsPage() {
         {/* Category Hero: Open & Borderless */}
         <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-16 md:py-24 border-b border-[#1A1A1A]/10">
           <div className="max-w-4xl">
-            <div className="text-[11px] uppercase tracking-[0.25em] text-[#8C827A] mb-3 font-mono">
-              02 / Natural & Engineered Stone Slabs
+            <div className="text-xs uppercase tracking-[0.25em] text-[#6C6863] mb-3 font-mono">
+              02 / Natural &amp; Engineered Stone Slabs
             </div>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-light tracking-tight text-[#1A1A1A] leading-[1.05]">
-              Stone Countertops Catalogue
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-normal tracking-tight text-[#1A1A1A] leading-[1.05]">
+              Stone Countertops <span className="italic font-light text-amber-800">Catalogue</span>
             </h1>
-            <p className="mt-6 text-[#59534E] text-base sm:text-xl font-light leading-relaxed">
+            <p className="mt-6 text-[#6C6863] text-base sm:text-lg font-normal leading-relaxed">
               Traditional quarried 2cm &amp; 3cm natural quartzite, Italian marble, granite, and premium engineered quartz. Hand-selected slab bundles sourced directly from Italian and South American quarries for monumental residential kitchen islands and heavy overhangs.
             </p>
 
             {/* Open Architectural Metric Row (ZERO BOXES) */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mt-12 pt-8 border-t border-[#1A1A1A]/10 font-mono">
               <div>
-                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-light">3 cm</div>
-                <div className="text-xs uppercase tracking-wider text-[#1A1A1A] font-medium mt-1">Solid Slabs</div>
-                <div className="text-[11px] text-[#8C827A] mt-0.5 font-sans">Heavy architectural overhangs</div>
+                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">3 cm</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Solid Slabs</div>
+                <div className="text-xs text-[#6C6863] mt-0.5 font-sans">Heavy architectural overhangs</div>
               </div>
               <div>
-                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-light">CNC</div>
-                <div className="text-xs uppercase tracking-wider text-[#1A1A1A] font-medium mt-1">Precision Milling</div>
-                <div className="text-[11px] text-[#8C827A] mt-0.5 font-sans">Waterjet cutouts &amp; ogee profiles</div>
+                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">CNC</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Precision Milling</div>
+                <div className="text-xs text-[#6C6863] mt-0.5 font-sans">Waterjet cutouts &amp; ogee profiles</div>
               </div>
               <div>
-                <div className="text-3xl sm:text-4xl font-serif text-amber-800 font-light">Direct</div>
-                <div className="text-xs uppercase tracking-wider text-[#1A1A1A] font-medium mt-1">Quarry Sourcing</div>
-                <div className="text-[11px] text-[#8C827A] mt-0.5 font-sans">Italy, Brazil, Spain &amp; Zimbabwe</div>
+                <div className="text-3xl sm:text-4xl font-serif text-amber-800 font-normal">Direct</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Quarry Sourcing</div>
+                <div className="text-xs text-[#6C6863] mt-0.5 font-sans">Italy, Brazil, Spain &amp; Zimbabwe</div>
               </div>
               <div>
-                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-light">Bundle</div>
-                <div className="text-xs uppercase tracking-wider text-[#1A1A1A] font-medium mt-1">Bookmatched</div>
-                <div className="text-[11px] text-[#8C827A] mt-0.5 font-sans">Consecutive mirrored slab veining</div>
+                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">Bundle</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Bookmatched</div>
+                <div className="text-xs text-[#6C6863] mt-0.5 font-sans">Consecutive mirrored slab veining</div>
               </div>
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function StoneCountertopsPage() {
         <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-20">
           {/* Minimalist Filter Navigation */}
           <div className="flex flex-wrap items-center justify-between gap-6 mb-16 pb-4 border-b border-[#1A1A1A]/10">
-            <div className="flex flex-wrap items-center gap-8 text-xs uppercase tracking-[0.18em] font-mono">
+            <div className="flex flex-wrap items-center gap-8 text-xs uppercase tracking-[0.2em] font-medium">
               {[
                 { id: 'all', label: 'All Stone Slabs' },
                 { id: 'Quartzite', label: 'Natural Quartzite' },
@@ -113,7 +113,7 @@ export default function StoneCountertopsPage() {
               ))}
             </div>
 
-            <div className="text-xs text-[#8C827A] font-mono tracking-wider">
+            <div className="text-xs text-[#6C6863] font-mono tracking-wider">
               Showing <span className="font-semibold text-[#1A1A1A]">{filteredSlabs.length}</span> curated stone slabs
             </div>
           </div>

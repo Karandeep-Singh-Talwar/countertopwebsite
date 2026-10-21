@@ -40,20 +40,20 @@ export function InCommonFooter({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 border-b border-[#E8E4DC] items-start">
           {/* Brand Info (5 cols) */}
           <div className="lg:col-span-5 space-y-3">
-            <h4 className="text-2xl sm:text-3xl font-serif font-light tracking-tight text-[#1A1A1A]">
-              Verona Surfaces
+            <h4 className="text-2xl sm:text-3xl font-serif font-normal tracking-tight text-[#1A1A1A]">
+              Verona <span className="italic font-light text-amber-800">Surfaces</span>
             </h4>
-            <span className="text-[11px] uppercase tracking-[0.2em] text-amber-800 font-medium block">
+            <span className="text-xs uppercase tracking-[0.25em] text-amber-800 font-medium block">
               Architectural Stone &amp; Vitrified Porcelain Catalogue
             </span>
-            <p className="text-xs text-[#767168] max-w-md leading-relaxed">
+            <p className="text-sm text-[#6C6863] max-w-md leading-relaxed font-normal">
               100% online catalogue with direct-to-jobsite crate freight. We supply large-format 9mm vitrified porcelain slabs and matching tiles directly to homeowners, builders, and general contractors—eliminating expensive showroom markups and specialist stone fabricator overhead.
             </p>
           </div>
 
           {/* Digital Ordering & Helpdesk (3 cols) */}
-          <div className="lg:col-span-3 space-y-2 text-xs text-[#767168]">
-            <span className="text-[11px] uppercase tracking-wider text-[#1A1A1A] font-semibold block mb-2">
+          <div className="lg:col-span-3 space-y-2 text-sm text-[#6C6863] font-normal">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-2">
               Online Orders &amp; Inquiries
             </span>
             <a
@@ -70,30 +70,30 @@ export function InCommonFooter({
               <Phone className="w-3.5 h-3.5 text-amber-700" />
               <span>+1 (800) 555-STONE (7866)</span>
             </a>
-            <p className="text-[11px] text-[#767168] pt-1">
+            <p className="text-xs text-[#6C6863] pt-1">
               Digital line-item quotes &amp; CAD layout guides dispatched 24/7.
             </p>
           </div>
 
           {/* Quick Direct Actions: Open, borderless */}
           <div className="lg:col-span-4 space-y-3 font-mono text-xs">
-            <div className="text-[11px] uppercase tracking-[0.2em] text-[#8C827A]">
+            <div className="text-xs uppercase tracking-[0.25em] text-[#6C6863] font-medium">
               Direct Jobsite Logistics
             </div>
-            <p className="text-[13px] text-[#59534E] font-light font-sans leading-relaxed">
+            <p className="text-sm text-[#6C6863] font-normal font-sans leading-relaxed">
               Wholesale crates dispatched directly to jobsites nationwide. Speak with an architectural advisor or request digital CAD layouts.
             </p>
             <div className="flex items-center gap-6 pt-2">
               <button
                 onClick={() => onOpenQuoteModal()}
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
                 <Calculator className="w-3.5 h-3.5" />
                 <span>Instant Quote</span>
               </button>
               <button
                 onClick={() => onOpenBookCall({ service: 'Online Contractor Consultation' })}
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-[#59534E] hover:text-[#1A1A1A] py-1 border-b border-[#1A1A1A]/20 hover:border-[#1A1A1A] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#6C6863] hover:text-[#1A1A1A] py-1 border-b border-[#1A1A1A]/20 hover:border-[#1A1A1A] transition-colors cursor-pointer"
               >
                 <Calendar className="w-3.5 h-3.5" />
                 <span>Book Call</span>
@@ -106,10 +106,10 @@ export function InCommonFooter({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-12 border-b border-[#E8E4DC] items-start">
           {/* Direct Email Digest */}
           <div className="lg:col-span-5 max-w-md">
-            <span className="text-[11px] uppercase tracking-wider text-[#1A1A1A] font-semibold block mb-1">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-1">
               Direct Trade &amp; Catalogue Updates
             </span>
-            <p className="text-xs text-[#767168] mb-3">
+            <p className="text-sm text-[#6C6863] mb-3 font-normal leading-relaxed">
               Subscribe for new container arrivals, bookmatched vitrified batch releases, and wholesale pricing updates.
             </p>
             <form onSubmit={handleNewsletterSubmit} className="space-y-2">
@@ -120,22 +120,22 @@ export function InCommonFooter({
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter email address"
                   required
-                  className="flex-1 px-3 py-2 text-xs text-[#1A1A1A] placeholder-[#767168] focus:outline-none"
+                  className="flex-1 px-3 py-2 text-sm text-[#1A1A1A] placeholder-[#6C6863] focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#FAF8F5] border-l border-[#1A1A1A] text-[#1A1A1A] text-[10px] uppercase tracking-wider font-medium hover:bg-[#EFECE6] transition-colors cursor-pointer"
+                  className="px-5 py-2 bg-[#FAF8F5] border-l border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium hover:bg-[#EFECE6] transition-colors cursor-pointer"
                 >
                   Join
                 </button>
               </div>
               {subscribed ? (
-                <p className="text-[11px] text-emerald-800 flex items-center gap-1 font-medium">
+                <p className="text-xs text-emerald-800 flex items-center gap-1 font-medium">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>Subscribed! Check inbox for wholesale catalogue PDF.</span>
                 </p>
               ) : (
-                <p className="text-[10px] text-[#767168]">
+                <p className="text-xs text-[#6C6863]">
                   Direct catalogue supply. Zero spam. Unsubscribe at any time.
                 </p>
               )}
@@ -143,10 +143,10 @@ export function InCommonFooter({
           </div>
 
           {/* Only Essential Catalogue Navigation */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-[#767168]">
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-[#6C6863]">
             {/* Column 1: Core Categories */}
-            <div className="space-y-2">
-              <span className="text-[11px] uppercase tracking-wider text-[#1A1A1A] font-semibold block mb-3">
+            <div className="space-y-2.5">
+              <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-3">
                 Core Categories
               </span>
               <button
