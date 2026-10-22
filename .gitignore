@@ -51,3 +51,5 @@ next-env.d.ts
 /inspect_mobbin.js
 __pycache__/
 
+
+.vercel
