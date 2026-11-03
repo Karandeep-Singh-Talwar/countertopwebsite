@@ -91,6 +91,14 @@ export function InCommonNav({
             >
               Porcelain Tiles
             </Link>
+            <Link
+              href="/visualizer"
+              className={`whitespace-nowrap cursor-pointer transition-opacity duration-200 hover:opacity-70 font-medium uppercase tracking-[0.2em] text-xs ${
+                showDarkText ? 'text-[#1A1A1A]' : 'text-white'
+              }`}
+            >
+              Visualize
+            </Link>
           </nav>
         </div>
 
@@ -157,6 +165,13 @@ export function InCommonNav({
             className="block w-full text-left py-2 text-sm uppercase tracking-wider font-medium"
           >
             Porcelain Tiles
+          </Link>
+          <Link
+            href="/visualizer"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block w-full text-left py-2 text-sm uppercase tracking-wider font-medium"
+          >
+            Visualize In Your Kitchen
           </Link>
           <Link
             href="/#savings-calculator"
