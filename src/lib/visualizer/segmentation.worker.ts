@@ -62,13 +62,38 @@ function onDownloadProgress(event: unknown) {
   post({ type: 'progress', stage: 'download', progress: (sumLoaded / sumTotal) * 100 });
 }
 
+type GpuNavigator = Navigator & { gpu?: { requestAdapter: () => Promise<unknown | null> } };
+
+let gpuProbe: Promise<boolean> | null = null;
+/** Set once the GPU path has failed; everything after runs on the CPU. */
+let cpuOnly = false;
+
+/**
+ * `navigator.gpu` existing is not enough: Brave, some Linux setups and
+ * blocklisted drivers expose the API but return no adapter, and the model
+ * then fails with "no available backend found". Ask for a real adapter.
+ */
+function hasUsableGpu(): Promise<boolean> {
+  gpuProbe ??= (async () => {
+    const { gpu } = self.navigator as GpuNavigator;
+    if (!gpu) return false;
+    try {
+      return (await gpu.requestAdapter()) !== null;
+    } catch {
+      return false;
+    }
+  })();
+  return gpuProbe;
+}
+
 async function load<T>(task: 'image-segmentation' | 'depth-estimation', model: string): Promise<T> {
-  const hasWebGpu = 'gpu' in navigator;
+  const device = !cpuOnly && (await hasUsableGpu()) ? 'webgpu' : 'wasm';
   try {
-    return (await pipeline(task, model, { device: hasWebGpu ? 'webgpu' : 'wasm', progress_callback: onDownloadProgress })) as T;
+    return (await pipeline(task, model, { device, progress_callback: onDownloadProgress })) as T;
   } catch (error: unknown) {
-    if (!hasWebGpu) throw error;
-    // Some GPUs advertise WebGPU but fail to compile the model; CPU still works.
+    if (device === 'wasm') throw error;
+    // The GPU was offered but the model would not start on it; the CPU still works.
+    cpuOnly = true;
     return (await pipeline(task, model, { device: 'wasm', progress_callback: onDownloadProgress })) as T;
   }
 }
@@ -89,33 +114,50 @@ async function estimateDisparity(image: RawImage): Promise<Float32Array | null> 
   }
 }
 
+type ResultMessage = Extract<SegmentationMessage, { type: 'result' }>;
+
+async function analyse(width: number, height: number, pixels: Uint8ClampedArray): Promise<ResultMessage> {
+  segmenter ??= load<ImageSegmentationPipeline>('image-segmentation', SEGMENTATION_MODEL);
+  const image = new RawImage(pixels, width, height, 4);
+  const disparityPromise = estimateDisparity(image);
+  const model = await segmenter;
+  post({ type: 'progress', stage: 'inference', progress: null });
+
+  const output = await model(image);
+  const segments = output
+    .filter((s) => s.label !== null && WANTED_LABELS.has(s.label))
+    .map((s) => ({ label: s.label as string, mask: Uint8Array.from(s.mask.data) }));
+  const objects = new Uint8Array(width * height);
+  for (const s of output) {
+    if (s.label !== null && STRUCTURE_LABELS.has(s.label)) continue;
+    for (let i = 0; i < objects.length; i++) if (s.mask.data[i]) objects[i] = 255;
+  }
+  segments.push({ label: OBJECTS_LABEL, mask: objects });
+  const disparity = await disparityPromise;
+  const usableDisparity = disparity && disparity.length === width * height ? disparity : null;
+  return { type: 'result', width, height, segments, disparity: usableDisparity };
+}
+
 self.onmessage = async (event: MessageEvent<SegmentationRequest>) => {
   const { width, height, pixels } = event.data;
   try {
-    segmenter ??= load<ImageSegmentationPipeline>('image-segmentation', SEGMENTATION_MODEL);
-    const image = new RawImage(pixels, width, height, 4);
-    const disparityPromise = estimateDisparity(image);
-    const model = await segmenter;
-    post({ type: 'progress', stage: 'inference', progress: null });
-
-    const output = await model(image);
-    const segments = output
-      .filter((s) => s.label !== null && WANTED_LABELS.has(s.label))
-      .map((s) => ({ label: s.label as string, mask: Uint8Array.from(s.mask.data) }));
-    const objects = new Uint8Array(width * height);
-    for (const s of output) {
-      if (s.label !== null && STRUCTURE_LABELS.has(s.label)) continue;
-      for (let i = 0; i < objects.length; i++) if (s.mask.data[i]) objects[i] = 255;
+    let result: ResultMessage;
+    try {
+      result = await analyse(width, height, pixels);
+    } catch (gpuError: unknown) {
+      // GPU backends can start fine and only fail on first use; rebuild everything on the CPU once.
+      if (cpuOnly) throw gpuError;
+      cpuOnly = true;
+      segmenter = null;
+      depthEstimator = null;
+      result = await analyse(width, height, pixels);
     }
-    segments.push({ label: OBJECTS_LABEL, mask: objects });
-    const disparity = await disparityPromise;
-    const usableDisparity = disparity && disparity.length === width * height ? disparity : null;
-
-    const transfer: Transferable[] = segments.map((s) => s.mask.buffer);
-    if (usableDisparity) transfer.push(usableDisparity.buffer);
-    post({ type: 'result', width, height, segments, disparity: usableDisparity }, transfer);
-  } catch (error: unknown) {
+    const transfer: Transferable[] = result.segments.map((s) => s.mask.buffer);
+    if (result.disparity) transfer.push(result.disparity.buffer);
+    post(result, transfer);
+  } catch {
     segmenter = null;
-    post({ type: 'error', message: error instanceof Error ? error.message : 'Surface detection failed' });
+    depthEstimator = null;
+    post({ type: 'error', message: 'Automatic detection could not run in this browser.' });
   }
 };

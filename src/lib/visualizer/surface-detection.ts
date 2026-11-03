@@ -51,17 +51,37 @@ function getWorker(): Worker {
   return worker;
 }
 
+/** Slow phones on CPU can take a while, but never leave the user staring at a spinner forever. */
+const DETECTION_TIMEOUT_MS = 180_000;
+
 function runWorker(request: SegmentationRequest, onProgress: (p: DetectionProgress) => void) {
   return new Promise<Extract<SegmentationMessage, { type: 'result' }>>((resolve, reject) => {
     const w = getWorker();
+    const cleanup = () => {
+      clearTimeout(timer);
+      w.removeEventListener('message', handle);
+      w.removeEventListener('error', crashed);
+      w.removeEventListener('messageerror', crashed);
+    };
+    const fail = (message: string) => {
+      cleanup();
+      // A crashed or stuck worker cannot be reused; the next photo gets a fresh one.
+      w.terminate();
+      worker = null;
+      reject(new Error(message));
+    };
     const handle = (event: MessageEvent<SegmentationMessage>) => {
       const message = event.data;
       if (message.type === 'progress') return onProgress(message);
-      w.removeEventListener('message', handle);
+      cleanup();
       if (message.type === 'result') resolve(message);
       else reject(new Error(message.message));
     };
+    const crashed = () => fail('Automatic detection could not start in this browser.');
+    const timer = setTimeout(() => fail('Automatic detection took too long.'), DETECTION_TIMEOUT_MS);
     w.addEventListener('message', handle);
+    w.addEventListener('error', crashed);
+    w.addEventListener('messageerror', crashed);
     w.postMessage(request, [request.pixels.buffer]);
   });
 }
