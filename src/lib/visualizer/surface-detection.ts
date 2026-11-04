@@ -17,7 +17,7 @@ import {
   upwardFacing,
 } from './plane-analysis';
 import type { SegmentationMessage, SegmentationRequest } from './segmentation.worker';
-import { OBJECTS_LABEL, type PaintableAreas, type SurfaceKind, type SurfaceMask } from './types';
+import { HORIZONTAL_KINDS, OBJECTS_LABEL, type PaintableAreas, type SurfaceKind, type SurfaceMask } from './types';
 
 /** Inference resolution. Masks are upsampled bilinearly in the shader. */
 const DETECTION_EDGE = 640;
@@ -201,7 +201,7 @@ export async function detectSurfaces(
   const kinds: SurfaceKind[] = ['countertop', 'backsplash', 'floor'];
 
   const surfaces = kinds.flatMap((kind) => {
-    const regions = candidates[kind].flatMap((mask) => describeRegions(mask, MIN_REGION_AREA[kind]));
+    const regions = candidates[kind].flatMap((mask) => describeRegions(mask, MIN_REGION_AREA[kind], HORIZONTAL_KINDS.has(kind)));
     return regions
       .sort((a, b) => b.area - a.area)
       .slice(0, MAX_REGIONS[kind])

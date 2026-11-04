@@ -1,36 +1,28 @@
 // Converts the editable Surface model into what the GPU needs for one draw.
 
 import { quadToSquare, type Point, type Quad } from './homography';
+import type { LightMap } from './light-map';
 import { sampleMaskedLuminance, sampleSurfaceLuminance, summarizeLuminance } from './lighting';
+import { apparentSize, SLAB_FACE_SPAN } from './surface-metrics';
 import type { SurfaceDrawSpec } from './surface-renderer';
-import { HORIZONTAL_KINDS, type Surface, type VisualizerProduct } from './types';
+import type { Surface, VisualizerProduct } from './types';
 
 /** Catalog slabs are 600x1200 mm, so width / height of the texture image. */
 const TEXTURE_ASPECT = 0.5;
 
+const quadDimensions = (surface: Surface) => apparentSize(surface.kind, surface.corners);
+
 /**
- * A countertop or floor seen from standing height is squashed vertically in the
- * photo. Stretching its measured depth by this factor approximates the real
- * depth so the pattern is not visibly elongated front-to-back.
+ * Texture repeats in (s, t). Measured against the photo rather than the quad,
+ * so a narrow wall and a wide one show veins at the same size; slab pixels
+ * also stay square on the approximate real surface.
  */
-const HORIZONTAL_FORESHORTENING = 2.5;
-
-const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
-
-function quadDimensions(surface: Surface): { width: number; height: number } {
-  const [tl, tr, br, bl] = surface.corners;
-  const width = (distance(tl, tr) + distance(bl, br)) / 2;
-  const rawHeight = (distance(tl, bl) + distance(tr, br)) / 2;
-  const height = HORIZONTAL_KINDS.has(surface.kind) ? rawHeight * HORIZONTAL_FORESHORTENING : rawHeight;
-  return { width, height };
-}
-
-/** Texture repeats in (s, t) so slab pixels stay square on the approximate real surface. */
-export function computeRepeat(surface: Surface): [number, number] {
+export function computeRepeat(surface: Surface, photoWidth: number): [number, number] {
   const { width, height } = quadDimensions(surface);
   const [sLen, tLen] = surface.rotated ? [height, width] : [width, height];
-  if (sLen <= 0) return [surface.scale, surface.scale];
-  return [surface.scale, (surface.scale * tLen * TEXTURE_ASPECT) / sLen];
+  const face = SLAB_FACE_SPAN * photoWidth;
+  if (face <= 0) return [surface.scale, surface.scale];
+  return [(surface.scale * sLen) / face, (surface.scale * tLen * TEXTURE_ASPECT) / face];
 }
 
 /**
@@ -65,13 +57,15 @@ export function buildDrawSpec(
   product: VisualizerProduct | undefined,
   baseLuminance: number,
   shadeStrength: number,
+  photoWidth: number,
+  light: LightMap,
 ): SurfaceDrawSpec | null {
   const toSquare = quadToSquare(surface.corners);
   if (!toSquare || !product) return null;
   return {
     toSquare,
     textureUrl: product.texture,
-    repeat: computeRepeat(surface),
+    repeat: computeRepeat(surface, photoWidth),
     rotated: surface.rotated,
     tiled: surface.layout === 'tile',
     // The shader grids in (s, t); when rotated, s runs along the quad's height.
@@ -80,5 +74,6 @@ export function buildDrawSpec(
     shadeStrength,
     mask: surface.mask,
     clipToQuad: surface.clipToQuad ?? false,
+    light,
   };
 }

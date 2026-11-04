@@ -4,6 +4,7 @@
 // shadows, under-cabinet light and reflections carry over onto the new stone.
 
 import { toColumnMajor, type Mat3 } from './homography';
+import type { LightMap } from './light-map';
 import type { SurfaceMask } from './types';
 
 export interface SurfaceDrawSpec {
@@ -20,6 +21,8 @@ export interface SurfaceDrawSpec {
   mask?: SurfaceMask;
   /** Also trim to the quad: hand-placed surfaces cover only where quad and mask overlap. */
   clipToQuad: boolean;
+  /** Smoothed lighting for this surface; the old surface's pattern is blurred out of it. */
+  light: LightMap;
 }
 
 export interface SurfaceRenderer {
@@ -47,6 +50,7 @@ precision highp float;
 uniform sampler2D uPhoto;
 uniform sampler2D uMaterial;
 uniform sampler2D uMask;
+uniform sampler2D uLight;
 uniform bool uHasMask;
 uniform bool uClipToQuad;
 uniform vec2 uResolution;
@@ -97,10 +101,13 @@ void main() {
     material = texture(uMaterial, st * uRepeat).rgb;
   }
 
-  float lum = dot(texture(uPhoto, p / uResolution).rgb, vec3(0.2126, 0.7152, 0.0722));
+  float lum = texture(uLight, p / uResolution).r;
   float shade = clamp(lum / max(uBaseLum, 0.05), 0.3, 1.8);
   outColor = vec4(material * mix(1.0, shade, uShadeStrength), alpha);
 }`;
+
+/** Texture unit reserved for uploads; units 0-3 hold photo, slab, mask and light during draws. */
+const UPLOAD_UNIT = (gl: WebGL2RenderingContext) => gl.TEXTURE7;
 
 function compile(gl: WebGL2RenderingContext, type: number, source: string): WebGLShader {
   const shader = gl.createShader(type);
@@ -143,6 +150,7 @@ export function createSurfaceRenderer(
   const materials = new Map<string, WebGLTexture | 'loading' | 'failed'>();
   // Masks are immutable, so object identity is a safe cache key.
   const masks = new Map<SurfaceMask, WebGLTexture>();
+  const lights = new Map<LightMap, WebGLTexture>();
   let disposed = false;
 
   const uniform = (program: WebGLProgram, name: string) => gl.getUniformLocation(program, name);
@@ -158,6 +166,7 @@ export function createSurfaceRenderer(
     image.onload = () => {
       if (disposed) return;
       const texture = gl.createTexture();
+      gl.activeTexture(UPLOAD_UNIT(gl));
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
@@ -179,30 +188,41 @@ export function createSurfaceRenderer(
     return null;
   }
 
-  function loadMask(mask: SurfaceMask): WebGLTexture | null {
-    const cached = masks.get(mask);
-    if (cached) return cached;
+  /** Uploads a single-channel byte image (mask or light map) as a linearly filtered texture. */
+  function uploadR8(image: { width: number; height: number; data: Uint8Array }): WebGLTexture | null {
     const texture = gl.createTexture();
     if (!texture) return null;
+    // Upload on a spare unit: binding on whichever unit is active mid-draw would
+    // silently replace the slab texture already bound there.
+    const previousUnit = gl.getParameter(gl.ACTIVE_TEXTURE) as number;
+    gl.activeTexture(UPLOAD_UNIT(gl));
     gl.bindTexture(gl.TEXTURE_2D, texture);
     // Single-byte rows of odd width are not 4-byte aligned.
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, mask.width, mask.height, 0, gl.RED, gl.UNSIGNED_BYTE, mask.data);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, image.width, image.height, 0, gl.RED, gl.UNSIGNED_BYTE, image.data);
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    masks.set(mask, texture);
+    gl.activeTexture(previousUnit);
     return texture;
   }
 
-  /** Frees textures of masks that no longer belong to any surface. */
-  function pruneMasks(inUse: ReadonlySet<SurfaceMask>) {
-    masks.forEach((texture, mask) => {
-      if (inUse.has(mask)) return;
+  function cached<K extends object>(cache: Map<K, WebGLTexture>, key: K, image: { width: number; height: number; data: Uint8Array }) {
+    const hit = cache.get(key);
+    if (hit) return hit;
+    const texture = uploadR8(image);
+    if (texture) cache.set(key, texture);
+    return texture;
+  }
+
+  /** Frees textures whose mask or light map no longer belongs to any surface. */
+  function prune<K extends object>(cache: Map<K, WebGLTexture>, inUse: ReadonlySet<K>) {
+    cache.forEach((texture, key) => {
+      if (inUse.has(key)) return;
       gl.deleteTexture(texture);
-      masks.delete(mask);
+      cache.delete(key);
     });
   }
 
@@ -238,6 +258,7 @@ export function createSurfaceRenderer(
     gl.uniform1i(uniform(surfaceProgram, 'uPhoto'), 0);
     gl.uniform1i(uniform(surfaceProgram, 'uMaterial'), 1);
     gl.uniform1i(uniform(surfaceProgram, 'uMask'), 2);
+    gl.uniform1i(uniform(surfaceProgram, 'uLight'), 3);
     gl.uniform2f(uniform(surfaceProgram, 'uResolution'), canvas.width, canvas.height);
 
     for (const spec of surfaces) {
@@ -252,20 +273,24 @@ export function createSurfaceRenderer(
       gl.uniform2f(uniform(surfaceProgram, 'uTileGrid'), spec.tileGrid[0], spec.tileGrid[1]);
       gl.uniform1f(uniform(surfaceProgram, 'uBaseLum'), spec.baseLuminance);
       gl.uniform1f(uniform(surfaceProgram, 'uShadeStrength'), spec.shadeStrength);
-      const maskTexture = spec.mask ? loadMask(spec.mask) : null;
+      const maskTexture = spec.mask ? cached(masks, spec.mask, spec.mask) : null;
       gl.uniform1i(uniform(surfaceProgram, 'uHasMask'), maskTexture ? 1 : 0);
       gl.uniform1i(uniform(surfaceProgram, 'uClipToQuad'), spec.clipToQuad ? 1 : 0);
       gl.activeTexture(gl.TEXTURE2);
       gl.bindTexture(gl.TEXTURE_2D, maskTexture);
+      gl.activeTexture(gl.TEXTURE3);
+      gl.bindTexture(gl.TEXTURE_2D, cached(lights, spec.light, spec.light));
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     }
-    pruneMasks(new Set(surfaces.flatMap((s) => (s.mask ? [s.mask] : []))));
+    prune(masks, new Set(surfaces.flatMap((s) => (s.mask ? [s.mask] : []))));
+    prune(lights, new Set(surfaces.map((s) => s.light)));
   }
 
   function dispose() {
     disposed = true;
     materials.forEach((t) => t instanceof WebGLTexture && gl.deleteTexture(t));
     masks.forEach((t) => gl.deleteTexture(t));
+    lights.forEach((t) => gl.deleteTexture(t));
     gl.deleteTexture(photoTexture);
     gl.deleteProgram(photoProgram);
     gl.deleteProgram(surfaceProgram);

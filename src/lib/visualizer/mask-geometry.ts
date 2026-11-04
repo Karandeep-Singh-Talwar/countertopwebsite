@@ -3,7 +3,7 @@
 // Roomvo does this with per-plane 3D fitting on its servers; a hull-based quad
 // is the lightweight in-browser approximation (users can still drag corners).
 
-import type { Point, Quad } from './homography';
+import { isConvexQuad, type Point, type Quad } from './homography';
 import type { SurfaceMask } from './types';
 
 export interface MaskRegion {
@@ -141,10 +141,102 @@ export function centroid(mask: SurfaceMask): Point {
   return best;
 }
 
-export function describeRegions(mask: SurfaceMask, minAreaFraction: number): MaskRegion[] {
+/** Line y = slope * x + intercept. */
+interface Line {
+  slope: number;
+  intercept: number;
+}
+
+function leastSquares(xs: readonly number[], ys: readonly number[]): Line | null {
+  const n = xs.length;
+  if (n < 2) return null;
+  let sx = 0;
+  let sy = 0;
+  let sxx = 0;
+  let sxy = 0;
+  for (let i = 0; i < n; i++) {
+    sx += xs[i];
+    sy += ys[i];
+    sxx += xs[i] * xs[i];
+    sxy += xs[i] * ys[i];
+  }
+  const det = n * sxx - sx * sx;
+  if (Math.abs(det) < 1e-9) return null;
+  const slope = (n * sxy - sx * sy) / det;
+  return { slope, intercept: (sy - slope * sx) / n };
+}
+
+/**
+ * Least squares, then refit on the 70% of points closest to the first line:
+ * a pot poking above the counter or a cabinet cutting into the wall is an
+ * outlier, not evidence about the edge.
+ */
+function robustLine(xs: readonly number[], ys: readonly number[]): Line | null {
+  const first = leastSquares(xs, ys);
+  if (!first) return null;
+  const residuals = xs.map((x, i) => ({ i, r: Math.abs(ys[i] - (first.slope * x + first.intercept)) }));
+  residuals.sort((a, b) => a.r - b.r);
+  const keep = residuals.slice(0, Math.max(2, Math.floor(residuals.length * 0.7))).map((e) => e.i);
+  return leastSquares(keep.map((i) => xs[i]), keep.map((i) => ys[i])) ?? first;
+}
+
+const percentile = (sorted: readonly number[], p: number) => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))];
+
+/** How far a horizontal surface's far corners move toward the photo's centre line. */
+const FAR_EDGE_CONVERGENCE = 0.2;
+
+/**
+ * Perspective quad from straight lines fitted to the region's top and bottom
+ * boundaries. Walls keep vertical sides (a phone held level keeps verticals
+ * vertical); counters and floors narrow toward their far edge. Far steadier
+ * than hull extremes, which jump to whatever odd pixel sticks out furthest.
+ */
+export function fitPerspectiveQuad(mask: SurfaceMask, horizontal: boolean): Quad | null {
+  const { width, height, data } = mask;
+  const xs: number[] = [];
+  const tops: number[] = [];
+  const bottoms: number[] = [];
+  for (let x = 0; x < width; x++) {
+    let top = -1;
+    let bottom = -1;
+    for (let y = 0; y < height; y++) {
+      if (!data[y * width + x]) continue;
+      if (top === -1) top = y;
+      bottom = y;
+    }
+    if (top === -1) continue;
+    xs.push(x);
+    tops.push(top);
+    bottoms.push(bottom);
+  }
+  if (xs.length < 4) return null;
+  const topLine = robustLine(xs, tops);
+  const bottomLine = robustLine(xs, bottoms);
+  if (!topLine || !bottomLine) return null;
+
+  // Ignore a few straggler columns at either end.
+  const left = percentile(xs, 0.02);
+  const right = percentile(xs, 0.98) + 1;
+  const at = (line: Line, x: number) => line.slope * x + line.intercept;
+  const centre = width / 2;
+  const farLeft = horizontal ? left + (centre - left) * FAR_EDGE_CONVERGENCE : left;
+  const farRight = horizontal ? right - (right - centre) * FAR_EDGE_CONVERGENCE : right;
+
+  const quad: Quad = [
+    { x: farLeft, y: at(topLine, farLeft) },
+    { x: farRight, y: at(topLine, farRight) },
+    { x: right, y: at(bottomLine, right) + 1 },
+    { x: left, y: at(bottomLine, left) + 1 },
+  ];
+  // A usable plane needs real height on both sides.
+  const minHeight = Math.min(quad[3].y - quad[0].y, quad[2].y - quad[1].y);
+  return minHeight >= 2 && isConvexQuad(quad) ? quad : null;
+}
+
+export function describeRegions(mask: SurfaceMask, minAreaFraction: number, horizontal = false): MaskRegion[] {
   const total = mask.width * mask.height;
   return connectedRegions(mask, minAreaFraction).flatMap((region) => {
-    const quad = hullToQuad(convexHull(region));
+    const quad = fitPerspectiveQuad(region, horizontal) ?? hullToQuad(convexHull(region));
     if (!quad) return [];
     const area = region.data.reduce((sum, v) => sum + (v ? 1 : 0), 0) / total;
     return [{ mask: region, area, quad, centroid: centroid(region) }];

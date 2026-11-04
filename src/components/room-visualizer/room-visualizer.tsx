@@ -5,6 +5,7 @@ import { Download, Eye, RefreshCcw, ArrowRight, Loader2, ImageUp } from 'lucide-
 import { PORCELAIN_CATALOG } from '@/data/porcelain-catalog-data';
 import type { Quad } from '@/lib/visualizer/homography';
 import { createSurfaceRenderer, type SurfaceRenderer } from '@/lib/visualizer/surface-renderer';
+import { buildLightMap, lightLuminance, type LightMap } from '@/lib/visualizer/light-map';
 import { detectSurfaces } from '@/lib/visualizer/surface-detection';
 import { buildDrawSpec, estimateBaseLuminance, matchTileGrid } from '@/lib/visualizer/surface-spec';
 import {
@@ -30,6 +31,9 @@ const PRODUCTS: VisualizerProduct[] = PORCELAIN_CATALOG.map((m) => ({
 }));
 
 const LUMA_WIDTH = 320;
+
+/** Light maps keyed by mask (or luminance buffer), so they are built once per detected area. */
+const LIGHT_CACHE = new WeakMap<object, LightMap>();
 
 const productIdOr = (id: string) => (PRODUCTS.some((p) => p.id === id) ? id : PRODUCTS[0].id);
 
@@ -105,19 +109,41 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
     [photo],
   );
 
+  const lightSource = useMemo(() => (photo ? lightLuminance(photo) : null), [photo]);
+
+  // One smoothed light map per mask (or one shared map for hand-placed areas without one).
+  // Cached by object identity, so dragging corners never recomputes them.
+  const lightMaps = useMemo(() => {
+    if (!lightSource) return new Map<string, LightMap>();
+    return new Map(
+      surfaces.map((s) => {
+        const key: object = s.mask ?? lightSource.luma;
+        let light = LIGHT_CACHE.get(key);
+        if (!light) {
+          light = buildLightMap(lightSource, s.mask);
+          LIGHT_CACHE.set(key, light);
+        }
+        return [s.id, light];
+      }),
+    );
+  }, [lightSource, surfaces]);
+
   const baseLuminance = useMemo(() => {
     if (!photo || !lumaCanvas) return new Map<string, number>();
     return new Map(surfaces.map((s) => [s.id, estimateBaseLuminance(lumaCanvas, photo.width, s)]));
   }, [photo, lumaCanvas, surfaces]);
 
   useEffect(() => {
-    if (!renderer) return;
+    if (!renderer || !photo) return;
     const specs = surfaces.flatMap((s) => {
-      const spec = buildDrawSpec(s, PRODUCTS.find((p) => p.id === s.productId), baseLuminance.get(s.id) ?? 0.5, shadeStrength);
+      const light = lightMaps.get(s.id);
+      if (!light) return [];
+      const product = PRODUCTS.find((p) => p.id === s.productId);
+      const spec = buildDrawSpec(s, product, baseLuminance.get(s.id) ?? 0.5, shadeStrength, photo.width, light);
       return spec ? [spec] : [];
     });
     renderer.render(specs, showOriginal);
-  }, [renderer, surfaces, baseLuminance, shadeStrength, showOriginal, textureTick]);
+  }, [renderer, photo, surfaces, lightMaps, baseLuminance, shadeStrength, showOriginal, textureTick]);
 
   const runDetection = async (next: HTMLCanvasElement, token: number) => {
     const size = { width: next.width, height: next.height };

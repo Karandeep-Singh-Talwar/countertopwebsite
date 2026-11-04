@@ -1,4 +1,5 @@
 import type { Point, Quad } from './homography';
+import { defaultTileGrid } from './surface-metrics';
 
 export type SurfaceKind = 'countertop' | 'backsplash' | 'floor';
 
@@ -70,12 +71,6 @@ const DEFAULT_FRAMES: Record<SurfaceKind, readonly [number, number, number, numb
   floor: [0.25, 0.82, 0.75, 0.98, -0.2],
 };
 
-const DEFAULT_TILE_GRID: Record<SurfaceKind, readonly [number, number]> = {
-  countertop: [2, 1],
-  backsplash: [6, 2],
-  floor: [4, 3],
-};
-
 interface SurfaceOptions {
   corners?: Quad;
   mask?: SurfaceMask;
@@ -97,7 +92,7 @@ export function createSurface(kind: SurfaceKind, productId: string, size: PhotoS
     { x: w * (r - inset), y: h * b },
     { x: w * (l + inset), y: h * b },
   ];
-  const [tileColumns, tileRows] = DEFAULT_TILE_GRID[kind];
+  const { tileColumns, tileRows } = defaultTileGrid(kind, corners, size.width);
 
   surfaceCounter += 1;
   return {
