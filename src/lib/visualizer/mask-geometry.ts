@@ -184,12 +184,23 @@ const percentile = (sorted: readonly number[], p: number) => sorted[Math.min(sor
 
 /** How far a horizontal surface's far corners move toward the photo's centre line. */
 const FAR_EDGE_CONVERGENCE = 0.2;
+/** Counters and floors get at least this much depth (share of photo height); thinner boxes smear the pattern. */
+const MIN_HORIZONTAL_DEPTH = 0.08;
+/** Steepest believable top/bottom edge for a wall in a level phone photo. */
+const MAX_WALL_SLOPE = 0.35;
+/** A wall box whose sides differ in height more than this is a bad fit, not perspective. */
+const MAX_SIDE_RATIO = 3;
+/** Walls narrower than this share of the photo are too thin to judge perspective from. */
+const MIN_PERSPECTIVE_WIDTH = 0.06;
+
+const clampSlope = (line: Line): Line => ({ ...line, slope: Math.max(-MAX_WALL_SLOPE, Math.min(MAX_WALL_SLOPE, line.slope)) });
 
 /**
- * Perspective quad from straight lines fitted to the region's top and bottom
- * boundaries. Walls keep vertical sides (a phone held level keeps verticals
- * vertical); counters and floors narrow toward their far edge. Far steadier
- * than hull extremes, which jump to whatever odd pixel sticks out furthest.
+ * Perspective quad for a region. Walls use straight lines fitted to their top
+ * and bottom boundaries with vertical sides (a phone held level keeps verticals
+ * vertical); counters and floors use horizontal far/near edges and narrow
+ * toward the far edge. Far steadier than hull extremes, which jump to whatever
+ * odd pixel sticks out furthest.
  */
 export function fitPerspectiveQuad(mask: SurfaceMask, horizontal: boolean): Quad | null {
   const { width, height, data } = mask;
@@ -210,14 +221,47 @@ export function fitPerspectiveQuad(mask: SurfaceMask, horizontal: boolean): Quad
     bottoms.push(bottom);
   }
   if (xs.length < 4) return null;
-  const topLine = robustLine(xs, tops);
-  const bottomLine = robustLine(xs, bottoms);
-  if (!topLine || !bottomLine) return null;
+  // Floors and counters often run diagonally (an L-shaped counter, a corridor
+  // floor beside the toe-kicks), so a line fitted to their top boundary tilts
+  // and shears the tile grid into a fan. Their far and near edges are taken
+  // as horizontal at the area's far and near extent instead.
+  const sortedTops = [...tops].sort((a, b) => a - b);
+  const sortedBottoms = [...bottoms].sort((a, b) => a - b);
+  const flatTop: Line = { slope: 0, intercept: percentile(sortedTops, 0.1) };
+  const flatBottom: Line = { slope: 0, intercept: percentile(sortedBottoms, 0.9) };
 
   // Ignore a few straggler columns at either end.
   const left = percentile(xs, 0.02);
   const right = percentile(xs, 0.98) + 1;
   const at = (line: Line, x: number) => line.slope * x + line.intercept;
+
+  let topLine: Line | null = flatTop;
+  let bottomLine: Line | null = flatBottom;
+  if (horizontal) {
+    // A sliver of counter would otherwise get a box a few pixels deep and smear the slab.
+    const minDepth = MIN_HORIZONTAL_DEPTH * height;
+    if (flatBottom.intercept - flatTop.intercept < minDepth) topLine = { slope: 0, intercept: Math.max(0, flatBottom.intercept - minDepth) };
+  } else if (right - left >= MIN_PERSPECTIVE_WIDTH * width) {
+    const fittedTop = robustLine(xs, tops);
+    const fittedBottom = robustLine(xs, bottoms);
+    if (fittedTop && fittedBottom) {
+      const t = clampSlope(fittedTop);
+      const b = clampSlope(fittedBottom);
+      // Re-anchor clamped lines through the boundary's middle so clamping does not shift them.
+      const mid = (left + right) / 2;
+      const anchor = (line: Line, fitted: Line): Line => ({ slope: line.slope, intercept: at(fitted, mid) - line.slope * mid });
+      const top = anchor(t, fittedTop);
+      const bottom = anchor(b, fittedBottom);
+      const leftSide = at(bottom, left) - at(top, left);
+      const rightSide = at(bottom, right) - at(top, right);
+      const ratio = Math.max(leftSide, rightSide) / Math.max(1, Math.min(leftSide, rightSide));
+      // Wildly unequal sides mean a fragment-skewed fit: keep the plain box instead.
+      if (leftSide > 0 && rightSide > 0 && ratio <= MAX_SIDE_RATIO) {
+        topLine = top;
+        bottomLine = bottom;
+      }
+    }
+  }
   const centre = width / 2;
   const farLeft = horizontal ? left + (centre - left) * FAR_EDGE_CONVERGENCE : left;
   const farRight = horizontal ? right - (right - centre) * FAR_EDGE_CONVERGENCE : right;
@@ -233,12 +277,25 @@ export function fitPerspectiveQuad(mask: SurfaceMask, horizontal: boolean): Quad
   return minHeight >= 2 && isConvexQuad(quad) ? quad : null;
 }
 
+/** Pieces of a plane smaller than this share of the photo are specks, not surface. */
+const SPECK_SHARE = 0.001;
+
+/**
+ * One surface per plane, keeping every real piece of it: shelves or a range
+ * cutting a backsplash into separate patches must not make the patches
+ * disappear. Specks are dropped, the perspective box is fitted to the whole
+ * plane so the pattern lines up across pieces, and the label pin sits on the
+ * biggest piece. Returns nothing if the plane is smaller than `minAreaFraction`.
+ */
 export function describeRegions(mask: SurfaceMask, minAreaFraction: number, horizontal = false): MaskRegion[] {
   const total = mask.width * mask.height;
-  return connectedRegions(mask, minAreaFraction).flatMap((region) => {
-    const quad = fitPerspectiveQuad(region, horizontal) ?? hullToQuad(convexHull(region));
-    if (!quad) return [];
-    const area = region.data.reduce((sum, v) => sum + (v ? 1 : 0), 0) / total;
-    return [{ mask: region, area, quad, centroid: centroid(region) }];
-  });
+  const pieces = connectedRegions(mask, SPECK_SHARE);
+  if (pieces.length === 0) return [];
+  const plane: SurfaceMask = { width: mask.width, height: mask.height, data: new Uint8Array(total) };
+  for (const piece of pieces) for (let i = 0; i < total; i++) if (piece.data[i]) plane.data[i] = 255;
+  const area = plane.data.reduce((sum, v) => sum + (v ? 1 : 0), 0) / total;
+  if (area < minAreaFraction) return [];
+  // connectedRegions returns pieces largest first.
+  const quad = fitPerspectiveQuad(plane, horizontal) ?? fitPerspectiveQuad(pieces[0], horizontal) ?? hullToQuad(convexHull(pieces[0]));
+  return quad ? [{ mask: plane, area, quad, centroid: centroid(pieces[0]) }] : [];
 }

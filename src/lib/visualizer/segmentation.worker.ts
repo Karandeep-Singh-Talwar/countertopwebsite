@@ -8,7 +8,7 @@ import {
   type DepthEstimationPipeline,
   type ImageSegmentationPipeline,
 } from '@huggingface/transformers';
-import { OBJECTS_LABEL } from './types';
+import { FIXTURES_LABEL, OBJECTS_LABEL } from './types';
 
 const SEGMENTATION_MODEL = 'Xenova/segformer-b2-finetuned-ade-512-512';
 const DEPTH_MODEL = 'onnx-community/depth-anything-v2-small';
@@ -21,7 +21,8 @@ const DEPTH_MODEL = 'onnx-community/depth-anything-v2-small';
 const WANTED_LABELS = new Set(['wall', 'floor', 'rug', 'countertop', 'counter', 'kitchen island', 'cabinet']);
 
 /** The room's shell. Every other label (stoves, pots, plants, people) is an object to keep in front. */
-const STRUCTURE_LABELS = new Set([...WANTED_LABELS, 'ceiling', 'windowpane', 'door', 'column', 'stairs']);
+const FIXTURE_LABELS = new Set(['ceiling', 'windowpane', 'door', 'column', 'stairs']);
+const STRUCTURE_LABELS = new Set([...WANTED_LABELS, ...FIXTURE_LABELS]);
 
 export type SegmentationRequest = {
   type: 'segment';
@@ -119,7 +120,6 @@ type ResultMessage = Extract<SegmentationMessage, { type: 'result' }>;
 async function analyse(width: number, height: number, pixels: Uint8ClampedArray): Promise<ResultMessage> {
   segmenter ??= load<ImageSegmentationPipeline>('image-segmentation', SEGMENTATION_MODEL);
   const image = new RawImage(pixels, width, height, 4);
-  const disparityPromise = estimateDisparity(image);
   const model = await segmenter;
   post({ type: 'progress', stage: 'inference', progress: null });
 
@@ -132,8 +132,15 @@ async function analyse(width: number, height: number, pixels: Uint8ClampedArray)
     if (s.label !== null && STRUCTURE_LABELS.has(s.label)) continue;
     for (let i = 0; i < objects.length; i++) if (s.mask.data[i]) objects[i] = 255;
   }
-  segments.push({ label: OBJECTS_LABEL, mask: objects });
-  const disparity = await disparityPromise;
+  const fixtures = new Uint8Array(width * height);
+  for (const s of output) {
+    if (s.label === null || !FIXTURE_LABELS.has(s.label)) continue;
+    for (let i = 0; i < fixtures.length; i++) if (s.mask.data[i]) fixtures[i] = 255;
+  }
+  segments.push({ label: OBJECTS_LABEL, mask: objects }, { label: FIXTURES_LABEL, mask: fixtures });
+  // Run the models one after another: the CPU (WASM) engine can corrupt its
+  // memory ("memory access out of bounds") when two sessions run at once.
+  const disparity = await estimateDisparity(image);
   const usableDisparity = disparity && disparity.length === width * height ? disparity : null;
   return { type: 'result', width, height, segments, disparity: usableDisparity };
 }

@@ -9,6 +9,7 @@
 // wall plane from another. This is the in-browser stand-in for Roomvo's
 // server-side depth + plane fitting.
 
+import { medianColor } from './surface-cleanup';
 import type { SurfaceMask } from './types';
 
 export interface DisparityGradients {
@@ -30,6 +31,16 @@ const LIP_STEP_RATIO = 2;
 const GROW_GRADIENT_RATIO = 0.3;
 /** Max RGB distance from the counter's own colour for pixels the model called an object. */
 const COUNTER_COLOR_TOLERANCE = 48;
+/** Objects taller than this share of the photo (a fridge) break a cabinet's link to the floor. */
+const MAX_OBJECT_RUN_SHARE = 0.15;
+/** Inside the counter zone, pixels this close to the counter colour (share of the tolerance) join it. */
+const ZONE_COLOR_SHARE = 0.8;
+/** ...and pixels this close start new growth on their own. */
+const ZONE_SEED_SHARE = 0.5;
+/** Cabinet-labelled pixels may differ from the counter colour this many times more (veins, glare). */
+const CABINET_COLOR_SLACK = 1.8;
+/** Colour checks while growing the counter compare a box-blurred photo of this radius (share of the longer side), so granite speckle averages out. */
+const COLOR_SMOOTHING_SHARE = 1 / 160;
 /** Walls turning away faster than this (relative to the floor) are side walls. */
 const SIDE_WALL_RATIO = 0.35;
 /** Floor pixels needed before trusting the floor as the gradient reference. */
@@ -181,12 +192,25 @@ export function extendUpward(base: SurfaceMask, candidate: SurfaceMask, rows: nu
   return out;
 }
 
-/** Splits wall pixels into left-facing, frontal and right-facing planes. */
+/** Facing is judged over a neighbourhood this wide (share of photo width), not per pixel. */
+const FACING_SMOOTHING = 0.03;
+
+/**
+ * Splits wall pixels into left-facing, frontal and right-facing planes. The
+ * sideways slope is averaged over nearby wall pixels first (blur of slope x
+ * wall / blur of wall), so a busy mosaic or star tile does not flip single
+ * pixels between planes and shatter the wall into fragments.
+ */
 export function splitByFacing(wall: SurfaceMask, gradients: DisparityGradients, reference: number): SurfaceMask[] {
+  const { width, height } = wall;
+  const radius = Math.max(2, Math.round(width * FACING_SMOOTHING));
+  const weight = Float32Array.from(wall.data, (v) => (v ? 1 : 0));
+  const slope = boxBlur(Float32Array.from(gradients.gu, (g, i) => g * weight[i]), width, height, radius);
+  const coverage = boxBlur(weight, width, height, radius);
   const groups = [emptyLike(wall), emptyLike(wall), emptyLike(wall)];
   for (let i = 0; i < wall.data.length; i++) {
     if (!wall.data[i]) continue;
-    const g = gradients.gu[i] / reference;
+    const g = slope[i] / Math.max(coverage[i], 1e-6) / reference;
     const group = g < -SIDE_WALL_RATIO ? 0 : g > SIDE_WALL_RATIO ? 2 : 1;
     groups[group].data[i] = 255;
   }
@@ -233,32 +257,28 @@ export function closeMask(mask: SurfaceMask, iterations: number): SurfaceMask {
 export function groundedCabinets(cabinets: SurfaceMask, floor: SurfaceMask | null, objects: SurfaceMask | null): SurfaceMask {
   const { width, height } = cabinets;
   const out = emptyLike(cabinets);
+  // A towel or a stool may stand in front of base cabinets; a fridge is too tall to.
+  const maxObjectRun = Math.round(height * MAX_OBJECT_RUN_SHARE);
   for (let x = 0; x < width; x++) {
     let grounded = true;
+    let objectRun = 0;
     for (let y = height - 1; y >= 0; y--) {
       const i = y * width + x;
       if (floor?.data[i]) {
         grounded = true;
+        objectRun = 0;
       } else if (cabinets.data[i]) {
         if (grounded) out.data[i] = 255;
-      } else if (!objects?.data[i]) {
+        objectRun = 0;
+      } else if (objects?.data[i]) {
+        objectRun++;
+        if (objectRun > maxObjectRun) grounded = false;
+      } else {
         grounded = false;
       }
     }
   }
   return out;
-}
-
-/** Median RGB of the photo under `mask`. */
-function medianColor(rgba: Uint8ClampedArray, mask: SurfaceMask): [number, number, number] | null {
-  const channels: number[][] = [[], [], []];
-  for (let i = 0; i < mask.data.length; i++) {
-    if (!mask.data[i]) continue;
-    for (let c = 0; c < 3; c++) channels[c].push(rgba[i * 4 + c]);
-  }
-  if (channels[0].length === 0) return null;
-  const median = (a: number[]) => a.sort((p, q) => p - q)[Math.floor(a.length / 2)];
-  return [median(channels[0]), median(channels[1]), median(channels[2])];
 }
 
 /**
@@ -275,18 +295,35 @@ export function growCounter(
   gradients: DisparityGradients,
   reference: number,
   rgba: Uint8ClampedArray,
+  zone: SurfaceMask | null = null,
 ): SurfaceMask {
-  const { width } = seeds;
+  const { width, height } = seeds;
   const { gu, gv } = gradients;
   const out: SurfaceMask = { ...seeds, data: Uint8Array.from(seeds.data) };
-  const color = medianColor(rgba, seeds);
+  const smooth = boxBlurRgba(rgba, width, height, Math.max(1, Math.round(Math.max(width, height) * COLOR_SMOOTHING_SHARE)));
+  const color = medianColor(smooth, seeds);
   const threshold = GROW_GRADIENT_RATIO * reference;
-  const matchesCounter = (i: number) =>
-    color !== null &&
-    Math.hypot(rgba[i * 4] - color[0], rgba[i * 4 + 1] - color[1], rgba[i * 4 + 2] - color[2]) < COUNTER_COLOR_TOLERANCE;
-  const accepts = (i: number) =>
-    gv[i] > threshold && Math.abs(gu[i]) < 1.2 * gv[i] && (cabinets.data[i] !== 0 || (objects?.data[i] && matchesCounter(i)));
+  const distance = (i: number) =>
+    color === null ? Infinity : Math.hypot(smooth[i * 4] - color[0], smooth[i * 4 + 1] - color[1], smooth[i * 4 + 2] - color[2]);
+  // Cabinet-labelled pixels get a looser colour check: enough to stop the
+  // counter creeping onto white cabinet or sink fronts, loose enough for veins.
+  const slopesUp = (i: number) =>
+    gv[i] > threshold &&
+    Math.abs(gu[i]) < 1.2 * gv[i] &&
+    ((cabinets.data[i] !== 0 && distance(i) < COUNTER_COLOR_TOLERANCE * CABINET_COLOR_SLACK) ||
+      (objects?.data[i] && distance(i) < COUNTER_COLOR_TOLERANCE));
+  // In the counter zone (just above the base cabinets) colour alone is enough:
+  // a counter seen nearly edge-on has no usable depth slope.
+  const inZone = (i: number) => zone !== null && zone.data[i] !== 0 && distance(i) < COUNTER_COLOR_TOLERANCE * ZONE_COLOR_SHARE;
+  const accepts = (i: number) => slopesUp(i) || inZone(i);
 
+  // Zone pixels that closely match the counter seed new growth too: counter runs
+  // separated by a range or a sink are not connected to the first seeds.
+  if (zone) {
+    for (let i = 0; i < out.data.length; i++) {
+      if (zone.data[i] && distance(i) < COUNTER_COLOR_TOLERANCE * ZONE_SEED_SHARE) out.data[i] = 255;
+    }
+  }
   const queue: number[] = [];
   for (let i = 0; i < out.data.length; i++) if (out.data[i]) queue.push(i);
   while (queue.length > 0) {
@@ -313,4 +350,139 @@ export function foreignObjects(objects: SurfaceMask, counter: SurfaceMask, rgba:
     if (!near) out.data[i] = 255;
   }
   return out;
+}
+
+/** Things nearer than the surrounding wall plane by this much normalised disparity are objects, not wall. */
+const PROTRUSION_MIN = 0.008;
+/** Neighbourhood (share of photo width) the local wall plane is fitted over. */
+const PROTRUSION_RADIUS = 0.08;
+/** A wall is "facing the camera" where its depth slope is below this share of the floor's. */
+const FRONTAL_SLOPE_RATIO = 0.25;
+
+/** Running-sum box filter: O(n) whatever the radius (Float64 for the regression sums). */
+function runningBoxSum(src: Float64Array, width: number, height: number, radius: number): Float64Array {
+  const pass = (input: Float64Array, horizontal: boolean) => {
+    const out = new Float64Array(input.length);
+    const lines = horizontal ? height : width;
+    const length = horizontal ? width : height;
+    const at = (line: number, k: number) => (horizontal ? line * width + k : k * width + line);
+    for (let line = 0; line < lines; line++) {
+      let sum = 0;
+      for (let k = 0; k < Math.min(radius, length); k++) sum += input[at(line, k)];
+      for (let k = 0; k < length; k++) {
+        if (k + radius < length) sum += input[at(line, k + radius)];
+        if (k - radius - 1 >= 0) sum -= input[at(line, k - radius - 1)];
+        out[at(line, k)] = sum;
+      }
+    }
+    return out;
+  };
+  return pass(pass(src, true), false);
+}
+
+/** Box-blurred copy of an RGBA image (alpha left opaque), as a new array. */
+function boxBlurRgba(rgba: Uint8ClampedArray, width: number, height: number, radius: number): Uint8ClampedArray {
+  const n = width * height;
+  const counts = runningBoxSum(new Float64Array(n).fill(1), width, height, radius);
+  const out = new Uint8ClampedArray(n * 4);
+  for (let c = 0; c < 3; c++) {
+    const channel = new Float64Array(n);
+    for (let i = 0; i < n; i++) channel[i] = rgba[i * 4 + c];
+    const sums = runningBoxSum(channel, width, height, radius);
+    for (let i = 0; i < n; i++) out[i * 4 + c] = sums[i] / counts[i];
+  }
+  for (let i = 0; i < n; i++) out[i * 4 + 3] = 255;
+  return out;
+}
+
+/**
+ * Fits the local wall plane over `weights` and flags pixels of `wall` standing
+ * out from it. Also returns the fitted plane's slope per pixel, which - unlike
+ * raw pixel slopes - is not inflated by the edges of objects on the wall.
+ */
+function flagAbovePlane(wall: SurfaceMask, depth: Float64Array, weights: Uint8Array, radius: number): { flags: SurfaceMask; slope: Float32Array } {
+  const { width, height } = wall;
+  const n = width * height;
+  const w = new Float64Array(n);
+  const moments = Array.from({ length: 8 }, () => new Float64Array(n));
+  const [wx, wy, wxx, wxy, wyy, wd, wxd, wyd] = moments;
+  for (let i = 0; i < n; i++) {
+    if (!weights[i]) continue;
+    const x = i % width;
+    const y = (i - x) / width;
+    const d = depth[i];
+    w[i] = 1;
+    wx[i] = x;
+    wy[i] = y;
+    wxx[i] = x * x;
+    wxy[i] = x * y;
+    wyy[i] = y * y;
+    wd[i] = d;
+    wxd[i] = x * d;
+    wyd[i] = y * d;
+  }
+  const S = runningBoxSum(w, width, height, radius);
+  const [Sx, Sy, Sxx, Sxy, Syy, Sd, Sxd, Syd] = moments.map((m) => runningBoxSum(m, width, height, radius));
+
+  const out = emptyLike(wall);
+  const slope = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    if (!wall.data[i] || S[i] < 12) continue;
+    // Solve the 3x3 normal equations for d = a + b*x + c*y (Cramer's rule).
+    const m00 = S[i], m01 = Sx[i], m02 = Sy[i], m11 = Sxx[i], m12 = Sxy[i], m22 = Syy[i];
+    const r0 = Sd[i], r1 = Sxd[i], r2 = Syd[i];
+    const det = m00 * (m11 * m22 - m12 * m12) - m01 * (m01 * m22 - m12 * m02) + m02 * (m01 * m12 - m11 * m02);
+    const x = i % width;
+    const y = (i - x) / width;
+    let predicted: number;
+    if (Math.abs(det) < 1e-6) {
+      predicted = r0 / m00;
+    } else {
+      const a = (r0 * (m11 * m22 - m12 * m12) - m01 * (r1 * m22 - m12 * r2) + m02 * (r1 * m12 - m11 * r2)) / det;
+      const b = (m00 * (r1 * m22 - m12 * r2) - r0 * (m01 * m22 - m12 * m02) + m02 * (m01 * r2 - r1 * m02)) / det;
+      const c = (m00 * (m11 * r2 - r1 * m12) - m01 * (m01 * r2 - r1 * m02) + r0 * (m01 * m12 - m11 * m02)) / det;
+      predicted = a + b * x + c * y;
+      slope[i] = Math.hypot(b, c);
+    }
+    if (depth[i] - predicted > PROTRUSION_MIN) out.data[i] = 255;
+  }
+  return { flags: out, slope };
+}
+
+/**
+ * Pixels of `wall` that stand out toward the camera from the wall plane
+ * around them: canisters, bottles and appliances the scene model mislabels
+ * as wall. Disparity is linear across any flat wall, so a weighted local
+ * linear fit (box-filtered moments) predicts the wall even where it recedes
+ * steeply into a corner. Two passes: a big object inside the window tilts
+ * the first fit toward itself, so the second fit leaves first-pass bumps out.
+ */
+export function protrusions(wall: SurfaceMask, disparity: Float32Array, reference: number): SurfaceMask {
+  const { width, height } = wall;
+  let min = Infinity;
+  let max = -Infinity;
+  for (const v of disparity) {
+    if (v < min) min = v;
+    if (v > max) max = v;
+  }
+  const range = max - min || 1;
+  const depth = Float64Array.from(disparity, (v) => (v - min) / range);
+  const radius = Math.max(3, Math.round(width * PROTRUSION_RADIUS));
+  const first = flagAbovePlane(wall, depth, wall.data, radius).flags;
+  const wallOnly = Uint8Array.from(wall.data, (v, i) => (v && !first.data[i] ? 255 : 0));
+  const { flags: second, slope: planeSlope } = flagAbovePlane(wall, depth, wallOnly, radius);
+  for (let i = 0; i < second.data.length; i++) if (first.data[i]) second.data[i] = 255;
+
+  // Where the wall faces the camera, a plain local average is the sharper
+  // test (mid-size objects cannot tilt it). On receding walls it would
+  // misfire, so it only applies where the wall's own depth slope is small.
+  const weight = Float32Array.from(wallOnly, (v) => (v ? 1 : 0));
+  const local = boxBlur(Float32Array.from(depth, (d, i) => d * weight[i]), width, height, radius);
+  const coverage = boxBlur(weight, width, height, radius);
+  for (let i = 0; i < second.data.length; i++) {
+    if (!wall.data[i] || coverage[i] < 1e-3) continue;
+    const frontal = planeSlope[i] < FRONTAL_SLOPE_RATIO * reference;
+    if (frontal && depth[i] - local[i] / coverage[i] > PROTRUSION_MIN) second.data[i] = 255;
+  }
+  return second;
 }

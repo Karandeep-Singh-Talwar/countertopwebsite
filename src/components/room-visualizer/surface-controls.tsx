@@ -4,6 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import { Plus, Trash2, RotateCw, Layers } from 'lucide-react';
 import type { Surface, SurfaceKind, VisualizerProduct } from '@/lib/visualizer/types';
+import { OutlineToolsPanel } from './outline-tools-panel';
+import type { useOutlineTools } from './use-outline-tools';
 
 interface SurfaceControlsProps {
   surfaces: readonly Surface[];
@@ -16,6 +18,7 @@ interface SurfaceControlsProps {
   onRemove: (id: string) => void;
   /** Applies to every selected surface. */
   onUpdateSelected: (patch: Partial<Surface>) => void;
+  outline: ReturnType<typeof useOutlineTools>;
 }
 
 const KIND_LABEL: Record<SurfaceKind, string> = { countertop: 'Countertop', backsplash: 'Wall', floor: 'Floor' };
@@ -49,7 +52,7 @@ function labelsFor(surfaces: readonly Surface[]): Map<string, string> {
   return labels;
 }
 
-export function SurfaceControls({ surfaces, selectedIds, products, onSelect, onSelectKind, onAdd, onRemove, onUpdateSelected }: SurfaceControlsProps) {
+export function SurfaceControls({ surfaces, selectedIds, products, onSelect, onSelectKind, onAdd, onRemove, onUpdateSelected, outline }: SurfaceControlsProps) {
   const selected = surfaces.filter((s) => selectedIds.includes(s.id));
   const lead = selected[0] ?? null;
   const labels = labelsFor(surfaces);
@@ -107,8 +110,9 @@ export function SurfaceControls({ surfaces, selectedIds, products, onSelect, onS
         </div>
         <p className="mt-3 text-xs text-[#6C6863]">
           Tap a label to style one surface, or pick &ldquo;All walls&rdquo; to style them together. Ctrl / ⌘ / Shift-tap adds a
-          surface to the group. With one surface selected, drag its corners to fine-tune the pattern&rsquo;s perspective.
+          surface to the group.
         </p>
+        {selected.length === 1 && lead && <OutlineToolsPanel outline={outline} surfaceLabel={labels.get(lead.id) ?? 'surface'} />}
       </section>
 
       {lead && (

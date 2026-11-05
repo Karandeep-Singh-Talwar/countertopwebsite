@@ -7,6 +7,7 @@ import type { Quad } from '@/lib/visualizer/homography';
 import { createSurfaceRenderer, type SurfaceRenderer } from '@/lib/visualizer/surface-renderer';
 import { buildLightMap, lightLuminance, type LightMap } from '@/lib/visualizer/light-map';
 import { detectSurfaces } from '@/lib/visualizer/surface-detection';
+import type { Superpixels } from '@/lib/visualizer/superpixels';
 import { buildDrawSpec, estimateBaseLuminance, matchTileGrid } from '@/lib/visualizer/surface-spec';
 import {
   createSurface,
@@ -18,6 +19,7 @@ import {
 } from '@/lib/visualizer/types';
 import { PhotoSourcePicker } from './photo-source-picker';
 import { PhotoUploadButton, usePhotoDrop } from './photo-upload';
+import { useOutlineTools } from './use-outline-tools';
 import { SurfaceControls } from './surface-controls';
 import { SurfaceEditorOverlay } from './surface-editor-overlay';
 import { SurfacePins } from './surface-pins';
@@ -81,6 +83,8 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
   const [detection, setDetection] = useState<DetectionState>({ status: 'idle' });
   // What detection recognised as wall / floor / not-an-object; hand-placed surfaces are clipped to it.
   const [paintable, setPaintable] = useState<PaintableAreas | null>(null);
+  // Edge-following patches of the current photo, used by the magic wand.
+  const [superpixels, setSuperpixels] = useState<Superpixels | null>(null);
   // Bumped per photo so a slow detection never overwrites a newer photo's surfaces.
   const detectionToken = useRef(0);
 
@@ -149,7 +153,7 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
     const size = { width: next.width, height: next.height };
     const isCurrent = () => token === detectionToken.current;
     try {
-      const { surfaces: found, paintable: areas } = await detectSurfaces(next, (p) => {
+      const { surfaces: found, paintable: areas, superpixels: patches } = await detectSurfaces(next, (p) => {
         if (!isCurrent()) return;
         setDetection({
           status: 'running',
@@ -160,6 +164,7 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
       });
       if (!isCurrent()) return;
       setPaintable(areas);
+      setSuperpixels(patches);
       if (found.length === 0) throw new Error('No countertops, walls or floors were recognised in this photo.');
       const detected = found.map((d) => createSurface(d.kind, DEFAULT_PRODUCT[d.kind], size, d));
       // Countertops are the main product, so never leave the user without one to
@@ -191,6 +196,8 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
     setSelectedIds([]);
     setError(null);
     setPaintable(null);
+    setSuperpixels(null);
+    outline.reset();
     setPhoto(next);
     setDetection({ status: 'running', label: 'Loading surface AI', progress: null });
     void runDetection(next, detectionToken.current);
@@ -220,6 +227,14 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
   const updateSurface = useCallback((id: string, patch: Partial<Surface>) => {
     setSurfaces((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
   }, []);
+
+  const outline = useOutlineTools({
+    surfaces,
+    activeId,
+    superpixels,
+    photoSize: photo ? { width: photo.width, height: photo.height } : null,
+    setSurfaces,
+  });
 
   const changeCorners = useCallback((id: string, corners: Quad) => updateSurface(id, { corners }), [updateSurface]);
 
@@ -273,6 +288,15 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
 
   const { dragging, dropProps } = usePhotoDrop(handlePhoto, setError);
 
+  const wandAt = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (outline.tool === 'corners' || !photo) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    outline.applyAt({
+      x: ((e.clientX - rect.left) / rect.width) * photo.width,
+      y: ((e.clientY - rect.top) / rect.height) * photo.height,
+    });
+  };
+
   if (!photo) return <PhotoSourcePicker onPhoto={handlePhoto} />;
 
   const aspect = photo.width / photo.height;
@@ -291,7 +315,8 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
           <span className="text-xs text-[#6C6863]">or drop a photo onto the picture</span>
         </div>
         <div
-          className="relative mx-auto bg-[#1A1A1A]"
+          className={`relative mx-auto bg-[#1A1A1A] ${outline.tool === 'corners' ? '' : 'cursor-crosshair'}`}
+          onClick={wandAt}
           style={{ aspectRatio: `${photo.width} / ${photo.height}`, width: `min(100%, calc(75vh * ${aspect}))` }}
           {...dropProps}
         >
@@ -300,7 +325,7 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
             size={{ width: photo.width, height: photo.height }}
             surfaces={surfaces}
             activeId={activeId}
-            hidden={showOriginal}
+            hidden={showOriginal || outline.tool !== 'corners'}
             onSelect={selectSurface}
             onChangeCorners={changeCorners}
           />
@@ -371,6 +396,7 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
           onAdd={addSurface}
           onRemove={removeSurface}
           onUpdateSelected={updateSelected}
+          outline={outline}
         />
         <button
           onClick={requestQuote}

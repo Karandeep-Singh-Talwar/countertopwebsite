@@ -6,6 +6,9 @@ export type SurfaceKind = 'countertop' | 'backsplash' | 'floor';
 /** Segmentation pseudo-label for the union of every object (stove, pots, plants...) in the photo. */
 export const OBJECTS_LABEL = '__objects';
 
+/** Segmentation pseudo-label for fixed parts of the room that are never repainted: ceiling, windows, doors. */
+export const FIXTURES_LABEL = '__fixtures';
+
 /** Horizontal surfaces are photographed foreshortened; vertical ones are not. */
 export const HORIZONTAL_KINDS: ReadonlySet<SurfaceKind> = new Set(['countertop', 'floor']);
 
