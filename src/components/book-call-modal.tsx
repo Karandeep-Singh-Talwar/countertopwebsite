@@ -33,7 +33,7 @@ export function BookCallModal({
   const [email, setEmail] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
-  const [materialPreference, setMaterialPreference] = useState<string>(initialMaterial || 'Calacatta Gold Supreme Quartz');
+  const [materialPreference, setMaterialPreference] = useState<string>(initialMaterial || 'Calcatta Extra (Vitrified Porcelain)');
   const [estimatedSqFt, setEstimatedSqFt] = useState<number>(initialSqFt || 45);
   const [notes, setNotes] = useState<string>('');
 
@@ -153,13 +153,13 @@ export function BookCallModal({
               {/* Header */}
               <div className="mb-6">
                 <div className="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-1">
-                  FREE 1-ON-1 COUNTERTOP &amp; TILE CONSULTATION
+                  FREE 1-ON-1 PORCELAIN SURFACE CONSULTATION
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-serif font-bold text-black tracking-tight">
-                  Schedule Your Countertop &amp; Tile Design Call
+                  Schedule Your Porcelain Surface Consultation
                 </h3>
                 <p className="text-xs text-gray-600 mt-1">
-                  Connect with a certified stone &amp; tile specialist. Review layout dimensions, match backsplash tiles to live slab veining, and lock in factory-direct pricing.
+                  Connect with a certified porcelain surface specialist. Review layout dimensions, match backsplash tiles to live slab veining, and lock in factory-direct pricing.
                 </p>
               </div>
 
@@ -190,16 +190,16 @@ export function BookCallModal({
                 <div className="space-y-4">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-black mb-2">
-                      Select your countertop or tile project:
+                      Select your porcelain countertop or tile project:
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {[
-                        'Kitchen Countertops & Waterfall Island',
-                        'Designer Backsplash Tiles & Accent Walls',
-                        'Turnkey Package: Countertops + Backsplash Tile',
-                        'Bathroom Stone Vanity & Shower Tiles',
-                        'Large-Format Porcelain Slabs & Wall Tiles',
-                        'Full Home Custom Countertop & Tile Package',
+                        'Kitchen Porcelain Countertops & Waterfall Island',
+                        'Designer Backsplash Porcelain Tiles & Accent Walls',
+                        'Turnkey Package: Porcelain Countertops + Backsplash Tiles',
+                        'Bathroom Porcelain Vanity & Shower Slabs',
+                        'Large-Format Porcelain Slabs (600x1200mm)',
+                        'Full Home Vitrified Porcelain Package',
                       ].map((item) => (
                         <button
                           key={item}
@@ -227,13 +227,14 @@ export function BookCallModal({
                         onChange={(e) => setMaterialPreference(e.target.value)}
                         className="w-full bg-white border border-gray-300 p-2.5 text-xs text-black focus:outline-none focus:border-black"
                       >
-                        <option value="Calacatta Gold Supreme Quartz">Calacatta Gold Quartz (Popular)</option>
-                        <option value="Taj Mahal Exotic Quartzite">Taj Mahal Natural Quartzite</option>
-                        <option value="Authentic Bianco Carrara Marble">Bianco Carrara Italian Marble</option>
-                        <option value="Nero Marquina Grand Noir Marble">Nero Marquina Black Marble</option>
-                        <option value="Dekton Laurent Ultra-Porcelain">Dekton Sintered Porcelain</option>
-                        <option value="Black Galaxy Granite">Black Galaxy Granite</option>
-                        <option value="Not sure - Need Advice">Need Designer Advice</option>
+                        <option value="Calcatta Extra (High-Gloss Vitrified Porcelain)">Calcatta Extra (White & Gold Vein)</option>
+                        <option value="Brazilian Amazonite (Crystal Porcelain Slabs)">Brazilian Amazonite (Turquoise Glaze)</option>
+                        <option value="Volcano Green (Emerald Vitrified Porcelain)">Volcano Green (Alpine Forest)</option>
+                        <option value="Fuji Gold (Black & 24k Gold Vitrified Porcelain)">Fuji Gold (Obsidian & Gold)</option>
+                        <option value="Grigio Collemandian (European Vitrified Porcelain)">Grigio Collemandian (Dove Grey)</option>
+                        <option value="Emperadore Brown (High-Gloss Porcelain)">Emperadore Brown (Mocha Marble Vein)</option>
+                        <option value="Matching Porcelain Tiles (600x1200mm / 600x600mm)">Matching Porcelain Tiles (600x1200mm)</option>
+                        <option value="Not sure - Need Porcelain Surface Advice">Need Porcelain Surface Advice</option>
                       </select>
                     </div>
 
@@ -494,17 +495,17 @@ export function BookCallModal({
               </h3>
 
               <p className="text-xs text-gray-600 max-w-md mx-auto mb-6">
-                Thank you, <strong>{name}</strong>. A stone specialist has reserved your slot for{' '}
+                Thank you, <strong>{name}</strong>. A porcelain surface specialist has reserved your slot for{' '}
                 <strong>{selectedDate} ({selectedTime})</strong>. A calendar invite has been sent to <u>{email}</u>.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <a
-                  href="tel:18005847866"
+                  href="tel:18005847522"
                   className="w-full sm:w-auto px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-black text-xs font-semibold border border-gray-300 flex items-center justify-center gap-2"
                 >
                   <Phone className="w-3.5 h-3.5" />
-                  <span>Call Us Now: (800) 584-STONE</span>
+                  <span>Call Us Now: (800) 584-SLAB</span>
                 </a>
                 <button
                   onClick={resetForm}

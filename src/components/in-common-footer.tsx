@@ -44,7 +44,7 @@ export function InCommonFooter({
               Verona <span className="italic font-light text-amber-800">Surfaces</span>
             </h4>
             <span className="text-xs uppercase tracking-[0.25em] text-amber-800 font-medium block">
-              Architectural Stone &amp; Vitrified Porcelain Catalogue
+              Architectural Vitrified Porcelain Catalogue
             </span>
             <p className="text-sm text-[#6C6863] max-w-md leading-relaxed font-normal">
               100% online catalogue with direct-to-jobsite crate freight. We supply large-format 9mm vitrified porcelain slabs and matching tiles directly to homeowners, builders, and general contractors—eliminating expensive showroom markups and specialist stone fabricator overhead.
@@ -64,11 +64,11 @@ export function InCommonFooter({
               <span>quotes@veronasurfaces.com</span>
             </a>
             <a
-              href="tel:18005557866"
+              href="tel:18005557522"
               className="hover:underline flex items-center gap-1.5 pt-1"
             >
               <Phone className="w-3.5 h-3.5 text-amber-700" />
-              <span>+1 (800) 555-STONE (7866)</span>
+              <span>+1 (800) 555-SLAB (7522)</span>
             </a>
             <p className="text-xs text-[#6C6863] pt-1">
               Digital line-item quotes &amp; CAD layout guides dispatched 24/7.
@@ -154,12 +154,6 @@ export function InCommonFooter({
                 className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
               >
                 Porcelain Countertops (USP)
-              </button>
-              <button
-                onClick={() => scrollTo('categories-section')}
-                className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
-              >
-                Stone Countertops
               </button>
               <button
                 onClick={() => scrollTo('categories-section')}

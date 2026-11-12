@@ -27,7 +27,7 @@ export function InCommonHero({
       >
         <Image
           src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2400&q=85"
-          alt="Architectural stone countertop interior bathed in warm ambient light"
+          alt="Architectural porcelain countertop interior bathed in warm ambient light"
           fill
           priority
           sizes="100vw"
@@ -54,7 +54,7 @@ export function InCommonHero({
             Verona <span className="italic font-light text-amber-200">Surfaces</span>
           </h1>
           <p className="mt-4 text-white/80 text-lg sm:text-2xl md:text-3xl font-light tracking-tight font-serif italic">
-            Porcelain Countertops, Natural Stone &amp; Large-Format Tiles
+            Porcelain Countertops &amp; Architectural Vitrified Tiles
           </p>
         </motion.div>
 

@@ -14,19 +14,18 @@ interface ContractorSavingsCalculatorProps {
   onOpenBookCall?: (opts?: { service?: string; material?: string }) => void;
 }
 
-type PrimaryCategory = 'porcelain-countertops' | 'stone-countertops' | 'tiles';
+type PrimaryCategory = 'porcelain-countertops' | 'tiles';
 
 export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorProps> = ({
   onOpenQuoteModal,
   onOpenBookCall,
 }) => {
-  // 1. Core Primary Categories (3 Categories)
+  // 1. Core Primary Categories (Porcelain Countertops & Tiles)
   const [primaryCategory, setPrimaryCategory] = useState<PrimaryCategory>('porcelain-countertops');
 
   const categoryLabels: Record<PrimaryCategory, string> = {
     'porcelain-countertops': 'Porcelain Countertops',
-    'stone-countertops': 'Stone Countertops',
-    'tiles': 'Tiles',
+    'tiles': 'Porcelain Tiles',
   };
 
   const handleCategoryChange = (cat: PrimaryCategory) => {
@@ -209,7 +208,7 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
                   {
                     id: 'porcelain-countertops' as const,
@@ -217,13 +216,8 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
                     desc: '9mm High-Gloss Vitrified Slabs · 1200°C Heat Proof',
                   },
                   {
-                    id: 'stone-countertops' as const,
-                    label: 'Stone Countertops',
-                    desc: 'Natural Marble, Exotic Quartzite & Quartz',
-                  },
-                  {
                     id: 'tiles' as const,
-                    label: 'Tiles',
+                    label: 'Porcelain Tiles',
                     desc: '600×1200mm Architectural Floor & Wall Slabs',
                   },
                 ].map((cat) => (

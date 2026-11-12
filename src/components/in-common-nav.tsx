@@ -76,14 +76,6 @@ export function InCommonNav({
               Porcelain Countertops
             </Link>
             <Link
-              href="/stone-countertops"
-              className={`whitespace-nowrap cursor-pointer transition-opacity duration-200 hover:opacity-70 font-medium uppercase tracking-[0.2em] text-xs ${
-                showDarkText ? 'text-[#1A1A1A]' : 'text-white'
-              }`}
-            >
-              Stone Countertops
-            </Link>
-            <Link
               href="/porcelain-tiles"
               className={`whitespace-nowrap cursor-pointer transition-opacity duration-200 hover:opacity-70 font-medium uppercase tracking-[0.2em] text-xs ${
                 showDarkText ? 'text-[#1A1A1A]' : 'text-white'
@@ -151,13 +143,6 @@ export function InCommonNav({
             className="block w-full text-left py-2 text-sm uppercase tracking-wider font-medium text-amber-900"
           >
             Porcelain Countertops (USP)
-          </Link>
-          <Link
-            href="/stone-countertops"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block w-full text-left py-2 text-sm uppercase tracking-wider font-medium"
-          >
-            Stone Countertops
           </Link>
           <Link
             href="/porcelain-tiles"

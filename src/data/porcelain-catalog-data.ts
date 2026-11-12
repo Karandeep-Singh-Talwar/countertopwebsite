@@ -2,7 +2,7 @@ export interface PorcelainMaterial {
   id: string;
   name: string;
   collection: 'Crystal' | 'High Gloss' | 'Onyx';
-  category: 'porcelain-countertop' | 'porcelain-tile' | 'stone-countertop';
+  category: 'porcelain-countertop' | 'porcelain-tile';
   palette: 'white' | 'green' | 'black' | 'earth' | 'blue';
   description: string;
   application: string[];

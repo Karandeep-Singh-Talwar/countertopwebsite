@@ -21,6 +21,15 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      {
+        source: '/stone-countertops',
+        destination: '/porcelain-countertops',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

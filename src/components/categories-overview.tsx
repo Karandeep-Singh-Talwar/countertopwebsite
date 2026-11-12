@@ -7,8 +7,8 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 
 interface CategoriesOverviewProps {
-  activeCategory: 'all' | 'porcelain-countertops' | 'stone-countertops' | 'porcelain-tiles';
-  onSelectCategory: (cat: 'porcelain-countertops' | 'stone-countertops' | 'porcelain-tiles') => void;
+  activeCategory: 'all' | 'porcelain-countertops' | 'porcelain-tiles';
+  onSelectCategory: (cat: 'porcelain-countertops' | 'porcelain-tiles') => void;
   onOpenQuoteModal: (opts?: { material?: string }) => void;
 }
 
@@ -38,24 +38,6 @@ export function CategoriesOverview({
     },
     {
       num: '02',
-      id: 'stone-countertops' as const,
-      label: 'NATURAL & ENGINEERED',
-      title: 'Stone Countertops',
-      tagline: 'Quartzite, Marble & Granite Slabs',
-      description:
-        'Classic quarried 2cm and 3cm natural stone slabs hand-selected from Italian and Brazilian quarries. Solid mass, deep crystalline natural veining, and custom edge profiles for monumental architectural islands.',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
-      specs: [
-        'Natural Taj Mahal, Calacatta & Granite',
-        'Substantial 3cm monolithic thickness',
-        'Precision waterjet cut & polished',
-        'Direct quarry slab batch selection',
-      ],
-      priceTag: 'From $65 / sq.ft',
-      isFlagship: false,
-    },
-    {
-      num: '03',
       id: 'porcelain-tiles' as const,
       label: 'ARCHITECTURAL HARMONY',
       title: 'Porcelain Tiles',
@@ -84,17 +66,17 @@ export function CategoriesOverview({
               Surface Collections
             </div>
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-normal tracking-tight text-[#1A1A1A] leading-[1.05]">
-              Three Pillars of <span className="italic font-light text-amber-800">Surface Design</span>
+              Curated <span className="italic font-light text-amber-800">Porcelain Surfaces</span>
             </h2>
           </div>
 
           <p className="text-[#6C6863] text-base sm:text-lg max-w-xl font-normal leading-relaxed">
-            From our groundbreaking <span className="text-[#1A1A1A] font-medium">9mm contractor-cut porcelain slabs</span> to monumental quarried quartzite and matching architectural tiles—crafted for seamless continuity.
+            From our groundbreaking <span className="text-[#1A1A1A] font-medium">9mm contractor-cut porcelain slabs</span> to matching large-format architectural tiles—crafted for seamless continuity without specialized fabricator fees.
           </p>
         </div>
 
-        {/* 3 Categories: Borderless Editorial Columns (NO BOXES) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+        {/* 2 Categories: Borderless Editorial Columns (NO BOXES) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
           {categories.map((cat) => (
             <div key={cat.id} className="group flex flex-col justify-between">
               <div>

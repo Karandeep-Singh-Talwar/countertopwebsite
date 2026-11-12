@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       quoteId,
-      message: `Detailed estimate PDF dispatched to ${data.email}. A stone specialist will follow up within 2 business hours.`,
+      message: `Detailed estimate PDF dispatched to ${data.email}. A porcelain surface specialist will follow up within 2 business hours.`,
       quote: newQuote,
     });
   } catch (err: unknown) {

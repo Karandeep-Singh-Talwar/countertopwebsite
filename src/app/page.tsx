@@ -19,7 +19,7 @@ export default function HomePage() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState<boolean>(false);
 
   // Active Category state
-  const [activeCategory, setActiveCategory] = useState<'all' | 'porcelain-countertops' | 'stone-countertops' | 'porcelain-tiles'>('all');
+  const [activeCategory, setActiveCategory] = useState<'all' | 'porcelain-countertops' | 'porcelain-tiles'>('all');
 
   // Pre-fill state for consultations and quotes
   const [modalInitialMaterial, setModalInitialMaterial] = useState<string>('Calcatta Extra (600x1200mm Vitrified Porcelain)');
@@ -48,7 +48,7 @@ export default function HomePage() {
     }
   };
 
-  const handleSelectCategory = (cat: 'porcelain-countertops' | 'stone-countertops' | 'porcelain-tiles') => {
+  const handleSelectCategory = (cat: 'porcelain-countertops' | 'porcelain-tiles') => {
     setActiveCategory(cat);
     router.push(`/${cat}`);
   };
