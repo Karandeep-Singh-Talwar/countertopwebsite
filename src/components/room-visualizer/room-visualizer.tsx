@@ -68,6 +68,31 @@ interface RoomVisualizerProps {
 }
 
 export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
+  const [products, setProducts] = useState<VisualizerProduct[]>(PRODUCTS);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/api/catalog')
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data?.items && Array.isArray(data.items) && data.items.length > 0) {
+          setProducts(
+            data.items.map((m: any) => ({
+              id: m.id,
+              name: m.name,
+              texture: m.slabImage,
+              finish: m.finish,
+              priceEstimate: m.priceEstimate,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // Held in state (not a ref) so a freshly created renderer triggers the first paint.
   const [renderer, setRenderer] = useState<SurfaceRenderer | null>(null);
@@ -390,7 +415,7 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
         <SurfaceControls
           surfaces={surfaces}
           selectedIds={selectedIds}
-          products={PRODUCTS}
+          products={products}
           onSelect={selectSurface}
           onSelectKind={selectKind}
           onAdd={addSurface}

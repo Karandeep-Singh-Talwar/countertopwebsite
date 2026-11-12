@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -12,8 +12,29 @@ import { PORCELAIN_CATALOG, PorcelainMaterial } from '@/data/porcelain-catalog-d
 import { ArrowRight, Calculator, X } from 'lucide-react';
 
 export default function PorcelainTilesPage() {
+  const [catalog, setCatalog] = useState<PorcelainMaterial[]>(PORCELAIN_CATALOG);
   const [selectedFormat, setSelectedFormat] = useState<'all' | '600x1200' | '600x600'>('all');
   const [activeMaterial, setActiveMaterial] = useState<PorcelainMaterial | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/api/catalog')
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data?.items && Array.isArray(data.items) && data.items.length > 0) {
+          setCatalog(data.items);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const tileItems = useMemo(() => {
+    const tiles = catalog.filter((item) => item.category === 'porcelain-tile');
+    return tiles.length > 0 ? tiles : catalog;
+  }, [catalog]);
 
   // Simple Tile Packaging Calculator State
   const [tileSqFt, setTileSqFt] = useState<number>(180);
@@ -146,13 +167,13 @@ export default function PorcelainTilesPage() {
             </div>
 
             <div className="text-xs text-[#8C827A] font-mono tracking-wider">
-              Showing <span className="font-semibold text-[#1A1A1A]">{PORCELAIN_CATALOG.length}</span> matching vitrified architectural tiles
+              Showing <span className="font-semibold text-[#1A1A1A]">{tileItems.length}</span> matching vitrified architectural tiles
             </div>
           </div>
 
           {/* Tiles Grid: BORDERLESS ART GALLERY (ZERO BOXES) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
-            {PORCELAIN_CATALOG.map((tile) => (
+            {tileItems.map((tile) => (
               <motion.div
                 key={tile.id}
                 layout

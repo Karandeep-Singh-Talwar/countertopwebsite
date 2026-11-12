@@ -10,14 +10,17 @@
   },
   "dependencies": {
     "@huggingface/transformers": "4.3.1",
+    "@sanity/image-url": "^2.1.1",
     "@types/three": "^0.186.0",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "framer-motion": "^14.2.0",
     "lucide-react": "^1.57.0",
     "next": "16.4.1",
+    "next-sanity": "^13.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "sanity": "^6.23.0",
     "tailwind-merge": "^3.7.0",
     "three": "^0.186.1"
   },

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { ArrowUp, Phone, Mail, MapPin } from 'lucide-react';
 
 interface FooterProps {
@@ -133,6 +134,9 @@ export function Footer({ brandName, onOpenBookCall, onOpenQuoteModal }: FooterPr
             <span>UGC Terms of Use</span>
             <span>Internet Selling Policy</span>
             <span>Code of Conduct</span>
+            <Link href="/admin" className="text-gray-400 hover:text-white transition underline underline-offset-2">
+              Admin Portal
+            </Link>
           </div>
 
           <div className="flex items-center gap-4 text-gray-500">

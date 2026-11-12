@@ -1,17 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import {
   Check,
   ShieldCheck,
   ArrowRight,
-  RotateCcw
+  RotateCcw,
+  Package,
+  Layers
 } from 'lucide-react';
+import { PORCELAIN_CATALOG, type PorcelainMaterial } from '@/data/porcelain-catalog-data';
 
 interface ContractorSavingsCalculatorProps {
   onOpenQuoteModal?: (opts?: { material?: string; sqFt?: number }) => void;
   onOpenBookCall?: (opts?: { service?: string; material?: string }) => void;
+  initialCatalog?: PorcelainMaterial[];
 }
 
 type PrimaryCategory = 'porcelain-countertops' | 'tiles';
@@ -19,7 +23,27 @@ type PrimaryCategory = 'porcelain-countertops' | 'tiles';
 export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorProps> = ({
   onOpenQuoteModal,
   onOpenBookCall,
+  initialCatalog,
 }) => {
+  // Live Catalogue items (defaults to local, syncs dynamically with /api/catalog and Sanity)
+  const [catalog, setCatalog] = useState<PorcelainMaterial[]>(initialCatalog || PORCELAIN_CATALOG);
+
+  // Sync with /api/catalog on mount to pick up any newly published CMS items
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/api/catalog')
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data?.items && Array.isArray(data.items) && data.items.length > 0) {
+          setCatalog(data.items);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // 1. Core Primary Categories (Porcelain Countertops & Tiles)
   const [primaryCategory, setPrimaryCategory] = useState<PrimaryCategory>('porcelain-countertops');
 
@@ -28,9 +52,33 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
     'tiles': 'Porcelain Tiles',
   };
 
+  // Filter catalogue items dynamically by the active category
+  const currentCategoryItems = useMemo(() => {
+    const targetCat = primaryCategory === 'tiles' ? 'porcelain-tile' : 'porcelain-countertop';
+    const filtered = catalog.filter((item) => item.category === targetCat);
+    return filtered.length > 0 ? filtered : catalog;
+  }, [catalog, primaryCategory]);
+
+  // Selected Material ID (dynamically driven by catalogue items)
+  const [selectedMaterialId, setSelectedMaterialId] = useState<string>('calcatta-extra');
+
   const handleCategoryChange = (cat: PrimaryCategory) => {
     setPrimaryCategory(cat);
+    const targetCat = cat === 'tiles' ? 'porcelain-tile' : 'porcelain-countertop';
+    const firstItem = catalog.find((item) => item.category === targetCat);
+    if (firstItem) {
+      setSelectedMaterialId(firstItem.id);
+    }
   };
+
+  // Active selected catalogue item
+  const activeItem = useMemo(() => {
+    return (
+      currentCategoryItems.find((m) => m.id === selectedMaterialId) ||
+      currentCategoryItems[0] ||
+      catalog[0]
+    );
+  }, [currentCategoryItems, selectedMaterialId, catalog]);
 
   // 3. Sizing Mode: 'dimensions' (length x breadth) vs 'total' (direct sq ft)
   const [inputMode, setInputMode] = useState<'dimensions' | 'total'>('dimensions');
@@ -39,9 +87,6 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
   // Dimensions in Feet
   const [counterLength, setCounterLength] = useState<number>(10);
   const [counterBreadth, setCounterBreadth] = useState<number>(3);
-
-  // Stone Geology / Mineral Pattern
-  const [stoneGeology, setStoneGeology] = useState<string>('Calacatta Extra (Gold Vein)');
 
   // Surface Finish
   const [surfaceFinish, setSurfaceFinish] = useState<string>('High-Gloss Polished');
@@ -68,10 +113,19 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
       ? Math.max(5, directSqFt)
       : Math.max(5, counterSqFtCalc);
 
-  // Rate constants ($/sq.ft)
-  const porcelainMaterialRate = primaryCategory === 'tiles' ? 18 : 28;
-  const porcelainInstallRate = primaryCategory === 'tiles' ? 12 : 16;
+  // Dynamic Item-Level Rates ($/sq.ft) pulled directly from active catalogue item
+  const porcelainMaterialRate =
+    activeItem?.pricePerSqFt ?? (primaryCategory === 'tiles' ? 18 : 28);
+  const porcelainInstallRate =
+    activeItem?.installRatePerSqFt ?? (primaryCategory === 'tiles' ? 12 : 16);
   const porcelainDeliveryFlat = 150;
+
+  // Dynamic Tile Packaging Calculations
+  const sqFtPerBox = activeItem?.sqFtPerBox || 15.5;
+  const weightKgPerBox = activeItem?.weightKgPerBox || 29;
+  const estimatedBoxes = Math.ceil(totalSqFt / sqFtPerBox);
+  const estimatedMassKg = estimatedBoxes * weightKgPerBox;
+  const estimatedMassLbs = Math.round(estimatedMassKg * 2.204);
 
   const stoneConfig = {
     quartzite: {
@@ -108,7 +162,6 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
 
   const totalSaved = stoneTotal - porcelainTotal;
   const savingsPercent = Math.round((totalSaved / stoneTotal) * 100);
-  const estimatedBoxes = Math.ceil(totalSqFt / 15.5);
 
   const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,15 +177,16 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
           email: leadEmail,
           phone: leadPhone || 'Provided via valuation console',
           sqFt: totalSqFt,
-          materialName: `${categoryLabels[primaryCategory]} (${stoneGeology})`,
+          materialName: `${activeItem?.name || categoryLabels[primaryCategory]} (${categoryLabels[primaryCategory]})`,
           edgeProfile: 'Standard Factory Calibrated Edge',
           addons: [
             `Category: ${categoryLabels[primaryCategory]}`,
             `Finish: ${surfaceFinish}`,
             `Timeline: ${projectTimeline}`,
+            primaryCategory === 'tiles' ? `${estimatedBoxes} Boxes (${sqFtPerBox} sf/box)` : 'Monolithic Slabs',
           ],
           totalEstimate: porcelainTotal,
-          notes: `Category: ${categoryLabels[primaryCategory]}. Material: ${stoneGeology} (${surfaceFinish}). Calculated Savings: $${totalSaved.toLocaleString()} vs ${stoneConfig.name}. Role: ${leadRole}. Total SqFt: ${totalSqFt}. Boxes: ${estimatedBoxes}.`,
+          notes: `Category: ${categoryLabels[primaryCategory]}. Material: ${activeItem?.name} ($${porcelainMaterialRate}/sq.ft). Sheen: ${surfaceFinish}. Calculated Savings: $${totalSaved.toLocaleString()} vs ${stoneConfig.name}. Role: ${leadRole}. Total SqFt: ${totalSqFt}. Boxes: ${estimatedBoxes} (~${estimatedMassKg} kg).`,
         }),
       });
 
@@ -358,34 +412,37 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
               )}
             </div>
 
-            {/* 03 / DESIRED MINERAL PATTERN & FINISH */}
+            {/* 03 / DESIRED CATALOGUE ITEM & SHEEN */}
             <div className="pt-7 border-t border-white/10">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs uppercase tracking-wider text-[#D4AF37]/90 font-medium font-sans">
-                  03 / Desired Mineral Pattern &amp; Sheen
+                  03 / Select Material from Catalogue
                 </span>
-                <span className="text-xs text-white/60 font-sans">{stoneGeology}</span>
+                <span className="text-xs text-white/70 font-mono">
+                  {activeItem?.name} · ${porcelainMaterialRate}/sq.ft
+                </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 mb-3.5">
-                {[
-                  'Calacatta Extra (Gold Vein)',
-                  'Volcano Green (Emerald Crystal)',
-                  'Brazilian Amazonite (Teal Glaze)',
-                  'Fuji Gold 24k (Black & Gold)',
-                  'Bellagio Jade (Translucent Onyx)',
-                ].map((stone) => (
+                {currentCategoryItems.map((mat) => (
                   <button
-                    key={stone}
+                    key={mat.id}
                     type="button"
-                    onClick={() => setStoneGeology(stone)}
-                    className={`p-3 text-left border rounded-xs text-xs sm:text-sm font-sans transition-all flex items-center justify-between cursor-pointer ${
-                      stoneGeology === stone
+                    onClick={() => setSelectedMaterialId(mat.id)}
+                    className={`p-3 text-left border rounded-xs text-xs font-sans transition-all flex items-center justify-between cursor-pointer ${
+                      activeItem?.id === mat.id
                         ? 'border-[#D4AF37] bg-[#D4AF37]/15 text-white font-medium shadow-xs'
                         : 'border-white/10 bg-white/[0.02] text-white/70 hover:text-white hover:border-white/25'
                     }`}
                   >
-                    <span className="truncate">{stone}</span>
-                    {stoneGeology === stone && <Check className="w-3.5 h-3.5 text-[#D4AF37] shrink-0 ml-2" />}
+                    <div className="min-w-0 pr-1.5">
+                      <div className="truncate font-medium text-white">{mat.name}</div>
+                      <div className="text-[10px] text-white/50 font-mono mt-0.5">
+                        ${mat.pricePerSqFt}/sq.ft · {mat.palette}
+                      </div>
+                    </div>
+                    {activeItem?.id === mat.id && (
+                      <Check className="w-3.5 h-3.5 text-[#D4AF37] shrink-0 ml-1" />
+                    )}
                   </button>
                 ))}
               </div>
@@ -411,6 +468,14 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
                   </button>
                 ))}
               </div>
+
+              {/* Tile Packaging Specs Notice */}
+              {primaryCategory === 'tiles' && (
+                <div className="mt-3.5 p-3 bg-white/[0.02] border border-white/10 rounded-xs flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-white/75">
+                  <span>📦 Freight Crate: {estimatedBoxes} Boxes ({sqFtPerBox} sf/box)</span>
+                  <span>⚖️ Pallet Mass: ~{estimatedMassKg} kg ({estimatedMassLbs} lbs)</span>
+                </div>
+              )}
             </div>
 
             {/* 04 / PROJECT TIMELINE */}
@@ -461,8 +526,8 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
                     <span className="text-white font-medium truncate max-w-[210px]">{categoryLabels[primaryCategory]}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-white/50">Mineral Pattern:</span>
-                    <span className="text-white font-medium truncate max-w-[210px]">{stoneGeology}</span>
+                    <span className="text-white/50">Material Item:</span>
+                    <span className="text-white font-medium truncate max-w-[210px]">{activeItem?.name}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-white/50">Surface Area:</span>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -15,17 +15,85 @@ export interface PorcelainCatalogProps {
   onOpenQuoteModal: (opts?: { material?: string }) => void;
   onOpenBookCall: (opts?: { service?: string; material?: string }) => void;
   initialCategory?: string;
+  initialCatalog?: PorcelainMaterial[];
 }
 
 export function PorcelainCatalog({
   onOpenQuoteModal,
   onOpenBookCall,
   initialCategory = 'all',
+  initialCatalog,
 }: PorcelainCatalogProps) {
+  const [catalog, setCatalog] = useState<PorcelainMaterial[]>(initialCatalog || PORCELAIN_CATALOG);
   const [selectedPalette, setSelectedPalette] = useState<'all' | 'white' | 'green' | 'black' | 'earth' | 'blue'>('all');
   const [activeMaterial, setActiveMaterial] = useState<PorcelainMaterial | null>(null);
+  const [activeFaceId, setActiveFaceId] = useState<string>('room');
 
-  const filteredMaterials = PORCELAIN_CATALOG.filter((mat) => {
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/api/catalog')
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data?.items && Array.isArray(data.items) && data.items.length > 0) {
+          setCatalog(data.items);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleOpenMaterial = (mat: PorcelainMaterial) => {
+    setActiveMaterial(mat);
+    setActiveFaceId('room');
+  };
+
+  const galleryImages = useMemo(() => {
+    if (!activeMaterial) return [];
+    const list: { id: string; label: string; src: string; type: 'room' | 'slab' | 'face'; faceNum?: number }[] = [];
+
+    if (activeMaterial.roomImage) {
+      list.push({ id: 'room', label: 'Room Application', src: activeMaterial.roomImage, type: 'room' });
+    }
+    if (activeMaterial.slabImage) {
+      list.push({ id: 'slab', label: 'Full Slab', src: activeMaterial.slabImage, type: 'slab' });
+    }
+
+    if (Array.isArray(activeMaterial.faces) && activeMaterial.faces.length > 0) {
+      activeMaterial.faces.forEach((src, i) => {
+        list.push({
+          id: `face-${i + 1}`,
+          label: `Face ${i + 1}`,
+          src,
+          type: 'face',
+          faceNum: i + 1,
+        });
+      });
+    } else {
+      // Fallback faces from slab image
+      for (let i = 1; i <= Math.min(4, activeMaterial.randomFaces || 1); i++) {
+        list.push({
+          id: `face-${i}`,
+          label: `Face ${i}`,
+          src: activeMaterial.slabImage,
+          type: 'face',
+          faceNum: i,
+        });
+      }
+    }
+
+    return list;
+  }, [activeMaterial]);
+
+  const currentModalImage = galleryImages.find((g) => g.id === activeFaceId) || galleryImages[0];
+
+  const countertopMaterials = useMemo(() => {
+    const slabs = catalog.filter((mat) => mat.category === 'porcelain-countertop');
+    return slabs.length > 0 ? slabs : catalog;
+  }, [catalog]);
+
+  const filteredMaterials = countertopMaterials.filter((mat) => {
     if (selectedPalette !== 'all' && mat.palette !== selectedPalette) return false;
     return true;
   });
@@ -93,7 +161,7 @@ export function PorcelainCatalog({
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                onClick={() => setActiveMaterial(mat)}
+                onClick={() => handleOpenMaterial(mat)}
                 className="group cursor-pointer flex flex-col justify-between"
               >
                 <div>
@@ -188,39 +256,81 @@ export function PorcelainCatalog({
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.98, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-                className="max-w-4xl w-full bg-[#FAF8F5] shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] relative"
+                className="max-w-5xl w-full bg-[#FAF8F5] shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[92vh] relative"
               >
                 <button
                   onClick={() => setActiveMaterial(null)}
-                  className="absolute top-4 right-4 z-20 p-2 text-[#1A1A1A]/60 hover:text-[#1A1A1A] transition-colors cursor-pointer"
+                  className="absolute top-4 right-4 z-30 p-2 rounded-full bg-white/80 hover:bg-white text-[#1A1A1A] transition-colors cursor-pointer shadow-sm"
+                  aria-label="Close modal"
                 >
                   <X className="w-5 h-5" />
                 </button>
 
-                {/* Left Visual Area */}
-                <div className="md:w-1/2 relative bg-stone-900 min-h-[340px]">
-                  <Image
-                    src={activeMaterial.roomImage}
-                    alt={activeMaterial.name}
-                    fill
-                    className="object-cover object-center"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-8 left-8 right-8 text-white">
-                    <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 block mb-2 font-mono">
-                      {activeMaterial.collection} Collection
-                    </span>
-                    <h4 className="text-3xl sm:text-4xl font-serif font-light tracking-tight">
-                      {activeMaterial.name}
-                    </h4>
-                    <p className="text-xs text-white/70 mt-1 font-light">
-                      High Gloss Vitrified Porcelain Slab & Matching Tile
-                    </p>
+                {/* Left Visual Area: Interactive Multi-Face Showcase */}
+                <div className="md:w-1/2 relative bg-[#0D0D0D] flex flex-col justify-between min-h-[380px]">
+                  <div className="relative flex-1 min-h-[320px] w-full overflow-hidden">
+                    {currentModalImage && (
+                      <Image
+                        key={currentModalImage.id}
+                        src={currentModalImage.src}
+                        alt={`${activeMaterial.name} - ${currentModalImage.label}`}
+                        fill
+                        className="object-cover object-center transition-all duration-300"
+                        priority
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/30 pointer-events-none" />
+
+                    {/* Top Indicator Badge */}
+                    <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
+                      <span className="text-[10px] uppercase tracking-[0.2em] px-2.5 py-1 bg-black/75 backdrop-blur-md text-amber-400 font-mono border border-white/10">
+                        {currentModalImage?.type === 'face'
+                          ? `Face ${currentModalImage.faceNum} of ${activeMaterial.randomFaces || galleryImages.filter((g) => g.type === 'face').length} · Continuous Vein`
+                          : currentModalImage?.label}
+                      </span>
+                    </div>
+
+                    {/* Bottom Caption */}
+                    <div className="absolute bottom-4 left-6 right-6 text-white pointer-events-none">
+                      <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400 block mb-1 font-mono">
+                        {activeMaterial.collection} Collection
+                      </span>
+                      <h4 className="text-2xl sm:text-3xl font-serif font-light tracking-tight">
+                        {activeMaterial.name}
+                      </h4>
+                      <p className="text-xs text-white/70 mt-0.5 font-light">
+                        High Gloss Vitrified Porcelain Slab &amp; Matching Tile
+                      </p>
+                    </div>
                   </div>
+
+                  {/* Multi-Face Thumbnail & Navigation Strip */}
+                  {galleryImages.length > 1 && (
+                    <div className="bg-[#141414] border-t border-white/10 p-3 flex items-center gap-2 overflow-x-auto scrollbar-thin">
+                      <span className="text-[9px] uppercase tracking-[0.2em] text-stone-400 font-mono pl-1 pr-1 shrink-0">
+                        Views ({galleryImages.length}):
+                      </span>
+                      {galleryImages.map((img) => (
+                        <button
+                          key={img.id}
+                          type="button"
+                          onClick={() => setActiveFaceId(img.id)}
+                          className={`shrink-0 flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-mono tracking-wider transition-all cursor-pointer border ${
+                            activeFaceId === img.id
+                              ? 'bg-amber-800 text-white border-amber-600 font-semibold shadow-sm'
+                              : 'bg-white/5 text-stone-300 border-white/10 hover:bg-white/15 hover:text-white'
+                          }`}
+                        >
+                          {img.type === 'face' && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />}
+                          <span>{img.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Right Spec Details: Clean, whitespace, hairlines */}
-                <div className="md:w-1/2 p-8 sm:p-10 overflow-y-auto space-y-6 text-[#1A1A1A]">
+                <div className="md:w-1/2 p-6 sm:p-8 md:p-10 overflow-y-auto space-y-6 text-[#1A1A1A]">
                   <div>
                     <h5 className="text-[11px] uppercase tracking-[0.2em] text-[#8C827A] mb-2 font-mono">
                       Material Specification
@@ -230,24 +340,71 @@ export function PorcelainCatalog({
                     </p>
                   </div>
 
-                  <div className="space-y-3 pt-4 border-t border-[#1A1A1A]/10 text-xs font-mono">
-                    <div className="flex justify-between py-1">
+                  {/* Random Faces Grid Preview */}
+                  {galleryImages.some((g) => g.type === 'face') && (
+                    <div className="pt-4 border-t border-[#1A1A1A]/10">
+                      <div className="flex items-center justify-between text-xs font-mono mb-2.5">
+                        <span className="text-[#8C827A] uppercase tracking-wider">
+                          Non-Repeating Faces ({activeMaterial.randomFaces} continuous):
+                        </span>
+                        <span className="text-amber-800 font-medium text-[11px]">Click face to inspect</span>
+                      </div>
+                      <div className="grid grid-cols-4 gap-2">
+                        {galleryImages
+                          .filter((g) => g.type === 'face')
+                          .map((face) => (
+                            <button
+                              key={face.id}
+                              type="button"
+                              onClick={() => setActiveFaceId(face.id)}
+                              className={`group relative aspect-[3/4] overflow-hidden border transition cursor-pointer ${
+                                activeFaceId === face.id
+                                  ? 'border-amber-800 ring-2 ring-amber-800/40'
+                                  : 'border-[#1A1A1A]/15 hover:border-[#1A1A1A]/50'
+                              }`}
+                            >
+                              <Image
+                                src={face.src}
+                                alt={face.label}
+                                fill
+                                className="object-cover object-center group-hover:scale-105 transition-transform"
+                              />
+                              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent" />
+                              <span className="absolute bottom-0 inset-x-0 bg-black/80 text-[9px] text-white font-mono py-0.5 text-center">
+                                {face.label}
+                              </span>
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="space-y-2.5 pt-4 border-t border-[#1A1A1A]/10 text-xs font-mono">
+                    <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                       <span className="text-[#8C827A]">Format:</span>
                       <span className="text-[#1A1A1A] font-medium">{activeMaterial.dimensions.join(' · ')}</span>
                     </div>
-                    <div className="flex justify-between py-1">
+                    <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                       <span className="text-[#8C827A]">Thickness:</span>
                       <span className="text-[#1A1A1A] font-medium">{activeMaterial.thickness}</span>
                     </div>
-                    <div className="flex justify-between py-1">
+                    <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                       <span className="text-[#8C827A]">Finish:</span>
                       <span className="text-[#1A1A1A] font-medium">{activeMaterial.finish}</span>
                     </div>
-                    <div className="flex justify-between py-1">
+                    <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                       <span className="text-[#8C827A]">Random Faces:</span>
                       <span className="text-[#1A1A1A] font-medium">{activeMaterial.randomFaces} continuous</span>
                     </div>
-                    <div className="flex justify-between py-1">
+                    {activeMaterial.sqFtPerBox && (
+                      <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
+                        <span className="text-[#8C827A]">Packaging / Box:</span>
+                        <span className="text-[#1A1A1A] font-medium">
+                          {activeMaterial.sqFtPerBox} sq.ft {activeMaterial.weightKgPerBox ? `(${activeMaterial.weightKgPerBox} kg)` : ''}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                       <span className="text-[#8C827A]">Porosity:</span>
                       <span className="text-emerald-700 font-medium">&lt; 0.04% (Impervious)</span>
                     </div>
