@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Download, Eye, RefreshCcw, ArrowRight, Loader2, ImageUp } from 'lucide-react';
 import { PORCELAIN_CATALOG } from '@/data/porcelain-catalog-data';
+import { UNIFIED_CATALOG } from '@/data/unified-materials-data';
 import type { Quad } from '@/lib/visualizer/homography';
 import { createSurfaceRenderer, type SurfaceRenderer } from '@/lib/visualizer/surface-renderer';
 import { buildLightMap, lightLuminance, type LightMap } from '@/lib/visualizer/light-map';
@@ -24,13 +25,27 @@ import { SurfaceControls } from './surface-controls';
 import { SurfaceEditorOverlay } from './surface-editor-overlay';
 import { SurfacePins } from './surface-pins';
 
-const PRODUCTS: VisualizerProduct[] = PORCELAIN_CATALOG.map((m) => ({
+const PORCELAIN_PRODUCTS: VisualizerProduct[] = PORCELAIN_CATALOG.map((m) => ({
   id: m.id,
   name: m.name,
   texture: m.slabImage,
   finish: m.finish,
   priceEstimate: m.priceEstimate,
 }));
+
+const UNIFIED_PRODUCTS: VisualizerProduct[] = UNIFIED_CATALOG.map((m) => ({
+  id: m.id,
+  name: m.name,
+  texture: m.slabImage,
+  finish: m.finish,
+  priceEstimate: m.priceEstimate,
+}));
+
+// Unified multi-material visualizer catalog (Porcelain, Granite, Quartz, Quartzite)
+const PRODUCTS: VisualizerProduct[] = [
+  ...PORCELAIN_PRODUCTS,
+  ...UNIFIED_PRODUCTS.filter((u) => !PORCELAIN_PRODUCTS.some((p) => p.id === u.id)),
+];
 
 const LUMA_WIDTH = 320;
 
@@ -51,8 +66,11 @@ type DetectionState =
   | { status: 'running'; label: string; progress: number | null }
   | { status: 'notice'; message: string };
 
-function manualSurfaces(size: PhotoSize): Surface[] {
-  return [createSurface('backsplash', DEFAULT_PRODUCT.backsplash, size), createSurface('countertop', DEFAULT_PRODUCT.countertop, size)];
+function manualSurfaces(size: PhotoSize, countertopId = DEFAULT_PRODUCT.countertop): Surface[] {
+  return [
+    createSurface('backsplash', DEFAULT_PRODUCT.backsplash, size),
+    createSurface('countertop', countertopId, size),
+  ];
 }
 
 function downscale(photo: HTMLCanvasElement, width: number): HTMLCanvasElement {
@@ -65,9 +83,11 @@ function downscale(photo: HTMLCanvasElement, width: number): HTMLCanvasElement {
 
 interface RoomVisualizerProps {
   onRequestQuote: (materialSummary: string) => void;
+  initialMaterial?: string | null;
+  initialPreset?: string | null;
 }
 
-export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
+export function RoomVisualizer({ onRequestQuote, initialMaterial, initialPreset }: RoomVisualizerProps) {
   const [products, setProducts] = useState<VisualizerProduct[]>(PRODUCTS);
 
   useEffect(() => {
@@ -177,6 +197,17 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
   const runDetection = async (next: HTMLCanvasElement, token: number) => {
     const size = { width: next.width, height: next.height };
     const isCurrent = () => token === detectionToken.current;
+    const resolveCountertopProduct = () => {
+      if (!initialMaterial) return DEFAULT_PRODUCT.countertop;
+      const found = products.find(
+        (p) =>
+          p.id.toLowerCase() === initialMaterial.toLowerCase() ||
+          p.id.toLowerCase().includes(initialMaterial.toLowerCase()) ||
+          p.name.toLowerCase().includes(initialMaterial.toLowerCase())
+      );
+      return found ? found.id : DEFAULT_PRODUCT.countertop;
+    };
+
     try {
       const { surfaces: found, paintable: areas, superpixels: patches } = await detectSurfaces(next, (p) => {
         if (!isCurrent()) return;
@@ -191,12 +222,20 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
       setPaintable(areas);
       setSuperpixels(patches);
       if (found.length === 0) throw new Error('No countertops, walls or floors were recognised in this photo.');
-      const detected = found.map((d) => createSurface(d.kind, DEFAULT_PRODUCT[d.kind], size, d));
+      const countertopChoice = resolveCountertopProduct();
+      const detected = found.map((d) =>
+        createSurface(
+          d.kind,
+          d.kind === 'countertop' ? countertopChoice : DEFAULT_PRODUCT[d.kind],
+          size,
+          d
+        )
+      );
       // Countertops are the main product, so never leave the user without one to
       // place; the hand-placed fallback still keeps clear of recognised objects.
       const counter =
         detected.find((s) => s.kind === 'countertop') ??
-        createSurface('countertop', DEFAULT_PRODUCT.countertop, size, { mask: areas.countertop ?? undefined, clipToQuad: true });
+        createSurface('countertop', countertopChoice, size, { mask: areas.countertop ?? undefined, clipToQuad: true });
       const created = detected.includes(counter) ? detected : [...detected, counter];
       setSurfaces(created);
       setSelectedIds([counter.id]);
@@ -207,7 +246,7 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
       );
     } catch (e: unknown) {
       if (!isCurrent()) return;
-      const fallback = manualSurfaces(size);
+      const fallback = manualSurfaces(size, resolveCountertopProduct());
       setSurfaces(fallback);
       setSelectedIds([fallback[1].id]);
       const reason = e instanceof Error ? e.message : 'Automatic detection is unavailable.';
@@ -322,7 +361,7 @@ export function RoomVisualizer({ onRequestQuote }: RoomVisualizerProps) {
     });
   };
 
-  if (!photo) return <PhotoSourcePicker onPhoto={handlePhoto} />;
+  if (!photo) return <PhotoSourcePicker onPhoto={handlePhoto} initialPreset={initialPreset} />;
 
   const aspect = photo.width / photo.height;
 

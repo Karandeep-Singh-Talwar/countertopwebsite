@@ -467,6 +467,13 @@ export function MaterialsCatalogView({
                   </div>
 
                   <div className="space-y-3 pt-6 border-t border-[#1A1A1A]/10">
+                    <Link
+                      href={`/visualizer?material=${encodeURIComponent(activeProduct.id)}`}
+                      className="w-full py-3 bg-[#C5A880]/15 border border-[#C5A880]/60 text-[#1A1A1A] hover:bg-[#C5A880]/25 text-xs uppercase tracking-[0.2em] font-medium transition-all cursor-pointer flex items-center justify-center gap-2 text-center"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-[#A67C52]" />
+                      Visualize in Your Room (AI)
+                    </Link>
                     <motion.button
                       whileHover={{ y: -2, scale: 1.01 }}
                       whileTap={{ scale: 0.98 }}

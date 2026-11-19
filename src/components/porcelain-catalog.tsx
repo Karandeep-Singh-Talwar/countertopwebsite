@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Calculator, 
   Calendar, 
   ArrowRight,
-  X
+  X,
+  Sparkles
 } from 'lucide-react';
 import { PORCELAIN_CATALOG, PorcelainMaterial } from '@/data/porcelain-catalog-data';
 
@@ -409,25 +411,34 @@ export function PorcelainCatalog({
                     </div>
                   </div>
 
-                  <div className="pt-6 border-t border-[#1A1A1A]/10 flex items-center gap-4">
-                    <button
-                      onClick={() => {
-                        setActiveMaterial(null);
-                        onOpenQuoteModal({ material: activeMaterial.name });
-                      }}
-                      className="flex-1 py-3 bg-[#1A1A1A] hover:bg-amber-800 text-white text-xs uppercase tracking-[0.2em] font-medium transition cursor-pointer"
+                  <div className="pt-6 border-t border-[#1A1A1A]/10 space-y-3">
+                    <Link
+                      href={`/visualizer?material=${encodeURIComponent(activeMaterial.id)}`}
+                      className="w-full py-3 bg-[#C5A880]/15 border border-[#C5A880]/60 text-[#1A1A1A] hover:bg-[#C5A880]/25 text-xs uppercase tracking-[0.2em] font-medium transition-all cursor-pointer flex items-center justify-center gap-2 text-center"
                     >
-                      Request Quote
-                    </button>
-                    <button
-                      onClick={() => {
-                        setActiveMaterial(null);
-                        onOpenBookCall({ material: activeMaterial.name, service: 'Material Consultation' });
-                      }}
-                      className="flex-1 py-3 border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white text-xs uppercase tracking-[0.2em] font-medium transition cursor-pointer"
-                    >
-                      Book Call
-                    </button>
+                      <Sparkles className="w-3.5 h-3.5 text-[#A67C52]" />
+                      Visualize in Your Room (AI)
+                    </Link>
+                    <div className="flex items-center gap-4">
+                      <button
+                        onClick={() => {
+                          setActiveMaterial(null);
+                          onOpenQuoteModal({ material: activeMaterial.name });
+                        }}
+                        className="flex-1 py-3 bg-[#1A1A1A] hover:bg-amber-800 text-white text-xs uppercase tracking-[0.2em] font-medium transition cursor-pointer"
+                      >
+                        Request Quote
+                      </button>
+                      <button
+                        onClick={() => {
+                          setActiveMaterial(null);
+                          onOpenBookCall({ material: activeMaterial.name, service: 'Material Consultation' });
+                        }}
+                        className="flex-1 py-3 border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white text-xs uppercase tracking-[0.2em] font-medium transition cursor-pointer"
+                      >
+                        Book Call
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>

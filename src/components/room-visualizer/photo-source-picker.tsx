@@ -12,14 +12,37 @@ import {
   stopCamera,
 } from '@/lib/visualizer/photo-source';
 
-// Unsplash serves CORS headers, which WebGL and the detector need. Swap for a photo of one of your own installs.
-const SAMPLE_KITCHEN = 'https://images.unsplash.com/photo-1556912173-3bb406ef7e77?auto=format&fit=crop&w=1600&q=80';
+// Curated luxury room environments for instant in-browser visualizer testing
+const SAMPLE_ROOMS = [
+  {
+    id: 'sample-chef-kitchen',
+    title: 'Modern Chef Kitchen Island',
+    type: 'Countertops & Waterfall',
+    url: 'https://images.unsplash.com/photo-1556912173-3bb406ef7e77?auto=format&fit=crop&w=1600&q=80',
+    thumbnail: '/catalog/products/kitchen_countertops_hero.jpg',
+  },
+  {
+    id: 'sample-master-bath',
+    title: 'Contemporary Spa Bath',
+    type: 'Full Backsplash & Wall Cladding',
+    url: '/catalog/products/backsplash_walltile_hero.jpg',
+    thumbnail: '/catalog/products/backsplash_walltile_hero.jpg',
+  },
+  {
+    id: 'sample-grand-foyer',
+    title: 'Open Architectural Villa',
+    type: 'Continuous Large-Format Flooring',
+    url: '/catalog/products/flooring_hero.jpg',
+    thumbnail: '/catalog/products/flooring_hero.jpg',
+  },
+];
 
 interface PhotoSourcePickerProps {
   onPhoto: (photo: HTMLCanvasElement) => void;
+  initialPreset?: string | null;
 }
 
-export function PhotoSourcePicker({ onPhoto }: PhotoSourcePickerProps) {
+export function PhotoSourcePicker({ onPhoto, initialPreset }: PhotoSourcePickerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [cameraOn, setCameraOn] = useState(false);
@@ -28,6 +51,18 @@ export function PhotoSourcePicker({ onPhoto }: PhotoSourcePickerProps) {
   const { dragging, dropProps } = usePhotoDrop(onPhoto, (message) => setError(message));
 
   useEffect(() => () => stopCamera(streamRef.current), []);
+
+  // If a preset was requested via URL, load it immediately
+  useEffect(() => {
+    if (initialPreset) {
+      const match =
+        SAMPLE_ROOMS.find((r) => r.id === initialPreset || r.id.includes(initialPreset)) ??
+        SAMPLE_ROOMS[0];
+      if (match) {
+        void runLoader(() => loadPhotoUrl(match.url));
+      }
+    }
+  }, [initialPreset]);
 
   const closeCamera = () => {
     stopCamera(streamRef.current);
@@ -118,11 +153,33 @@ export function PhotoSourcePicker({ onPhoto }: PhotoSourcePickerProps) {
           <span className="font-serif text-2xl">Use your camera</span>
           <span className="text-sm text-[#6C6863]">Point your phone at the kitchen and snap the counters you want to replace.</span>
         </button>
-        <button onClick={() => void runLoader(() => loadPhotoUrl(SAMPLE_KITCHEN))} disabled={busy} className={optionClass}>
-          <Sparkles className="w-6 h-6" />
-          <span className="font-serif text-2xl">Try a sample room</span>
-          <span className="text-sm text-[#6C6863]">No photo handy? Start with one of our installed kitchens.</span>
-        </button>
+        <div className={`${optionClass} justify-between`}>
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="w-6 h-6 text-amber-700" />
+              <span className="font-serif text-2xl">Try luxury presets</span>
+            </div>
+            <span className="text-sm text-[#6C6863] block mb-4">
+              Select one of our installed designer spaces to preview instant stone combinations:
+            </span>
+          </div>
+
+          <div className="w-full space-y-2">
+            {SAMPLE_ROOMS.map((room) => (
+              <button
+                key={room.id}
+                onClick={() => void runLoader(() => loadPhotoUrl(room.url))}
+                disabled={busy}
+                className="w-full px-3 py-2 bg-white/90 hover:bg-black hover:text-white border border-[#1A1A1A]/10 text-left text-xs uppercase tracking-wider transition-all flex items-center justify-between cursor-pointer group/btn"
+              >
+                <span className="font-medium truncate">{room.title}</span>
+                <span className="text-[10px] text-amber-700 group-hover/btn:text-amber-300 font-sans ml-2 shrink-0">
+                  {room.type}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
       {error && <p role="alert" className="mt-4 text-sm text-red-700">{error}</p>}
       <p className="mt-6 text-xs text-[#6C6863]">

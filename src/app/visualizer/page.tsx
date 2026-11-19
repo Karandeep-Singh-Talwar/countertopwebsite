@@ -1,13 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { InCommonNav } from '@/components/in-common-nav';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
 import { RequestQuoteModal } from '@/components/request-quote-modal';
 import { RoomVisualizer } from '@/components/room-visualizer/room-visualizer';
 
-export default function VisualizerPage() {
+function VisualizerContent() {
+  const searchParams = useSearchParams();
+  const initialMaterial = searchParams.get('material');
+  const initialPreset = searchParams.get('preset');
+
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [modalInitialMaterial, setModalInitialMaterial] = useState('Calcatta Extra (600x1200mm Vitrified Porcelain)');
@@ -42,7 +47,11 @@ export default function VisualizerPage() {
         </section>
 
         <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-12 md:py-16">
-          <RoomVisualizer onRequestQuote={(material) => handleOpenQuoteModal({ material })} />
+          <RoomVisualizer
+            initialMaterial={initialMaterial}
+            initialPreset={initialPreset}
+            onRequestQuote={(material) => handleOpenQuoteModal({ material })}
+          />
         </section>
       </main>
 
@@ -62,5 +71,21 @@ export default function VisualizerPage() {
         initialSqFt={modalInitialSqFt}
       />
     </div>
+  );
+}
+
+export default function VisualizerPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+          <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] font-mono animate-pulse">
+            Loading Studio Visualizer...
+          </div>
+        </div>
+      }
+    >
+      <VisualizerContent />
+    </Suspense>
   );
 }
