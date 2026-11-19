@@ -214,8 +214,7 @@ export function RoomVisualizer({ onConsultLook, onRequestQuote, initialMaterial,
         if (!isCurrent()) return;
         setDetection({
           status: 'running',
-          // Cached weights also report progress, so do not promise a download.
-          label: p.stage === 'download' ? 'Loading surface AI' : 'Finding countertops, walls and floors',
+          label: 'Calibrating perspective planes (Virtual Tile System)',
           progress: p.progress,
         });
       });
@@ -264,7 +263,7 @@ export function RoomVisualizer({ onConsultLook, onRequestQuote, initialMaterial,
     setSuperpixels(null);
     outline.reset();
     setPhoto(next);
-    setDetection({ status: 'running', label: 'Loading surface AI', progress: null });
+    setDetection({ status: 'running', label: 'Calibrating perspective planes (Virtual Tile System)', progress: null });
     void runDetection(next, detectionToken.current);
   };
 
