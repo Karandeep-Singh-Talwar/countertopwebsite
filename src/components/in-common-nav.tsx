@@ -4,7 +4,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ArrowRight, Sparkles, Calculator, Eye, Hammer, Package, HelpCircle, Phone, Mail, X } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronRight,
+  ArrowRight,
+  Sparkles,
+  Calculator,
+  Eye,
+  Hammer,
+  Package,
+  Layers,
+  HelpCircle,
+  Phone,
+  Mail,
+  X,
+} from 'lucide-react';
 
 interface InCommonNavProps {
   onOpenBookCall: (opts?: { material?: string; service?: string }) => void;
@@ -19,6 +33,8 @@ interface DropdownItem {
   subtitle: string;
   href?: string;
   action?: () => void;
+  icon?: React.ComponentType<{ className?: string }>;
+  badge?: string;
 }
 
 interface NavSection {
@@ -111,19 +127,23 @@ export function InCommonNav({
       title: 'Products',
       items: [
         {
-          name: 'Countertop',
-          subtitle: 'Porcelain, Granite, Quartz & Quartzite slabs for kitchen islands',
+          name: 'Countertops & Waterfalls',
+          subtitle: 'Large-format porcelain slabs cut on-site. Heat, wine & knife impervious.',
           href: '/countertops',
+          icon: Layers,
+          badge: 'Flagship',
         },
         {
-          name: 'Backsplash & WallTile',
-          subtitle: 'Continuous veined slabs & moisture-proof wall tiles',
+          name: 'Backsplash & Wall Tile',
+          subtitle: 'Continuous veined slabs & calibrated tiles for cooking zones & showers.',
           href: '/backsplash-walltile',
+          icon: Sparkles,
         },
         {
-          name: 'Flooring',
-          subtitle: 'High-traffic vitrified pavers & natural stone floor tiles',
+          name: 'Architectural Flooring',
+          subtitle: 'High-traffic vitrified pavers & large tiles for unbroken room continuity.',
           href: '/flooring',
+          icon: Package,
         },
       ],
     },
@@ -132,14 +152,17 @@ export function InCommonNav({
       title: 'Design Tools',
       items: [
         {
-          name: 'Room Visualizer',
-          subtitle: 'Interactive in-browser AI tool to preview slabs in your kitchen',
+          name: 'Room Visualizer AI',
+          subtitle: 'Snap a phone photo or try luxury rooms to test slabs live in your space.',
           href: '/visualizer',
+          icon: Eye,
+          badge: 'Proprietary AI',
         },
         {
           name: 'Project Sizing Calculator',
-          subtitle: 'Estimate surface area, crate quantities and freight logistics',
+          subtitle: 'Calculate square footage, crate counts, and open line-item trade quotes.',
           action: () => onOpenQuoteModal(),
+          icon: Calculator,
         },
       ],
     },
@@ -239,67 +262,174 @@ export function InCommonNav({
                   </button>
 
                   {/* Dropdown Menu Flyout */}
-                  {isOpen && section.items && (
-                    <div
-                      className={`absolute top-full left-0 mt-1.5 w-80 sm:w-96 rounded-none p-3 shadow-2xl transition-all duration-150 z-50 ${
-                        showDarkText
-                          ? 'bg-[#FAF8F5] border border-[#E8E4DC] text-[#1A1A1A]'
-                          : 'bg-[#1A1714]/98 border border-white/20 text-white backdrop-blur-md'
-                      }`}
-                    >
-                      <div className="text-[10px] uppercase font-mono tracking-[0.25em] px-3 pt-2 pb-2 opacity-50 border-b border-current/10 mb-2">
-                        {section.title}
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        {section.items.map((item) => {
-                          const content = (
-                            <div className="flex flex-col text-left">
-                              <span className="font-medium text-xs tracking-wider uppercase text-[#1A1A1A]">
-                                {item.name}
-                              </span>
-                              <span className="text-[11px] normal-case tracking-normal opacity-70 font-sans mt-0.5 leading-snug">
-                                {item.subtitle}
-                              </span>
-                            </div>
-                          );
+                  <AnimatePresence>
+                    {isOpen && section.items && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                        className={`absolute top-full left-0 mt-2.5 w-[380px] sm:w-[440px] rounded-lg p-3 shadow-2xl z-50 ${
+                          showDarkText
+                            ? 'bg-[#FAF8F5]/98 backdrop-blur-xl border border-[#1A1A1A]/10 text-[#1A1A1A] shadow-[0_20px_50px_rgba(0,0,0,0.12)]'
+                            : 'bg-[#12100E]/98 backdrop-blur-xl border border-white/15 text-white shadow-[0_24px_60px_rgba(0,0,0,0.7)]'
+                        }`}
+                      >
+                        {/* Section Header Tag */}
+                        <div
+                          className={`flex items-center justify-between text-[10px] uppercase font-mono tracking-[0.25em] px-3 pt-1.5 pb-2.5 border-b mb-1.5 ${
+                            showDarkText
+                              ? 'text-amber-800 border-[#1A1A1A]/10'
+                              : 'text-amber-300 border-white/10'
+                          }`}
+                        >
+                          <span>{section.title === 'Products' ? 'Architectural Surfaces' : 'Interactive Tools'}</span>
+                          <span className="text-[9px] opacity-60">Verona Studio</span>
+                        </div>
 
-                          if (item.action) {
+                        {/* List of items */}
+                        <div className="flex flex-col gap-1">
+                          {section.items.map((item) => {
+                            const Icon = item.icon;
+                            const content = (
+                              <div className="flex items-start gap-3.5 w-full">
+                                {Icon && (
+                                  <div
+                                    className={`w-9 h-9 rounded-sm flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                                      showDarkText
+                                        ? 'bg-[#1A1A1A]/5 border border-[#1A1A1A]/10 text-amber-800 group-hover:bg-amber-800/10 group-hover:border-amber-800/30'
+                                        : 'bg-white/5 border border-white/10 text-amber-300 group-hover:bg-amber-400/20 group-hover:border-amber-400/40'
+                                    }`}
+                                  >
+                                    <Icon className="w-4 h-4" />
+                                  </div>
+                                )}
+                                <div className="flex flex-col text-left flex-1 min-w-0">
+                                  <div className="flex items-center gap-2">
+                                    <span
+                                      className={`font-serif text-sm font-normal tracking-wide transition-colors duration-200 ${
+                                        showDarkText
+                                          ? 'text-[#1A1A1A] group-hover:text-amber-900'
+                                          : 'text-white group-hover:text-amber-200'
+                                      }`}
+                                    >
+                                      {item.name}
+                                    </span>
+                                    {item.badge && (
+                                      <span
+                                        className={`text-[9px] uppercase font-mono tracking-widest px-1.5 py-0.5 rounded-xs ${
+                                          showDarkText
+                                            ? 'bg-amber-800/10 text-amber-800 border border-amber-800/20'
+                                            : 'bg-amber-400/20 text-amber-300 border border-amber-400/30'
+                                        }`}
+                                      >
+                                        {item.badge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span
+                                    className={`text-xs font-sans mt-0.5 leading-relaxed transition-colors duration-200 ${
+                                      showDarkText
+                                        ? 'text-[#59534E] group-hover:text-[#1A1A1A]'
+                                        : 'text-[#D4CFC9] group-hover:text-white'
+                                    }`}
+                                  >
+                                    {item.subtitle}
+                                  </span>
+                                </div>
+                                <ChevronRight
+                                  className={`w-4 h-4 self-center shrink-0 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 ${
+                                    showDarkText ? 'text-amber-800' : 'text-amber-300'
+                                  }`}
+                                />
+                              </div>
+                            );
+
+                            if (item.action) {
+                              return (
+                                <button
+                                  key={item.name}
+                                  onClick={() => {
+                                    setActiveDropdown(null);
+                                    item.action?.();
+                                  }}
+                                  className={`group w-full p-2.5 rounded-sm text-left transition-all duration-200 cursor-pointer border border-transparent ${
+                                    showDarkText
+                                      ? 'hover:bg-[#EFEAE1] hover:border-[#1A1A1A]/10'
+                                      : 'hover:bg-white/[0.08] hover:border-white/10'
+                                  }`}
+                                >
+                                  {content}
+                                </button>
+                              );
+                            }
+
                             return (
-                              <button
+                              <Link
                                 key={item.name}
-                                onClick={() => {
-                                  setActiveDropdown(null);
-                                  item.action?.();
-                                }}
-                                className={`w-full p-2.5 text-left transition-colors cursor-pointer ${
+                                href={item.href || '/'}
+                                onClick={() => setActiveDropdown(null)}
+                                className={`group w-full p-2.5 rounded-sm text-left transition-all duration-200 cursor-pointer border border-transparent ${
                                   showDarkText
-                                    ? 'hover:bg-[#F2EFE9] text-[#1A1A1A]'
-                                    : 'hover:bg-white/10 text-white'
+                                    ? 'hover:bg-[#EFEAE1] hover:border-[#1A1A1A]/10'
+                                    : 'hover:bg-white/[0.08] hover:border-white/10'
                                 }`}
                               >
                                 {content}
-                              </button>
+                              </Link>
                             );
-                          }
+                          })}
+                        </div>
 
-                          return (
+                        {/* Bottom Footer Callout */}
+                        {section.id === 'products' && (
+                          <div
+                            className={`mt-2 pt-2.5 border-t flex items-center justify-between text-[11px] font-sans px-2.5 ${
+                              showDarkText
+                                ? 'border-[#1A1A1A]/10 text-[#6C6863]'
+                                : 'border-white/10 text-white/60'
+                            }`}
+                          >
+                            <span>Test our slabs in your space:</span>
                             <Link
-                              key={item.name}
-                              href={item.href || '/'}
+                              href="/visualizer"
                               onClick={() => setActiveDropdown(null)}
-                              className={`w-full p-2.5 text-left transition-colors cursor-pointer ${
+                              className={`inline-flex items-center gap-1 font-medium transition-colors cursor-pointer ${
                                 showDarkText
-                                  ? 'hover:bg-[#F2EFE9] text-[#1A1A1A]'
-                                  : 'hover:bg-white/10 text-white'
+                                  ? 'text-amber-800 hover:text-black'
+                                  : 'text-amber-300 hover:text-white'
                               }`}
                             >
-                              {content}
+                              Open Studio AI <ArrowRight className="w-3 h-3" />
                             </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
+                          </div>
+                        )}
+
+                        {section.id === 'design-tools' && (
+                          <div
+                            className={`mt-2 pt-2.5 border-t flex items-center justify-between text-[11px] font-sans px-2.5 ${
+                              showDarkText
+                                ? 'border-[#1A1A1A]/10 text-[#6C6863]'
+                                : 'border-white/10 text-white/60'
+                            }`}
+                          >
+                            <span>Need custom crate logistics?</span>
+                            <Link
+                              href="/contact"
+                              onClick={() => setActiveDropdown(null)}
+                              className={`inline-flex items-center gap-1 font-medium transition-colors cursor-pointer ${
+                                showDarkText
+                                  ? 'text-amber-800 hover:text-black'
+                                  : 'text-amber-300 hover:text-white'
+                              }`}
+                            >
+                              Speak with Desk <ArrowRight className="w-3 h-3" />
+                            </Link>
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })}
@@ -388,8 +518,32 @@ export function InCommonNav({
                 </button>
 
                 {isSectionOpen && (
-                  <div className="mt-3 pl-2 flex flex-col space-y-3">
+                  <div className="mt-3 pl-2 flex flex-col space-y-2">
                     {section.items?.map((item) => {
+                      const Icon = item.icon;
+                      const itemBody = (
+                        <div className="flex items-start gap-3 w-full">
+                          {Icon && (
+                            <div className="w-8 h-8 rounded-sm bg-[#1A1A1A]/5 border border-[#1A1A1A]/10 flex items-center justify-center text-amber-800 shrink-0">
+                              <Icon className="w-3.5 h-3.5" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs uppercase tracking-wider font-medium text-[#1A1A1A] group-hover:text-amber-800 flex items-center gap-1.5">
+                              <span>{item.name}</span>
+                              {item.badge && (
+                                <span className="text-[8px] uppercase font-mono tracking-widest px-1 py-0.5 bg-amber-800/10 text-amber-800 border border-amber-800/20">
+                                  {item.badge}
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-[11px] text-[#6C6863] normal-case tracking-normal mt-0.5 leading-snug">
+                              {item.subtitle}
+                            </div>
+                          </div>
+                        </div>
+                      );
+
                       if (item.action) {
                         return (
                           <button
@@ -398,14 +552,9 @@ export function InCommonNav({
                               setMobileMenuOpen(false);
                               item.action?.();
                             }}
-                            className="text-left w-full group py-1"
+                            className="text-left w-full group p-2 rounded hover:bg-black/5 transition-colors cursor-pointer"
                           >
-                            <div className="text-xs uppercase tracking-wider font-medium text-[#1A1A1A] group-hover:text-amber-800">
-                              {item.name}
-                            </div>
-                            <div className="text-[11px] text-[#6C6863] normal-case tracking-normal">
-                              {item.subtitle}
-                            </div>
+                            {itemBody}
                           </button>
                         );
                       }
@@ -415,14 +564,9 @@ export function InCommonNav({
                           key={item.name}
                           href={item.href || '/'}
                           onClick={() => setMobileMenuOpen(false)}
-                          className="text-left w-full group py-1"
+                          className="text-left w-full group p-2 rounded hover:bg-black/5 transition-colors cursor-pointer"
                         >
-                          <div className="text-xs uppercase tracking-wider font-medium text-[#1A1A1A] group-hover:text-amber-800">
-                            {item.name}
-                          </div>
-                          <div className="text-[11px] text-[#6C6863] normal-case tracking-normal">
-                            {item.subtitle}
-                          </div>
+                          {itemBody}
                         </Link>
                       );
                     })}
