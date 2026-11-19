@@ -35,11 +35,11 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       quoteId,
-      message: `Detailed estimate PDF dispatched to ${data.email}. A porcelain surface specialist will follow up within 2 business hours.`,
+      message: `Your inquiry has been received. A surface specialist will follow up with ${data.email} within one business day.`,
       quote: newQuote,
     });
   } catch (err: unknown) {
     console.error('[API] Quote error:', err);
-    return NextResponse.json({ error: 'Failed to dispatch quote.' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to process inquiry.' }, { status: 500 });
   }
 }

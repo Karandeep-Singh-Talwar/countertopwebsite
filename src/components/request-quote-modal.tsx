@@ -223,13 +223,13 @@ export function RequestQuoteModal({
                 <Check className="w-7 h-7 stroke-[2.5]" />
               </div>
               <div className="text-[11px] font-mono font-bold text-amber-800 uppercase tracking-widest">
-                ESTIMATE DISPATCHED · REF #{quoteNumber}
+                ESTIMATE SENT · REF #{quoteNumber}
               </div>
               <h3 className="text-2xl font-serif font-light text-[#1A1A1A]">
-                Estimate &amp; Specs on the Way!
+                Estimate &amp; Details on the Way!
               </h3>
               <p className="text-xs text-[#1A1A1A]/70 max-w-sm mx-auto leading-relaxed">
-                We have emailed your complete itemized PDF quotation and material specification dossier ({initialSqFt} sq.ft scope) to <strong>{email}</strong>.
+                We have emailed your complete estimate ({initialSqFt} sq.ft scope) to <strong>{email}</strong>.
               </p>
               <div className="pt-2">
                 <button

@@ -74,17 +74,17 @@ export function InCommonFooter({
               <span>+1 (800) 555-SLAB (7522)</span>
             </a>
             <p className="text-xs text-[#8C827A] pt-1 leading-relaxed">
-              Custom CAD layout dossiers &amp; technical specifications dispatched within 2 business hours.
+              Inquiries and consultations answered within one business day.
             </p>
           </div>
 
           {/* Quick Direct Actions (4 cols) */}
           <div className="lg:col-span-4 space-y-4 font-sans text-xs">
             <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block font-sans">
-              Direct Project Procurement
+              Direct Project Orders
             </span>
             <p className="text-sm text-[#6C6863] font-normal leading-relaxed">
-              Direct crate logistics from factory to site. Speak with an architectural surfaces consultant or request custom jobsite specifications.
+              Slabs and tiles delivered safely nationwide. Speak with our team or order sample swatches.
             </p>
             <div className="flex flex-wrap items-center gap-6 pt-1">
               <motion.button
@@ -119,7 +119,7 @@ export function InCommonFooter({
           {/* Direct Email Digest (5 cols) */}
           <div className="lg:col-span-5 max-w-md">
             <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-2 font-sans">
-              Trade &amp; Architectural Dossier
+              Architectural Updates
             </span>
             <p className="text-sm text-[#6C6863] mb-4 font-normal leading-relaxed">
               Subscribe for new container arrivals, bookmatched quarry releases, and technical architectural updates.
@@ -146,7 +146,7 @@ export function InCommonFooter({
               {subscribed ? (
                 <p className="text-xs text-emerald-800 flex items-center gap-1.5 font-medium pt-1">
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Subscribed. Architectural dossier will be dispatched shortly.</span>
+                  <span>Thank you for subscribing. We will be in touch with new collections.</span>
                 </p>
               ) : (
                 <p className="text-xs text-[#8C827A] pt-0.5">

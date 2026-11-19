@@ -121,9 +121,9 @@ export default function PorcelainTilesPage() {
                   <div className="text-xs text-[#6C6863] mt-0.5">~{Math.round(totalWeightKg * 2.204)} lbs freight</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-serif text-[#1A1A1A] font-normal">Jobsite Crate</div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] mt-1 font-medium">Logistics Dispatch</div>
-                  <div className="text-xs text-[#6C6863] mt-0.5">Direct freight to facility</div>
+                  <div className="text-3xl font-serif text-[#1A1A1A] font-normal">Direct Transit</div>
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] mt-1 font-medium">Safe Delivery</div>
+                  <div className="text-xs text-[#6C6863] mt-0.5">Delivered to home or jobsite</div>
                 </div>
                 <div className="flex items-end">
                   <button

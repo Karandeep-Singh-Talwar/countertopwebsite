@@ -116,25 +116,25 @@ export default function ContactPage() {
                 Home
               </Link>
               <span>/</span>
-              <span className="text-[#1A1A1A]">Contact Atelier</span>
+              <span className="text-[#1A1A1A]">Contact</span>
             </div>
 
             <div className="text-xs uppercase tracking-[0.25em] text-amber-800 font-sans font-medium mb-2">
-              Architectural Inquiries &amp; Direct Jobsite Logistics
+              Customer Support &amp; Consultations
             </div>
 
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-normal tracking-tight text-[#1A1A1A] leading-[1.05]">
-              Contact Our <span className="italic font-light text-amber-900">Surface Atelier</span>
+              Contact <span className="italic font-light text-amber-900">Verona Surfaces</span>
             </h1>
 
             <p className="mt-4 text-[#6C6863] text-base sm:text-lg max-w-3xl font-light leading-relaxed">
-              Direct line to Verona architectural materials consultants, project estimators, and jobsite logistics dispatch. Sintered porcelain slabs, granite, quartz, and quartzite delivered directly to jobsites nationwide.
+              Speak directly with our surface team. Inquire about porcelain slabs, wall and floor tiles, sample orders, or technical details for your renovation.
             </p>
           </motion.div>
 
           {/* Main Grid: Form (Left) & Concierge Desks (Right) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mt-12 pt-8 border-t border-[#1A1A1A]/10">
-            {/* Left Column: Direct Architectural Project Inquiry Form */}
+            {/* Left Column: Direct Project Inquiry Form */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -143,10 +143,10 @@ export default function ContactPage() {
             >
               <div className="mb-8 pb-6 border-b border-[#1A1A1A]/10">
                 <h2 className="text-2xl sm:text-3xl font-serif font-normal text-[#1A1A1A] tracking-tight">
-                  Direct Project Specification Inquiry
+                  Send Us a Message
                 </h2>
                 <p className="text-xs text-[#6C6863] mt-2 font-normal leading-relaxed">
-                  Submit project dimensions, target applications, or architectural drawings. Itemized CAD takeoff dossiers and logistics schedules are returned within 2 business hours.
+                  Share your project dimensions, rooms, or surface questions. We respond within one business day.
                 </p>
               </div>
 
@@ -161,21 +161,21 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="text-[11px] uppercase tracking-[0.25em] text-amber-800 font-medium font-sans">
-                      Dossier Reference #{submittedData.quoteId}
+                      Reference #{submittedData.quoteId}
                     </span>
                     <h3 className="text-3xl font-serif font-normal text-[#1A1A1A] mt-1">
-                      Inquiry Dispatched Successfully
+                      Message Sent Successfully
                     </h3>
                   </div>
                   <p className="text-sm text-[#6C6863] max-w-md mx-auto leading-relaxed">
-                    Thank you, {fullName || 'Architect'}. Your project specification dossier has been routed to our technical estimation desk. A dedicated surface specialist will email your custom CAD takeoff to <strong>{email}</strong> within 2 business hours.
+                    Thank you, {fullName || 'there'}. We have received your inquiry. A surface specialist will follow up with you at <strong>{email}</strong> within one business day.
                   </p>
                   <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <button
                       onClick={() => setSubmittedData(null)}
                       className="px-6 py-2.5 border border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium hover:bg-[#FAF8F5] transition-colors cursor-pointer"
                     >
-                      Submit Another Project
+                      Send Another Message
                     </button>
                     <Link
                       href="/visualizer"
@@ -352,23 +352,23 @@ export default function ContactPage() {
                       className="shimmer-liquid-sheen relative overflow-hidden w-full py-4 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.25em] font-medium flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-2xl cursor-pointer disabled:opacity-50"
                     >
                       {isSubmitting ? (
-                        <span>Transmitting Dossier...</span>
+                        <span>Sending Message...</span>
                       ) : (
                         <>
                           <Send className="w-3.5 h-3.5" />
-                          <span>Dispatch Project Specification Inquiry</span>
+                          <span>Send Message</span>
                         </>
                       )}
                     </motion.button>
                     <p className="text-[11px] text-[#8C827A] text-center mt-3 font-normal">
-                      Technical specifications and architectural guidance dispatched directly to your inbox. Zero marketing spam.
+                      We reply within one business day. No spam, no unsolicited calls.
                     </p>
                   </div>
                 </form>
               )}
             </motion.div>
 
-            {/* Right Column: Direct Desks, Logistics Hubs & Fast Actions */}
+            {/* Right Column: Concierge & Consultations */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -379,10 +379,10 @@ export default function ContactPage() {
               <div className="bg-white border border-[#1A1A1A]/10 p-8 shadow-sm space-y-6">
                 <div>
                   <div className="text-[10px] uppercase tracking-[0.25em] text-amber-800 font-sans font-medium mb-1">
-                    Direct Contact Desk
+                    Direct Concierge
                   </div>
                   <h3 className="text-2xl font-serif font-normal text-[#1A1A1A]">
-                    Orders &amp; Architectural Inquiries
+                    Customer &amp; Trade Inquiries
                   </h3>
                 </div>
 
@@ -395,7 +395,7 @@ export default function ContactPage() {
                       <Mail className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase tracking-wider text-[#8C827A] block">Email Takeoffs &amp; CAD</span>
+                      <span className="text-[10px] uppercase tracking-wider text-[#8C827A] block">Email Inquiries</span>
                       <span className="font-medium text-sm text-[#1A1A1A]">concierge@veronasurfaces.com</span>
                     </div>
                   </a>
@@ -408,7 +408,7 @@ export default function ContactPage() {
                       <Phone className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase tracking-wider text-[#8C827A] block">Toll-Free Architectural Desk</span>
+                      <span className="text-[10px] uppercase tracking-wider text-[#8C827A] block">Toll-Free Phone</span>
                       <span className="font-medium text-sm text-[#1A1A1A]">+1 (800) 555-SLAB (7522)</span>
                     </div>
                   </a>
@@ -418,31 +418,31 @@ export default function ContactPage() {
                       <Clock className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase tracking-wider text-[#8C827A] block">Operating Hours</span>
+                      <span className="text-[10px] uppercase tracking-wider text-[#8C827A] block">Hours</span>
                       <span className="text-xs text-[#1A1A1A] font-medium">Monday – Saturday: 7:00 AM – 7:00 PM EST</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Concierge Desk 2: Fast Interactive Actions */}
+              {/* Concierge Desk 2: Direct Consultation & Swatches */}
               <div className="bg-[#FAF8F5] border border-[#1A1A1A]/10 p-8 space-y-5">
                 <h3 className="text-xl font-serif font-normal text-[#1A1A1A]">
-                  Immediate Project Support
+                  Direct Consultation
                 </h3>
                 <p className="text-xs text-[#6C6863] leading-relaxed">
-                  Need immediate dimensional pricing or 1-on-1 technical review with an architectural surfaces consultant?
+                  Have questions about slab formats, veining patterns, or installation? Schedule a call or request swatches.
                 </p>
 
                 <div className="space-y-3 pt-2">
                   <motion.button
                     whileHover={{ y: -2, scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => handleOpenBookCall({ service: '1-on-1 Surface Review' })}
+                    onClick={() => handleOpenBookCall({ service: 'Surface Consultation' })}
                     className="shimmer-liquid-sheen relative overflow-hidden w-full py-3.5 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.2em] font-medium flex items-center justify-center gap-2 shadow-sm hover:shadow-lg transition-all cursor-pointer"
                   >
                     <Calendar className="w-3.5 h-3.5" />
-                    <span>Book 15-Min Phone Review</span>
+                    <span>Schedule 15-Min Call</span>
                   </motion.button>
 
                   <motion.button
@@ -452,22 +452,22 @@ export default function ContactPage() {
                     className="w-full py-3.5 bg-white border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#EFECE6] text-xs uppercase tracking-[0.2em] font-medium flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
-                    <span>Request Curated Swatches</span>
+                    <span>Request Swatches</span>
                   </motion.button>
                 </div>
               </div>
 
-              {/* Concierge Desk 3: Direct Logistics Assurance */}
+              {/* Concierge Desk 3: Safe Freight & Delivery */}
               <div className="border border-[#1A1A1A]/10 bg-white p-8 space-y-4">
                 <div className="flex items-center gap-2 text-amber-800 text-xs uppercase tracking-[0.2em] font-medium font-sans">
                   <ShieldCheck className="w-4 h-4" />
-                  <span>Jobsite Delivery Guarantee</span>
+                  <span>Direct Delivery</span>
                 </div>
                 <h4 className="text-lg font-serif font-normal text-[#1A1A1A]">
-                  Kiln-to-Jobsite Crate Logistics
+                  Safe Packaging &amp; Transit
                 </h4>
                 <p className="text-xs text-[#6C6863] leading-relaxed">
-                  All porcelain slabs and calibrated tiles are secured in heavy-duty vertical A-frame crates and delivered with liftgate freight direct to residential or commercial jobsites. Zero showroom broker markups and zero distributor delays.
+                  Slabs and tiles are packaged in reinforced timber frames and delivered with liftgate freight directly to your home or contractor's site nationwide.
                 </p>
               </div>
             </motion.div>
@@ -507,10 +507,10 @@ export default function ContactPage() {
 
               <div className="border border-[#1A1A1A]/10 bg-white p-8 space-y-3">
                 <h4 className="text-lg font-serif text-[#1A1A1A] font-normal">
-                  What is the crate freight dispatch schedule?
+                  How does delivery and transit work?
                 </h4>
                 <p className="text-xs text-[#6C6863] leading-relaxed">
-                  Stocked slabs and calibrated tiles dispatch within 24 to 48 hours via dedicated A-frame logistics with hydraulic liftgate offloading at your jobsite. Complete tracking is emailed upon freight dispatch.
+                  Stocked slabs and tiles ship within 24 to 48 hours in protective timber A-frames with liftgate offloading at your driveway or jobsite. Tracking details are emailed as soon as your shipment departs.
                 </p>
               </div>
 
@@ -519,7 +519,7 @@ export default function ContactPage() {
                   Do you provide trade &amp; architect submittals?
                 </h4>
                 <p className="text-xs text-[#6C6863] leading-relaxed">
-                  Yes. Physical sample swatch boxes, ASTM C373 water absorption test certifications (&lt;0.04%), and high-resolution CAD texture maps are dispatched overnight to licensed architects and trade partners.
+                  Yes. Physical sample swatch boxes, ASTM technical certifications, and high-resolution CAD texture maps are shipped via express courier to homeowners, architects, and trade partners.
                 </p>
               </div>
             </div>

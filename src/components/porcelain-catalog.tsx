@@ -216,7 +216,7 @@ export function PorcelainCatalog({
               Need Full Architectural Crates or CAD Layouts?
             </h4>
             <p className="mt-3 text-[15px] text-[#59534E] font-light leading-relaxed">
-              We dispatch wholesale crate pallets directly to jobsites nationwide. Speak with our architectural advisors or receive a digital specification package with exact box and miter calculations.
+              We deliver full crates and custom cuts directly to homes and jobsites nationwide. Speak with our surface specialists or order samples for your project.
             </p>
           </div>
 

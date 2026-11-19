@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       bookingId,
-      message: `Consultation call booked successfully for ${data.name}! A calendar invite and confirmation has been dispatched to ${data.email}.`,
+      message: `Consultation call booked successfully for ${data.name}! A calendar invite and confirmation has been sent to ${data.email}.`,
       booking: newBooking,
     });
   } catch (err: unknown) {

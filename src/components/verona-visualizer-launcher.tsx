@@ -6,14 +6,11 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Sparkles,
+  Eye,
   Camera,
   X,
-  Layers,
   ArrowRight,
-  Maximize2,
   ChevronRight,
-  ImageUp,
 } from 'lucide-react';
 
 const QUICK_SWATCHES = [
@@ -86,34 +83,26 @@ export function VeronaVisualizerLauncher() {
 
   return (
     <>
-      {/* 1. Floating Visualizer Trigger Button (Replaces Roomvo widget) */}
+      {/* 1. Floating Visualizer Trigger Button: Quiet Luxury Architectural Studio */}
       <div className="fixed bottom-6 right-6 z-40 select-none">
         <motion.button
           initial={{ scale: 0.9, opacity: 0, y: 10 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          whileHover={{ scale: 1.04, y: -2 }}
-          whileTap={{ scale: 0.96 }}
+          whileHover={{ scale: 1.03, y: -2 }}
+          whileTap={{ scale: 0.97 }}
           transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           onClick={() => setIsOpen(true)}
-          aria-label="Open Verona Room Visualizer AI"
-          className="shimmer-liquid-sheen relative overflow-hidden flex items-center gap-3 px-5 py-3.5 bg-[#1A1A1A] hover:bg-black text-white rounded-full shadow-[0_12px_36px_rgba(0,0,0,0.35)] border border-amber-400/30 cursor-pointer group"
+          aria-label="Open Verona Room Visualizer"
+          className="relative overflow-hidden flex items-center gap-2.5 px-4 py-2.5 bg-[#141413]/95 hover:bg-black text-white rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-white/15 hover:border-amber-400/40 cursor-pointer group transition-colors"
         >
-          <div className="w-6 h-6 rounded-full bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-300 group-hover:rotate-12 transition-transform duration-300">
-            <Sparkles className="w-3.5 h-3.5" />
-          </div>
-
-          <div className="text-left">
-            <div className="text-[9px] uppercase tracking-[0.25em] text-amber-300 font-sans font-medium leading-none">
-              In-Browser AI
-            </div>
-            <div className="text-xs uppercase tracking-[0.15em] font-medium font-sans text-white mt-1">
-              See in Your Room
-            </div>
-          </div>
+          <Eye className="w-4 h-4 text-amber-300/90 group-hover:text-amber-200 transition-colors" />
+          <span className="text-xs uppercase tracking-[0.16em] font-medium font-sans text-neutral-200 group-hover:text-white transition-colors">
+            Room Visualizer
+          </span>
         </motion.button>
       </div>
 
-      {/* 2. Reverse-Engineered Verona Visualizer Modal / Popover */}
+      {/* 2. Verona Visualizer Modal / Popover */}
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-6 bg-black/60 backdrop-blur-sm">
@@ -138,11 +127,11 @@ export function VeronaVisualizerLauncher() {
               <div className="flex items-center justify-between px-6 py-5 border-b border-[#1A1A1A]/10 bg-white">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-full bg-[#1A1A1A] text-amber-300 flex items-center justify-center">
-                    <Sparkles className="w-4 h-4" />
+                    <Eye className="w-4 h-4" />
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-[0.25em] text-amber-800 font-medium block">
-                      VERONA SURFACES · PROPRIETARY AI
+                      VERONA SURFACES · DESIGN STUDIO
                     </span>
                     <h3 className="text-lg font-serif font-normal text-[#1A1A1A]">
                       Architectural Room Visualizer
@@ -162,7 +151,7 @@ export function VeronaVisualizerLauncher() {
               {/* Scrollable Body */}
               <div className="p-6 overflow-y-auto space-y-6">
                 <p className="text-xs text-[#6C6863] leading-relaxed">
-                  Preview Verona sintered porcelain, volcanic granite, quartz, and quartzite in your actual kitchen or living area. Realistic perspective, ambient light-mapping, and zero-distortion homography.
+                  Preview Verona porcelain slabs and tiles in your actual kitchen or living area with realistic perspective and ambient room lighting.
                 </p>
 
                 {/* Primary Action 1: Upload or Snap Room Photo */}
@@ -177,10 +166,10 @@ export function VeronaVisualizerLauncher() {
                     </div>
                     <div>
                       <h4 className="text-sm font-serif font-medium text-[#1A1A1A]">
-                        Snap or Upload Your Own Kitchen
+                        Upload Your Room Photo
                       </h4>
                       <p className="text-[11px] text-[#6C6863]">
-                        Phone camera capture or photo upload. AI auto-detects countertops &amp; walls.
+                        Use your phone camera or upload a photo to preview surfaces in your room.
                       </p>
                     </div>
                   </div>
@@ -191,9 +180,9 @@ export function VeronaVisualizerLauncher() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] uppercase tracking-[0.2em] text-[#8C827A] font-semibold font-sans">
-                      Or Test A Pre-Configured Luxury Room
+                      Or Preview Curated Spaces
                     </span>
-                    <span className="text-[10px] text-amber-800 font-medium">Instant AI Preview</span>
+                    <span className="text-[10px] text-amber-800 font-medium">Instant Preview</span>
                   </div>
 
                   <div className="grid grid-cols-3 gap-3">
@@ -258,7 +247,7 @@ export function VeronaVisualizerLauncher() {
               {/* Footer CTA */}
               <div className="p-4 bg-white border-t border-[#1A1A1A]/10 flex items-center justify-between">
                 <span className="text-[11px] text-[#8C827A]">
-                  100% In-Browser · No sign-up required
+                  In-browser preview · No account required
                 </span>
                 <Link
                   href="/visualizer"

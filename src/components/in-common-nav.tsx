@@ -2,22 +2,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronDown,
   ChevronRight,
   ArrowRight,
-  Sparkles,
-  Calculator,
-  Eye,
-  Hammer,
-  Package,
-  Layers,
-  HelpCircle,
-  Phone,
-  Mail,
   X,
 } from 'lucide-react';
 
@@ -124,56 +114,27 @@ export function InCommonNav({
 
   const navSections: NavSection[] = [
     {
-      id: 'products',
-      title: 'Products',
-      items: [
-        {
-          name: 'Countertops & Waterfalls',
-          subtitle: 'Large-format porcelain slabs cut on-site. Heat, wine & knife impervious.',
-          href: '/countertops',
-          icon: Layers,
-          badge: 'Flagship',
-        },
-        {
-          name: 'Backsplash & Wall Tile',
-          subtitle: 'Continuous veined slabs & calibrated tiles for cooking zones & showers.',
-          href: '/backsplash-walltile',
-          icon: Sparkles,
-        },
-        {
-          name: 'Architectural Flooring',
-          subtitle: 'High-traffic vitrified pavers & large tiles for unbroken room continuity.',
-          href: '/flooring',
-          icon: Package,
-        },
-      ],
+      id: 'countertops',
+      title: 'Countertops',
+      href: '/countertops',
     },
     {
-      id: 'design-tools',
-      title: 'Design Tools',
-      items: [
-        {
-          name: 'Room Visualizer AI',
-          subtitle: 'Snap a phone photo or try luxury rooms to test slabs live in your space.',
-          href: '/visualizer',
-          icon: Eye,
-          badge: 'Proprietary AI',
-        },
-        {
-          name: 'Project Sizing Calculator',
-          subtitle: 'Calculate square footage and estimate slab requirements.',
-          href: '/contact',
-          icon: Calculator,
-        },
-      ],
+      id: 'backsplash-walltile',
+      title: 'Backsplash & Wall Tile',
+      href: '/backsplash-walltile',
     },
     {
-      id: 'resources',
-      title: 'Resources',
-      action: () => setResourcesWipOpen(true),
+      id: 'flooring',
+      title: 'Flooring',
+      href: '/flooring',
     },
     {
-      id: 'contact-us',
+      id: 'visualizer',
+      title: 'Room Visualizer',
+      href: '/visualizer',
+    },
+    {
+      id: 'contact',
       title: 'Contact Us',
       href: '/contact',
     },
@@ -262,110 +223,28 @@ export function InCommonNav({
                     />
                   </button>
 
-                  {/* Dropdown Menu Flyout: Luxury Dark Architectural Card (Exact Match to Design Reference) */}
+                  {/* Dropdown Menu Flyout: Minimalist Category Selector (Zero AI Slop / Zero Verbosity) */}
                   <AnimatePresence>
                     {isOpen && section.items && (
                       <motion.div
-                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                        initial={{ opacity: 0, y: 6, scale: 0.98 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute top-full left-0 mt-3 w-[480px] sm:w-[500px] bg-[#141413]/98 backdrop-blur-2xl border border-amber-500/20 text-white p-6 rounded-2xl shadow-[0_24px_70px_rgba(0,0,0,0.65)] z-50 text-left select-none"
+                        exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                        transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute top-full left-0 mt-2 w-56 bg-[#141413]/98 backdrop-blur-xl border border-white/10 text-white p-2 rounded-xl shadow-2xl z-50 text-left select-none"
                       >
-                        {/* Top Header Tag */}
-                        <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08] mb-4">
-                          <span className="text-[10.5px] uppercase font-mono tracking-[0.25em] text-[#D4AF37] font-semibold">
-                            {section.id === 'products' ? 'ARCHITECTURAL SURFACES' : 'DESIGN & SPECIFICATION'}
-                          </span>
-                          <span className="text-[10px] uppercase font-mono tracking-[0.22em] text-[#D4AF37] font-medium">
-                            VERONA STUDIO
-                          </span>
-                        </div>
-
-                        {/* Items List */}
-                        <div className="flex flex-col gap-2.5">
-                          {section.items.map((item) => {
-                            const Icon = item.icon || Layers;
-                            const content = (
-                              <div className="flex items-start gap-3.5 w-full">
-                                <div className="w-10 h-10 rounded-lg bg-[#1C1A17] border border-[#2E2A24] flex items-center justify-center text-[#D4AF37] group-hover:border-[#D4AF37]/50 group-hover:text-amber-300 transition-colors shrink-0 mt-0.5">
-                                  <Icon className="w-5 h-5" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-serif text-[15px] sm:text-[16px] font-normal tracking-tight text-white group-hover:text-amber-100 transition-colors">
-                                      {item.name}
-                                    </span>
-                                    {item.badge && (
-                                      <span className="text-[9px] uppercase font-mono tracking-widest px-1.5 py-0.5 rounded-xs border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37] font-medium">
-                                        {item.badge}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <p className="text-[12px] font-sans text-[#9E988F] group-hover:text-[#D1CBC2] leading-relaxed mt-1 transition-colors">
-                                    {item.subtitle}
-                                  </p>
-                                </div>
-                              </div>
-                            );
-
-                            if (item.action) {
-                              return (
-                                <button
-                                  key={item.name}
-                                  onClick={() => {
-                                    setActiveDropdown(null);
-                                    item.action?.();
-                                  }}
-                                  className="group w-full p-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer hover:bg-white/[0.04]"
-                                >
-                                  {content}
-                                </button>
-                              );
-                            }
-
-                            return (
-                              <Link
-                                key={item.name}
-                                href={item.href || '/'}
-                                onClick={() => setActiveDropdown(null)}
-                                className="group w-full p-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer hover:bg-white/[0.04]"
-                              >
-                                {content}
-                              </Link>
-                            );
-                          })}
-                        </div>
-
-                        {/* Bottom Footer Bar */}
-                        <div className="border-t border-[#262420] pt-3.5 mt-3 flex items-center justify-between text-xs">
-                          {section.id === 'products' ? (
-                            <>
-                              <span className="text-[#9E988F] font-sans">Test our slabs in your space:</span>
-                              <Link
-                                href="/visualizer"
-                                onClick={() => setActiveDropdown(null)}
-                                className="text-[#D4AF37] hover:text-amber-300 font-medium font-sans inline-flex items-center gap-1.5 transition-colors cursor-pointer group/link"
-                              >
-                                <span>Open Studio AI</span>
-                                <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
-                              </Link>
-                            </>
-                          ) : (
-                            <>
-                              <span className="text-[#9E988F] font-sans">Direct material consultation:</span>
-                              <button
-                                onClick={() => {
-                                  setActiveDropdown(null);
-                                  onOpenBookCall();
-                                }}
-                                className="text-[#D4AF37] hover:text-amber-300 font-medium font-sans inline-flex items-center gap-1.5 transition-colors cursor-pointer group/link"
-                              >
-                                <span>Book 15-Min Call</span>
-                                <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
-                              </button>
-                            </>
-                          )}
+                        <div className="flex flex-col gap-1">
+                          {section.items.map((item) => (
+                            <Link
+                              key={item.name}
+                              href={item.href || '/'}
+                              onClick={() => setActiveDropdown(null)}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs uppercase tracking-[0.15em] font-medium text-neutral-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                            >
+                              <span>{item.name}</span>
+                              <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100" />
+                            </Link>
+                          ))}
                         </div>
                       </motion.div>
                     )}
@@ -567,7 +446,7 @@ export function InCommonNav({
               </h3>
 
               <p className="mt-4 text-sm text-[#59534E] leading-relaxed font-normal">
-                Our architectural technical dossiers, contractor wet-saw fabrication manuals, ASTM physical durability certificates, and freight logistics guides are currently being curated.
+                Our architectural guides, contractor wet-saw fabrication manuals, ASTM physical durability certificates, and freight logistics guides are currently being curated.
               </p>
 
               <p className="mt-3 text-sm text-[#1A1A1A] font-serif italic">
