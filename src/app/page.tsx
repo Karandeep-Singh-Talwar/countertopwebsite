@@ -6,7 +6,6 @@ import { InCommonNav } from '@/components/in-common-nav';
 import { InCommonHero } from '@/components/in-common-hero';
 import { CategoriesOverview } from '@/components/categories-overview';
 import { PorcelainUspBanner } from '@/components/porcelain-usp-banner';
-import { ContractorSavingsCalculator } from '@/components/contractor-savings-calculator';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
 import { RequestQuoteModal } from '@/components/request-quote-modal';
@@ -83,12 +82,6 @@ export default function HomePage() {
           onOpenQuoteModal={handleOpenQuoteModal}
           onOpenBookCall={handleOpenBookCall}
           onExploreCatalog={() => router.push('/porcelain-countertops')}
-        />
-
-        {/* 5. Contractor Installation & Direct Cost Savings Calculator */}
-        <ContractorSavingsCalculator
-          onOpenQuoteModal={handleOpenQuoteModal}
-          onOpenBookCall={handleOpenBookCall}
         />
       </main>
 
