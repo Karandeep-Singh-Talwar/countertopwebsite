@@ -26,18 +26,26 @@ export interface SurfaceMask {
 /** 'slab' = one continuous book-matched slab; 'tile' = gridded tiles with grout. */
 export type SurfaceLayout = 'slab' | 'tile';
 
+/** Laying patterns inspired by Virtual-Tile-Visualization-System / Roomvo: Stack Grid, Running Bond (Staggered Brick), or 45° Diamond. */
+export type SurfacePattern = 'grid' | 'running_bond' | 'diamond';
+
 export interface Surface {
   id: string;
   kind: SurfaceKind;
   corners: Quad;
   productId: string;
   layout: SurfaceLayout;
+  pattern?: SurfacePattern;
   /** How many texture repeats span the quad's longer edge. */
   scale: number;
   rotated: boolean;
   /** Tile grid (only used when layout === 'tile'). */
   tileColumns: number;
   tileRows: number;
+  /** Grout width in millimeters (e.g. 2, 4, 6, 8, 10). Default is 4mm. */
+  groutWidthMm?: number;
+  /** Grout color in hex format (e.g. '#808080', '#2B2927', '#E5E0D8'). */
+  groutColor?: string;
   /** Present when the surface came from auto-detection. */
   mask?: SurfaceMask;
   /** Where the floating label pin sits, in photo pixels. */

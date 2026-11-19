@@ -52,6 +52,26 @@ function labelsFor(surfaces: readonly Surface[]): Map<string, string> {
   return labels;
 }
 
+const GROUT_COLORS = [
+  { name: 'Classic Grey', hex: '#808080' },
+  { name: 'Charcoal Slate', hex: '#2B2927' },
+  { name: 'Warm Biscuit', hex: '#E5E0D8' },
+  { name: 'Silver Ash', hex: '#D1CBC3' },
+  { name: 'Pure White', hex: '#FFFFFF' },
+];
+
+const GROUT_WIDTHS = [
+  { label: '2mm Fine', mm: 2 },
+  { label: '4mm Standard', mm: 4 },
+  { label: '6mm Wide', mm: 6 },
+];
+
+const PATTERNS = [
+  { id: 'grid', label: 'Stack Grid' },
+  { id: 'running_bond', label: 'Running Bond' },
+  { id: 'diamond', label: '45° Diamond' },
+] as const;
+
 export function SurfaceControls({ surfaces, selectedIds, products, onSelect, onSelectKind, onAdd, onRemove, onUpdateSelected, outline }: SurfaceControlsProps) {
   const selected = surfaces.filter((s) => selectedIds.includes(s.id));
   const lead = selected[0] ?? null;
@@ -172,14 +192,86 @@ export function SurfaceControls({ surfaces, selectedIds, products, onSelect, onS
                 />
               </label>
             ) : (
-              <>
-                <Stepper label="Tiles across" value={lead.tileColumns} onChange={(v) => onUpdateSelected({ tileColumns: v })} />
-                <Stepper label="Tiles high" value={lead.tileRows} onChange={(v) => onUpdateSelected({ tileRows: v })} />
-              </>
+              <div className="space-y-4 pt-1">
+                {/* Tile Pattern */}
+                <div>
+                  <span className="block text-[11px] uppercase tracking-[0.15em] text-[#6C6863] mb-1.5 font-mono">
+                    Laying Pattern
+                  </span>
+                  <div className="grid grid-cols-3 gap-1 border border-[#1A1A1A]/15 text-[11px] uppercase tracking-wider text-center">
+                    {PATTERNS.map((pat) => (
+                      <button
+                        key={pat.id}
+                        onClick={() => onUpdateSelected({ pattern: pat.id })}
+                        className={`py-1.5 px-1 cursor-pointer transition-colors ${
+                          (lead.pattern ?? 'grid') === pat.id
+                            ? 'bg-[#1A1A1A] text-white font-medium'
+                            : 'hover:bg-black/5 text-[#1A1A1A]'
+                        }`}
+                      >
+                        {pat.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Grout Width (mm) */}
+                <div>
+                  <span className="block text-[11px] uppercase tracking-[0.15em] text-[#6C6863] mb-1.5 font-mono">
+                    Grout Joint Width
+                  </span>
+                  <div className="grid grid-cols-3 gap-1 border border-[#1A1A1A]/15 text-[11px] uppercase tracking-wider text-center">
+                    {GROUT_WIDTHS.map((gw) => (
+                      <button
+                        key={gw.mm}
+                        onClick={() => onUpdateSelected({ groutWidthMm: gw.mm })}
+                        className={`py-1.5 px-1 cursor-pointer transition-colors ${
+                          (lead.groutWidthMm ?? 4) === gw.mm
+                            ? 'bg-[#1A1A1A] text-white font-medium'
+                            : 'hover:bg-black/5 text-[#1A1A1A]'
+                        }`}
+                      >
+                        {gw.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Grout Color Palette */}
+                <div>
+                  <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.15em] text-[#6C6863] mb-1.5 font-mono">
+                    <span>Grout Color</span>
+                    <span className="text-amber-800 font-sans normal-case text-[11px]">
+                      {GROUT_COLORS.find((c) => c.hex === (lead.groutColor ?? '#808080'))?.name ?? 'Custom'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {GROUT_COLORS.map((gc) => (
+                      <button
+                        key={gc.hex}
+                        onClick={() => onUpdateSelected({ groutColor: gc.hex })}
+                        title={gc.name}
+                        className={`w-7 h-7 rounded-full border cursor-pointer transition-transform ${
+                          (lead.groutColor ?? '#808080').toLowerCase() === gc.hex.toLowerCase()
+                            ? 'ring-2 ring-amber-800 scale-110 border-white'
+                            : 'border-black/20 hover:scale-105'
+                        }`}
+                        style={{ backgroundColor: gc.hex }}
+                        aria-label={`Select ${gc.name}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-[#1A1A1A]/10 space-y-2">
+                  <Stepper label="Tiles across" value={lead.tileColumns} onChange={(v) => onUpdateSelected({ tileColumns: v })} />
+                  <Stepper label="Tiles high" value={lead.tileRows} onChange={(v) => onUpdateSelected({ tileRows: v })} />
+                </div>
+              </div>
             )}
             <button
               onClick={() => onUpdateSelected({ rotated: !lead.rotated })}
-              className="flex items-center gap-2 text-xs uppercase tracking-[0.15em] cursor-pointer hover:opacity-70"
+              className="flex items-center gap-2 text-xs uppercase tracking-[0.15em] cursor-pointer hover:opacity-70 pt-1"
             >
               <RotateCw className="w-3.5 h-3.5" /> Rotate pattern 90°
             </button>

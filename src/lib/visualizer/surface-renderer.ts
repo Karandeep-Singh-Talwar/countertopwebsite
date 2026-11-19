@@ -15,6 +15,12 @@ export interface SurfaceDrawSpec {
   rotated: boolean;
   tiled: boolean;
   tileGrid: readonly [number, number];
+  /** 0 = grid (stack bond), 1 = running bond (staggered), 2 = diamond (45°) */
+  pattern: number;
+  /** Analytic anti-aliased grout thickness factor */
+  groutWidth: number;
+  /** Grout RGB normalized 0..1 */
+  groutColor: readonly [number, number, number];
   baseLuminance: number;
   shadeStrength: number;
   /** When set, the mask (not the quad) decides coverage; the quad only supplies perspective. */
@@ -59,6 +65,9 @@ uniform vec2 uRepeat;
 uniform bool uRotated;
 uniform bool uTiled;
 uniform vec2 uTileGrid;
+uniform int uPattern;
+uniform float uGroutWidth;
+uniform vec3 uGroutColor;
 uniform float uBaseLum;
 uniform float uShadeStrength;
 out vec4 outColor;
@@ -89,20 +98,31 @@ void main() {
   vec3 material;
   if (uTiled) {
     vec2 cell = st * uTileGrid;
+    if (uPattern == 1) {
+      // 50% Staggered Running Bond (Brick / Subway offset)
+      if (mod(floor(cell.y), 2.0) > 0.5) {
+        cell.x += 0.5;
+      }
+    } else if (uPattern == 2) {
+      // 45° Diamond Layout
+      mat2 rot45 = mat2(0.7071, -0.7071, 0.7071, 0.7071);
+      cell = rot45 * (st - 0.5) * uTileGrid;
+    }
     vec2 id = floor(cell);
     vec2 f = fract(cell);
-    vec2 g = fwidth(cell) * 1.2;
-    vec2 body = smoothstep(vec2(0.0), g, f) * smoothstep(vec2(0.0), g, 1.0 - f);
+    vec2 fw = fwidth(cell) * uGroutWidth;
+    vec2 body = smoothstep(vec2(0.0), fw, f) * smoothstep(vec2(0.0), fw, 1.0 - f);
     float grout = 1.0 - body.x * body.y;
     // Each tile shows a different face of the slab, like real random-face porcelain.
     vec2 offset = vec2(hash(id), hash(id + 17.0)) * 0.5;
-    material = mix(texture(uMaterial, f * 0.5 + offset).rgb, vec3(0.82, 0.8, 0.77), grout);
+    material = mix(texture(uMaterial, f * 0.5 + offset).rgb, uGroutColor, grout);
   } else {
     material = texture(uMaterial, st * uRepeat).rgb;
   }
 
   float lum = texture(uLight, p / uResolution).r;
-  float shade = clamp(lum / max(uBaseLum, 0.05), 0.3, 1.8);
+  // Multiplicative shading transfer preserving ambient room-scale illumination
+  float shade = clamp(lum / max(uBaseLum, 0.05), 0.45, 1.6);
   outColor = vec4(material * mix(1.0, shade, uShadeStrength), alpha);
 }`;
 
@@ -271,6 +291,9 @@ export function createSurfaceRenderer(
       gl.uniform1i(uniform(surfaceProgram, 'uRotated'), spec.rotated ? 1 : 0);
       gl.uniform1i(uniform(surfaceProgram, 'uTiled'), spec.tiled ? 1 : 0);
       gl.uniform2f(uniform(surfaceProgram, 'uTileGrid'), spec.tileGrid[0], spec.tileGrid[1]);
+      gl.uniform1i(uniform(surfaceProgram, 'uPattern'), spec.pattern);
+      gl.uniform1f(uniform(surfaceProgram, 'uGroutWidth'), spec.groutWidth);
+      gl.uniform3f(uniform(surfaceProgram, 'uGroutColor'), spec.groutColor[0], spec.groutColor[1], spec.groutColor[2]);
       gl.uniform1f(uniform(surfaceProgram, 'uBaseLum'), spec.baseLuminance);
       gl.uniform1f(uniform(surfaceProgram, 'uShadeStrength'), spec.shadeStrength);
       const maskTexture = spec.mask ? cached(masks, spec.mask, spec.mask) : null;

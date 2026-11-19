@@ -52,6 +52,18 @@ export function estimateBaseLuminance(lumaCanvas: HTMLCanvasElement, photoWidth:
   return summarizeLuminance(sampleSurfaceLuminance(lumaCanvas, scaleQuad(surface.corners, factor), surface.mask));
 }
 
+function hexToRgb(hex: string | undefined): [number, number, number] {
+  if (!hex || !hex.startsWith('#')) return [0.5, 0.5, 0.5]; // default #808080 grey
+  const clean = hex.replace('#', '');
+  if (clean.length === 6) {
+    const r = parseInt(clean.substring(0, 2), 16) / 255;
+    const g = parseInt(clean.substring(2, 4), 16) / 255;
+    const b = parseInt(clean.substring(4, 6), 16) / 255;
+    return [r, g, b];
+  }
+  return [0.5, 0.5, 0.5];
+}
+
 export function buildDrawSpec(
   surface: Surface,
   product: VisualizerProduct | undefined,
@@ -62,6 +74,11 @@ export function buildDrawSpec(
 ): SurfaceDrawSpec | null {
   const toSquare = quadToSquare(surface.corners);
   if (!toSquare || !product) return null;
+  const patternMode = surface.pattern === 'running_bond' ? 1 : surface.pattern === 'diamond' ? 2 : 0;
+  // Normalized grout factor: 2mm -> 0.8, 4mm -> 1.3, 6mm -> 1.8, 10mm -> 2.6
+  const groutWidth = ((surface.groutWidthMm ?? 4) / 4) * 1.3;
+  const groutColor = hexToRgb(surface.groutColor);
+
   return {
     toSquare,
     textureUrl: product.texture,
@@ -70,6 +87,9 @@ export function buildDrawSpec(
     tiled: surface.layout === 'tile',
     // The shader grids in (s, t); when rotated, s runs along the quad's height.
     tileGrid: surface.rotated ? [surface.tileRows, surface.tileColumns] : [surface.tileColumns, surface.tileRows],
+    pattern: patternMode,
+    groutWidth,
+    groutColor,
     baseLuminance,
     shadeStrength,
     mask: surface.mask,
