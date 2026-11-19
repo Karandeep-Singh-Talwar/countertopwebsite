@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { InCommonNav } from '@/components/in-common-nav';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
-import { RequestQuoteModal } from '@/components/request-quote-modal';
 import { PORCELAIN_CATALOG, PorcelainMaterial } from '@/data/porcelain-catalog-data';
 import { ArrowRight, Calculator, X } from 'lucide-react';
 
@@ -45,7 +44,6 @@ export default function PorcelainTilesPage() {
   const estimatedCost = Math.round(tileSqFt * pricePerSqFt);
 
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [modalInitialMaterial, setModalInitialMaterial] = useState('Matching Calcatta Extra Porcelain Tile');
   const [modalInitialSqFt, setModalInitialSqFt] = useState(180);
 
@@ -56,9 +54,11 @@ export default function PorcelainTilesPage() {
   };
 
   const handleOpenQuoteModal = (opts?: { material?: string; sqFt?: number }) => {
-    if (opts?.material) setModalInitialMaterial(opts.material);
-    if (opts?.sqFt) setModalInitialSqFt(opts.sqFt);
-    setIsQuoteModalOpen(true);
+    handleOpenBookCall({
+      material: opts?.material,
+      sqFt: opts?.sqFt,
+      service: 'Sample Swatch Request',
+    });
   };
 
   return (
@@ -127,10 +127,10 @@ export default function PorcelainTilesPage() {
                 </div>
                 <div className="flex items-end">
                   <button
-                    onClick={() => handleOpenQuoteModal({ material: `Porcelain Tile Crate (${boxesNeeded} Boxes / ${tileSqFt} sq.ft)`, sqFt: tileSqFt })}
+                    onClick={() => handleOpenBookCall({ service: 'Sample Swatch Request', material: `Porcelain Tile Crate (${boxesNeeded} Boxes / ${tileSqFt} sq.ft)`, sqFt: tileSqFt })}
                     className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
                   >
-                    <span>Get Tile Crate Quote</span>
+                    <span>Request Tile Swatches</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -300,11 +300,11 @@ export default function PorcelainTilesPage() {
                     <button
                       onClick={() => {
                         setActiveMaterial(null);
-                        handleOpenQuoteModal({ material: `${activeMaterial.name} Tile` });
+                        handleOpenBookCall({ material: `${activeMaterial.name} Tile`, service: 'Sample Swatch Request' });
                       }}
                       className="flex-1 py-3 bg-[#1A1A1A] hover:bg-amber-800 text-white text-xs uppercase tracking-[0.2em] font-medium transition cursor-pointer"
                     >
-                      Request Quote
+                      Request Swatch
                     </button>
                     <button
                       onClick={() => {
@@ -332,13 +332,6 @@ export default function PorcelainTilesPage() {
       <BookCallModal
         isOpen={isBookCallOpen}
         onClose={() => setIsBookCallOpen(false)}
-        initialMaterial={modalInitialMaterial}
-        initialSqFt={modalInitialSqFt}
-      />
-
-      <RequestQuoteModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
         initialMaterial={modalInitialMaterial}
         initialSqFt={modalInitialSqFt}
       />

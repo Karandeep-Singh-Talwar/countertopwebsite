@@ -88,10 +88,10 @@ export function InCommonFeatures({
 
                 <div className="mt-6 pt-5 border-t border-[#DED9D0] flex flex-col sm:flex-row gap-3">
                   <button
-                    onClick={() => onOpenQuoteModal({ material: 'Taj Mahal Satin Quartzite' })}
+                    onClick={() => onOpenBookCall({ material: 'Taj Mahal Satin Quartzite', service: 'Sample Swatch Request' })}
                     className="flex-1 py-3 px-4 bg-[#1A1A1A] hover:bg-black text-white text-[11px] uppercase tracking-[0.16em] text-center transition-colors cursor-pointer"
                   >
-                    Request Quote
+                    Request Sample
                   </button>
                   <button
                     onClick={() => onOpenBookCall({ material: 'Taj Mahal Satin Quartzite', service: 'Slab Viewing & Fabrication Consultation' })}
@@ -173,7 +173,7 @@ export function InCommonFeatures({
 
                 <div className="mt-6 pt-5 border-t border-[#DED9D0] flex flex-col sm:flex-row gap-3">
                   <button
-                    onClick={() => onOpenQuoteModal({ material: 'Artisan Zellige Blanc Tile' })}
+                    onClick={() => onOpenBookCall({ material: 'Artisan Zellige Blanc Tile', service: 'Sample Swatch Request' })}
                     className="flex-1 py-3 px-4 bg-[#1A1A1A] hover:bg-black text-white text-[11px] uppercase tracking-[0.16em] text-center transition-colors cursor-pointer"
                   >
                     Sample Box

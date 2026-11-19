@@ -161,8 +161,8 @@ export function InCommonNav({
         },
         {
           name: 'Project Sizing Calculator',
-          subtitle: 'Calculate square footage, crate counts, and open line-item trade quotes.',
-          action: () => onOpenQuoteModal(),
+          subtitle: 'Calculate square footage and estimate slab requirements.',
+          href: '/contact',
           icon: Calculator,
         },
       ],
@@ -412,7 +412,7 @@ export function InCommonNav({
                           <button
                             onClick={() => {
                               setActiveDropdown(null);
-                              onOpenQuoteModal({ material: 'Curated Swatches' });
+                              onOpenBookCall({ service: 'Sample Swatch Request', material: 'Curated Swatches' });
                             }}
                             className="inline-flex items-center gap-1 font-medium text-amber-900 hover:text-black transition-colors cursor-pointer"
                           >
@@ -582,11 +582,11 @@ export function InCommonNav({
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                onOpenQuoteModal();
+                onOpenBookCall({ service: 'Sample Swatch Request' });
               }}
               className="w-full py-3 border border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-widest text-center cursor-pointer"
             >
-              Request Itemized Quote
+              Request Swatch Samples
             </button>
           </div>
         </div>

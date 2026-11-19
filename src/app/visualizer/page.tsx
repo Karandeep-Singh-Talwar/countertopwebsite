@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import { InCommonNav } from '@/components/in-common-nav';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
-import { RequestQuoteModal } from '@/components/request-quote-modal';
 import { RoomVisualizer } from '@/components/room-visualizer/room-visualizer';
 
 function VisualizerContent() {
@@ -14,7 +13,6 @@ function VisualizerContent() {
   const initialPreset = searchParams.get('preset');
 
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [modalInitialMaterial, setModalInitialMaterial] = useState('Calcatta Extra (600x1200mm Vitrified Porcelain)');
   const [modalInitialSqFt, setModalInitialSqFt] = useState(55);
 
@@ -25,9 +23,11 @@ function VisualizerContent() {
   };
 
   const handleOpenQuoteModal = (opts?: { material?: string; sqFt?: number }) => {
-    if (opts?.material) setModalInitialMaterial(opts.material);
-    if (opts?.sqFt) setModalInitialSqFt(opts.sqFt);
-    setIsQuoteModalOpen(true);
+    handleOpenBookCall({
+      material: opts?.material,
+      sqFt: opts?.sqFt,
+      service: 'Visualizer Room Review',
+    });
   };
 
   return (
@@ -50,7 +50,7 @@ function VisualizerContent() {
           <RoomVisualizer
             initialMaterial={initialMaterial}
             initialPreset={initialPreset}
-            onRequestQuote={(material) => handleOpenQuoteModal({ material })}
+            onConsultLook={(material) => handleOpenBookCall({ material, service: 'Visualizer Room Review' })}
           />
         </section>
       </main>
@@ -60,13 +60,6 @@ function VisualizerContent() {
       <BookCallModal
         isOpen={isBookCallOpen}
         onClose={() => setIsBookCallOpen(false)}
-        initialMaterial={modalInitialMaterial}
-        initialSqFt={modalInitialSqFt}
-      />
-
-      <RequestQuoteModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
         initialMaterial={modalInitialMaterial}
         initialSqFt={modalInitialSqFt}
       />

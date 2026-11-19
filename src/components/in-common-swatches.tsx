@@ -440,14 +440,15 @@ export function InCommonSwatches({
                 <div className="pt-2 flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={() =>
-                      onOpenQuoteModal({
+                      onOpenBookCall({
                         material: `${activeStone.name} (${selectedFinish} finish)`,
+                        service: 'Sample Swatch Request',
                       })
                     }
                     className="flex-1 py-3.5 px-4 bg-[#1A1A1A] hover:bg-black text-white text-[11px] uppercase tracking-[0.16em] font-medium text-center transition-colors cursor-pointer inline-flex items-center justify-center gap-1.5"
                   >
-                    <Calculator className="w-3.5 h-3.5" />
-                    <span>Get Itemized Quote</span>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Request Swatch</span>
                   </button>
 
                   <button

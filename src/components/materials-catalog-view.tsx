@@ -35,7 +35,7 @@ interface MaterialsCatalogViewProps {
   categoryDescription: string;
   heroImage: string;
   initialMaterial?: MaterialType;
-  onOpenQuoteModal: (opts?: { material?: string; sqFt?: number }) => void;
+  onOpenQuoteModal?: (opts?: { material?: string; sqFt?: number }) => void;
   onOpenBookCall: (opts?: { material?: string; service?: string }) => void;
 }
 
@@ -160,78 +160,12 @@ export function MaterialsCatalogView({
             <div className="hidden lg:flex items-center gap-6 text-xs font-sans tracking-[0.15em] uppercase text-[#6C6863]">
               <span>Direct Jobsite Logistics</span>
               <button
-                onClick={() => onOpenQuoteModal({ material: `${meta.title} (${categoryTitle})` })}
+                onClick={() => onOpenBookCall({ service: 'Material Consultation', material: `${meta.title} (${categoryTitle})` })}
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
-                <span>Request Custom Quote</span>
+                <span>Book Consultation</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Material Technical Intelligence Dossier (Zero SaaS Boxes) */}
-      <section className="border-b border-[#1A1A1A]/10 bg-[#FAF8F5] py-10 sm:py-14">
-        <div className="max-w-[1680px] mx-auto px-6 md:px-12">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-8 border-b border-[#1A1A1A]/10">
-            <div className="max-w-2xl space-y-2">
-              <div className="text-[11px] uppercase tracking-[0.25em] text-amber-900 font-sans font-medium">
-                {meta.keyBadge}
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal tracking-tight">
-                {meta.title} <span className="italic font-light">Specifications</span>
-              </h2>
-              <p className="text-sm sm:text-base text-[#6C6863] leading-relaxed pt-1">
-                {meta.description}
-              </p>
-            </div>
-
-            <div className="flex items-center gap-6 text-xs font-sans tracking-[0.15em] uppercase text-[#6C6863]">
-              <span>Direct Jobsite Logistics</span>
-              <button
-                onClick={() => onOpenQuoteModal({ material: `${meta.title} (${categoryTitle})` })}
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
-              >
-                <span>Request Custom Quote</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Understated Editorial Spec Row: Hairline separated, zero SaaS boxes */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8">
-            <div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[#8C827A] block font-sans">
-                Physical Hardness
-              </span>
-              <span className="text-lg sm:text-xl font-serif text-[#1A1A1A] mt-1.5 block">
-                {meta.metrics.hardness}
-              </span>
-            </div>
-            <div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[#8C827A] block font-sans">
-                Thermal Tolerance
-              </span>
-              <span className="text-lg sm:text-xl font-serif text-[#1A1A1A] mt-1.5 block">
-                {meta.metrics.heatTolerance}
-              </span>
-            </div>
-            <div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[#8C827A] block font-sans">
-                Absorption Barrier
-              </span>
-              <span className="text-lg sm:text-xl font-serif text-[#1A1A1A] mt-1.5 block">
-                {meta.metrics.porosity}
-              </span>
-            </div>
-            <div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[#8C827A] block font-sans">
-                Fabrication Tooling
-              </span>
-              <span className="text-lg sm:text-xl font-serif text-[#1A1A1A] mt-1.5 block">
-                Standard Wet Saw
-              </span>
             </div>
           </div>
         </div>
@@ -351,7 +285,10 @@ export function MaterialsCatalogView({
                       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       onClick={(e) => {
                         e.stopPropagation();
-                        onOpenQuoteModal({ material: `${product.name} (${product.material})` });
+                        onOpenBookCall({
+                          material: `${product.name} (${product.material})`,
+                          service: `${categoryTitle} Consultation`,
+                        });
                       }}
                       className="shimmer-liquid-sheen relative overflow-hidden inline-flex items-center gap-1.5 px-4 py-2 bg-[#1A1A1A] hover:bg-black text-white text-[11px] uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer shadow-sm hover:shadow-md"
                     >
@@ -481,11 +418,14 @@ export function MaterialsCatalogView({
                       onClick={() => {
                         const name = activeProduct.name;
                         setActiveProduct(null);
-                        onOpenQuoteModal({ material: `${name} (${activeProduct.material})` });
+                        onOpenBookCall({
+                          material: `${name} (${activeProduct.material})`,
+                          service: 'Sample Swatch Request',
+                        });
                       }}
                       className="shimmer-liquid-sheen relative overflow-hidden w-full py-3 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.2em] font-medium transition-all shadow-md hover:shadow-xl cursor-pointer text-center"
                     >
-                      Request Specification Quote
+                      Request Swatch Sample
                     </motion.button>
                     <motion.button
                       whileHover={{ y: -2, scale: 1.01 }}

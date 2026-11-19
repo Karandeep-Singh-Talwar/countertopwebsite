@@ -5,11 +5,9 @@ import { InCommonNav } from '@/components/in-common-nav';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { MaterialsCatalogView } from '@/components/materials-catalog-view';
 import { BookCallModal } from '@/components/book-call-modal';
-import { RequestQuoteModal } from '@/components/request-quote-modal';
 
 export default function BacksplashWallTilePage() {
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [modalInitialMaterial, setModalInitialMaterial] = useState('Continuous Calcatta Porcelain Wall Tile');
   const [modalInitialSqFt, setModalInitialSqFt] = useState(65);
   const [modalInitialService, setModalInitialService] = useState('Backsplash & Wall Tile Package Consultation');
@@ -22,9 +20,11 @@ export default function BacksplashWallTilePage() {
   };
 
   const handleOpenQuoteModal = (opts?: { material?: string; sqFt?: number }) => {
-    if (opts?.material) setModalInitialMaterial(opts.material);
-    if (opts?.sqFt) setModalInitialSqFt(opts.sqFt);
-    setIsQuoteModalOpen(true);
+    handleOpenBookCall({
+      material: opts?.material,
+      sqFt: opts?.sqFt,
+      service: 'Backsplash & Wall Tile Package Consultation',
+    });
   };
 
   return (
@@ -60,13 +60,6 @@ export default function BacksplashWallTilePage() {
         initialMaterial={modalInitialMaterial}
         initialSqFt={modalInitialSqFt}
         initialService={modalInitialService}
-      />
-
-      <RequestQuoteModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
-        initialMaterial={modalInitialMaterial}
-        initialSqFt={modalInitialSqFt}
       />
     </div>
   );

@@ -60,11 +60,11 @@ export function InCommonFooter({
               Orders &amp; Architectural Inquiries
             </span>
             <a
-              href="mailto:quotes@veronasurfaces.com"
+              href="mailto:concierge@veronasurfaces.com"
               className="text-[#1A1A1A] hover:text-amber-800 transition-colors font-medium flex items-center gap-2"
             >
               <Mail className="w-3.5 h-3.5 text-amber-800" />
-              <span>quotes@veronasurfaces.com</span>
+              <span>concierge@veronasurfaces.com</span>
             </a>
             <a
               href="tel:18005557522"
@@ -90,10 +90,10 @@ export function InCommonFooter({
               <motion.button
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => onOpenQuoteModal()}
+                onClick={() => onOpenBookCall({ service: 'Sample Swatch Request' })}
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
-                <span>Request Specification</span>
+                <span>Request Swatches</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </motion.button>
               <motion.button
@@ -238,10 +238,10 @@ export function InCommonFooter({
                 Room Visualizer AI
               </Link>
               <button
-                onClick={() => onOpenQuoteModal()}
+                onClick={() => onOpenBookCall({ service: 'Sample Swatch Request' })}
                 className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
               >
-                Custom Specification Quote
+                Request Swatches
               </button>
               <button
                 onClick={() => onOpenBookCall({ service: 'Architectural Consultation' })}

@@ -20,12 +20,10 @@ import {
 import { InCommonNav } from '@/components/in-common-nav';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
-import { RequestQuoteModal } from '@/components/request-quote-modal';
 
 export default function ContactPage() {
   // Modal states
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [modalInitialMaterial, setModalInitialMaterial] = useState('Calcatta Extra Porcelain');
   const [modalInitialSqFt, setModalInitialSqFt] = useState(55);
   const [modalInitialService, setModalInitialService] = useState('Architectural Project Consultation');
@@ -53,9 +51,11 @@ export default function ContactPage() {
   };
 
   const handleOpenQuoteModal = (opts?: { material?: string; sqFt?: number }) => {
-    if (opts?.material) setModalInitialMaterial(opts.material);
-    if (opts?.sqFt) setModalInitialSqFt(opts.sqFt);
-    setIsQuoteModalOpen(true);
+    handleOpenBookCall({
+      material: opts?.material,
+      sqFt: opts?.sqFt,
+      service: 'Sample Swatch Request',
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -361,7 +361,7 @@ export default function ContactPage() {
                       )}
                     </motion.button>
                     <p className="text-[11px] text-[#8C827A] text-center mt-3 font-normal">
-                      Itemized PDF quote and contractor wet-saw specifications dispatched directly to your inbox. Zero marketing spam.
+                      Technical specifications and architectural guidance dispatched directly to your inbox. Zero marketing spam.
                     </p>
                   </div>
                 </form>
@@ -388,7 +388,7 @@ export default function ContactPage() {
 
                 <div className="space-y-4 text-sm text-[#6C6863]">
                   <a
-                    href="mailto:quotes@veronasurfaces.com"
+                    href="mailto:concierge@veronasurfaces.com"
                     className="flex items-center gap-3 text-[#1A1A1A] hover:text-amber-800 transition-colors group"
                   >
                     <div className="w-9 h-9 rounded-full bg-[#FAF8F5] border border-[#E8E4DC] flex items-center justify-center text-amber-800 group-hover:border-[#1A1A1A] transition-colors shrink-0">
@@ -396,7 +396,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <span className="text-[10px] uppercase tracking-wider text-[#8C827A] block">Email Takeoffs &amp; CAD</span>
-                      <span className="font-medium text-sm text-[#1A1A1A]">quotes@veronasurfaces.com</span>
+                      <span className="font-medium text-sm text-[#1A1A1A]">concierge@veronasurfaces.com</span>
                     </div>
                   </a>
 
@@ -448,11 +448,11 @@ export default function ContactPage() {
                   <motion.button
                     whileHover={{ y: -2, scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => handleOpenQuoteModal()}
+                    onClick={() => handleOpenBookCall({ service: 'Sample Swatch Request' })}
                     className="w-full py-3.5 bg-white border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#EFECE6] text-xs uppercase tracking-[0.2em] font-medium flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
                   >
-                    <Calculator className="w-3.5 h-3.5" />
-                    <span>Instant Sizing Calculator</span>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Request Curated Swatches</span>
                   </motion.button>
                 </div>
               </div>
@@ -541,13 +541,6 @@ export default function ContactPage() {
         initialMaterial={modalInitialMaterial}
         initialSqFt={modalInitialSqFt}
         initialService={modalInitialService}
-      />
-
-      <RequestQuoteModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
-        initialMaterial={modalInitialMaterial}
-        initialSqFt={modalInitialSqFt}
       />
     </div>
   );

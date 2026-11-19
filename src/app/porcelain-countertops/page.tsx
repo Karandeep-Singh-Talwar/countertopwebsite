@@ -6,12 +6,10 @@ import { InCommonNav } from '@/components/in-common-nav';
 import { PorcelainCatalog } from '@/components/porcelain-catalog';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
-import { RequestQuoteModal } from '@/components/request-quote-modal';
 import { Sparkles, Hammer, ShieldCheck, Flame, DollarSign, Calculator, ArrowRight, Layers } from 'lucide-react';
 
 export default function PorcelainCountertopsPage() {
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [modalInitialMaterial, setModalInitialMaterial] = useState('Calcatta Extra (600x1200mm Vitrified Porcelain)');
   const [modalInitialSqFt, setModalInitialSqFt] = useState(55);
 
@@ -22,9 +20,11 @@ export default function PorcelainCountertopsPage() {
   };
 
   const handleOpenQuoteModal = (opts?: { material?: string; sqFt?: number }) => {
-    if (opts?.material) setModalInitialMaterial(opts.material);
-    if (opts?.sqFt) setModalInitialSqFt(opts.sqFt);
-    setIsQuoteModalOpen(true);
+    handleOpenBookCall({
+      material: opts?.material,
+      sqFt: opts?.sqFt,
+      service: 'Sample Swatch Request',
+    });
   };
 
   return (
@@ -74,10 +74,10 @@ export default function PorcelainCountertopsPage() {
 
             <div className="flex flex-wrap items-center gap-8 mt-10">
               <button
-                onClick={() => handleOpenQuoteModal({ material: 'Porcelain Countertops Collection' })}
+                onClick={() => handleOpenBookCall({ service: 'Sample Swatch Request', material: 'Porcelain Countertops Collection' })}
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
-                <span>Request Custom Quote</span>
+                <span>Request Swatches</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <button
@@ -107,13 +107,6 @@ export default function PorcelainCountertopsPage() {
       <BookCallModal
         isOpen={isBookCallOpen}
         onClose={() => setIsBookCallOpen(false)}
-        initialMaterial={modalInitialMaterial}
-        initialSqFt={modalInitialSqFt}
-      />
-
-      <RequestQuoteModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
         initialMaterial={modalInitialMaterial}
         initialSqFt={modalInitialSqFt}
       />

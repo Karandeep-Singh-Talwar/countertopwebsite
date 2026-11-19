@@ -82,12 +82,13 @@ function downscale(photo: HTMLCanvasElement, width: number): HTMLCanvasElement {
 }
 
 interface RoomVisualizerProps {
-  onRequestQuote: (materialSummary: string) => void;
+  onConsultLook?: (materialSummary: string) => void;
+  onRequestQuote?: (materialSummary: string) => void;
   initialMaterial?: string | null;
   initialPreset?: string | null;
 }
 
-export function RoomVisualizer({ onRequestQuote, initialMaterial, initialPreset }: RoomVisualizerProps) {
+export function RoomVisualizer({ onConsultLook, onRequestQuote, initialMaterial, initialPreset }: RoomVisualizerProps) {
   const [products, setProducts] = useState<VisualizerProduct[]>(PRODUCTS);
 
   useEffect(() => {
@@ -343,11 +344,16 @@ export function RoomVisualizer({ onRequestQuote, initialMaterial, initialPreset 
     );
   };
 
-  const requestQuote = () => {
+  const consultLook = () => {
     const summary = surfaces
       .map((s) => `${PRODUCTS.find((p) => p.id === s.productId)?.name ?? 'Material'} (${s.kind}, ${s.layout})`)
       .join(' + ');
-    onRequestQuote(summary || 'Visualizer selection');
+    const res = summary || 'Visualizer selection';
+    if (onConsultLook) {
+      onConsultLook(res);
+    } else if (onRequestQuote) {
+      onRequestQuote(res);
+    }
   };
 
   const { dragging, dropProps } = usePhotoDrop(handlePhoto, setError);
@@ -463,11 +469,11 @@ export function RoomVisualizer({ onRequestQuote, initialMaterial, initialPreset 
           outline={outline}
         />
         <button
-          onClick={requestQuote}
+          onClick={consultLook}
           disabled={surfaces.length === 0}
           className="w-full flex items-center justify-center gap-2 py-4 bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.2em] cursor-pointer hover:bg-black disabled:opacity-40"
         >
-          Quote this look <ArrowRight className="w-4 h-4" />
+          Consult on this look <ArrowRight className="w-4 h-4" />
         </button>
       </aside>
     </div>

@@ -5,11 +5,9 @@ import { InCommonNav } from '@/components/in-common-nav';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { MaterialsCatalogView } from '@/components/materials-catalog-view';
 import { BookCallModal } from '@/components/book-call-modal';
-import { RequestQuoteModal } from '@/components/request-quote-modal';
 
 export default function FlooringPage() {
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [modalInitialMaterial, setModalInitialMaterial] = useState('Large Format Porcelain Vitrified Flooring');
   const [modalInitialSqFt, setModalInitialSqFt] = useState(250);
   const [modalInitialService, setModalInitialService] = useState('Architectural Flooring Consultation');
@@ -22,9 +20,11 @@ export default function FlooringPage() {
   };
 
   const handleOpenQuoteModal = (opts?: { material?: string; sqFt?: number }) => {
-    if (opts?.material) setModalInitialMaterial(opts.material);
-    if (opts?.sqFt) setModalInitialSqFt(opts.sqFt);
-    setIsQuoteModalOpen(true);
+    handleOpenBookCall({
+      material: opts?.material,
+      sqFt: opts?.sqFt,
+      service: 'Architectural Flooring Consultation',
+    });
   };
 
   return (
@@ -60,13 +60,6 @@ export default function FlooringPage() {
         initialMaterial={modalInitialMaterial}
         initialSqFt={modalInitialSqFt}
         initialService={modalInitialService}
-      />
-
-      <RequestQuoteModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
-        initialMaterial={modalInitialMaterial}
-        initialSqFt={modalInitialSqFt}
       />
     </div>
   );

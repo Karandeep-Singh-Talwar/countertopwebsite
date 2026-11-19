@@ -222,11 +222,11 @@ export function PorcelainCatalog({
 
           <div className="flex items-center gap-8">
             <button
-              onClick={() => onOpenQuoteModal({ material: 'Full High Gloss Vitrified Porcelain Collection' })}
+              onClick={() => onOpenBookCall({ service: 'Sample Swatch Request', material: 'Full High Gloss Vitrified Porcelain Collection' })}
               className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
             >
-              <Calculator className="w-4 h-4" />
-              <span>Get Itemized Estimate</span>
+              <Sparkles className="w-4 h-4" />
+              <span>Request Swatches</span>
             </button>
             <button
               onClick={() => onOpenBookCall({ service: 'Contractor Porcelain Installation Consultation' })}
@@ -423,11 +423,11 @@ export function PorcelainCatalog({
                       <button
                         onClick={() => {
                           setActiveMaterial(null);
-                          onOpenQuoteModal({ material: activeMaterial.name });
+                          onOpenBookCall({ material: activeMaterial.name, service: 'Sample Swatch Request' });
                         }}
                         className="flex-1 py-3 bg-[#1A1A1A] hover:bg-amber-800 text-white text-xs uppercase tracking-[0.2em] font-medium transition cursor-pointer"
                       >
-                        Request Quote
+                        Request Sample
                       </button>
                       <button
                         onClick={() => {

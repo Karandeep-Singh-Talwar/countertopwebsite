@@ -8,19 +8,17 @@ import { CategoriesOverview } from '@/components/categories-overview';
 import { PorcelainUspBanner } from '@/components/porcelain-usp-banner';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
-import { RequestQuoteModal } from '@/components/request-quote-modal';
 
 export default function HomePage() {
   const router = useRouter();
 
   // Modal states
   const [isBookCallOpen, setIsBookCallOpen] = useState<boolean>(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState<boolean>(false);
 
   // Active Category state
   const [activeCategory, setActiveCategory] = useState<'all' | 'porcelain-countertops' | 'porcelain-tiles'>('all');
 
-  // Pre-fill state for consultations and quotes
+  // Pre-fill state for consultations
   const [modalInitialMaterial, setModalInitialMaterial] = useState<string>('Calcatta Extra (600x1200mm Vitrified Porcelain)');
   const [modalInitialSqFt, setModalInitialSqFt] = useState<number>(55);
   const [modalInitialService, setModalInitialService] = useState<string>('Porcelain Countertop & Backsplash Package');
@@ -33,9 +31,11 @@ export default function HomePage() {
   };
 
   const handleOpenQuoteModal = (opts?: { material?: string; sqFt?: number }) => {
-    if (opts?.material) setModalInitialMaterial(opts.material);
-    if (opts?.sqFt) setModalInitialSqFt(opts.sqFt);
-    setIsQuoteModalOpen(true);
+    handleOpenBookCall({
+      material: opts?.material,
+      sqFt: opts?.sqFt,
+      service: 'Sample & Project Consultation',
+    });
   };
 
   const scrollTo = (id: string) => {
@@ -43,7 +43,7 @@ export default function HomePage() {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     } else {
-      handleOpenQuoteModal();
+      handleOpenBookCall({ service: 'Sample & Project Consultation' });
     }
   };
 
@@ -99,13 +99,6 @@ export default function HomePage() {
         initialMaterial={modalInitialMaterial}
         initialSqFt={modalInitialSqFt}
         initialService={modalInitialService}
-      />
-
-      <RequestQuoteModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
-        initialMaterial={modalInitialMaterial}
-        initialSqFt={modalInitialSqFt}
       />
     </div>
   );

@@ -5,11 +5,9 @@ import { InCommonNav } from '@/components/in-common-nav';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { MaterialsCatalogView } from '@/components/materials-catalog-view';
 import { BookCallModal } from '@/components/book-call-modal';
-import { RequestQuoteModal } from '@/components/request-quote-modal';
 
 export default function CountertopsPage() {
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [modalInitialMaterial, setModalInitialMaterial] = useState('Calcatta Extra Porcelain');
   const [modalInitialSqFt, setModalInitialSqFt] = useState(55);
   const [modalInitialService, setModalInitialService] = useState('Countertops & Island Consultation');
@@ -22,9 +20,11 @@ export default function CountertopsPage() {
   };
 
   const handleOpenQuoteModal = (opts?: { material?: string; sqFt?: number }) => {
-    if (opts?.material) setModalInitialMaterial(opts.material);
-    if (opts?.sqFt) setModalInitialSqFt(opts.sqFt);
-    setIsQuoteModalOpen(true);
+    handleOpenBookCall({
+      material: opts?.material,
+      sqFt: opts?.sqFt,
+      service: 'Countertops & Island Consultation',
+    });
   };
 
   return (
@@ -60,13 +60,6 @@ export default function CountertopsPage() {
         initialMaterial={modalInitialMaterial}
         initialSqFt={modalInitialSqFt}
         initialService={modalInitialService}
-      />
-
-      <RequestQuoteModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
-        initialMaterial={modalInitialMaterial}
-        initialSqFt={modalInitialSqFt}
       />
     </div>
   );
