@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -261,172 +262,164 @@ export function InCommonNav({
                     />
                   </button>
 
-                  {/* Dropdown Menu Flyout */}
+                  {/* Dropdown Menu Flyout: Luxury Two-Column Architectural Atelier */}
                   <AnimatePresence>
                     {isOpen && section.items && (
                       <motion.div
-                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                        className={`absolute top-full left-0 mt-2.5 w-[380px] sm:w-[440px] rounded-lg p-3 shadow-2xl z-50 ${
-                          showDarkText
-                            ? 'bg-[#FAF8F5]/98 backdrop-blur-xl border border-[#1A1A1A]/10 text-[#1A1A1A] shadow-[0_20px_50px_rgba(0,0,0,0.12)]'
-                            : 'bg-[#12100E]/98 backdrop-blur-xl border border-white/15 text-white shadow-[0_24px_60px_rgba(0,0,0,0.7)]'
-                        }`}
+                        exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute top-full left-0 mt-3 w-[620px] lg:w-[680px] bg-[#FAF8F5]/98 backdrop-blur-2xl border border-[#1A1A1A]/12 text-[#1A1A1A] p-6 shadow-[0_30px_90px_rgba(26,26,26,0.18)] z-50 text-left select-none"
                       >
-                        {/* Section Header Tag */}
-                        <div
-                          className={`flex items-center justify-between text-[10px] uppercase font-mono tracking-[0.25em] px-3 pt-1.5 pb-2.5 border-b mb-1.5 ${
-                            showDarkText
-                              ? 'text-amber-800 border-[#1A1A1A]/10'
-                              : 'text-amber-300 border-white/10'
-                          }`}
-                        >
-                          <span>{section.title === 'Products' ? 'Architectural Surfaces' : 'Interactive Tools'}</span>
-                          <span className="text-[9px] opacity-60">Verona Studio</span>
+                        {/* Top Header Tag */}
+                        <div className="flex items-center justify-between pb-3.5 border-b border-[#1A1A1A]/10 mb-5">
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-800" />
+                            <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-[#8C7355] font-medium">
+                              {section.id === 'products' ? 'Architectural Surface Collections' : 'Design & Specification Studio'}
+                            </span>
+                          </div>
+                          <span className="text-[9px] uppercase font-mono tracking-[0.2em] text-[#8C827A]">
+                            Verona Atelier
+                          </span>
                         </div>
 
-                        {/* List of items */}
-                        <div className="flex flex-col gap-1">
-                          {section.items.map((item) => {
-                            const Icon = item.icon;
-                            const content = (
-                              <div className="flex items-start gap-3.5 w-full">
-                                {Icon && (
-                                  <div
-                                    className={`w-9 h-9 rounded-sm flex items-center justify-center shrink-0 transition-colors duration-200 ${
-                                      showDarkText
-                                        ? 'bg-[#1A1A1A]/5 border border-[#1A1A1A]/10 text-amber-800 group-hover:bg-amber-800/10 group-hover:border-amber-800/30'
-                                        : 'bg-white/5 border border-white/10 text-amber-300 group-hover:bg-amber-400/20 group-hover:border-amber-400/40'
-                                    }`}
-                                  >
-                                    <Icon className="w-4 h-4" />
-                                  </div>
-                                )}
-                                <div className="flex flex-col text-left flex-1 min-w-0">
-                                  <div className="flex items-center gap-2">
-                                    <span
-                                      className={`font-serif text-sm font-normal tracking-wide transition-colors duration-200 ${
-                                        showDarkText
-                                          ? 'text-[#1A1A1A] group-hover:text-amber-900'
-                                          : 'text-white group-hover:text-amber-200'
-                                      }`}
-                                    >
-                                      {item.name}
-                                    </span>
-                                    {item.badge && (
-                                      <span
-                                        className={`text-[9px] uppercase font-mono tracking-widest px-1.5 py-0.5 rounded-xs ${
-                                          showDarkText
-                                            ? 'bg-amber-800/10 text-amber-800 border border-amber-800/20'
-                                            : 'bg-amber-400/20 text-amber-300 border border-amber-400/30'
-                                        }`}
-                                      >
-                                        {item.badge}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <span
-                                    className={`text-xs font-sans mt-0.5 leading-relaxed transition-colors duration-200 ${
-                                      showDarkText
-                                        ? 'text-[#59534E] group-hover:text-[#1A1A1A]'
-                                        : 'text-[#D4CFC9] group-hover:text-white'
-                                    }`}
-                                  >
-                                    {item.subtitle}
+                        {/* Two Columns: Left Navigation List + Right Atelier Spotlight */}
+                        <div className="grid grid-cols-[1.4fr_1fr] gap-6 items-stretch">
+                          {/* Left Column: Collection / Tool Items */}
+                          <div className="flex flex-col gap-2">
+                            {section.items.map((item, idx) => {
+                              const itemNumber = `0${idx + 1}`;
+                              const content = (
+                                <div className="flex items-start gap-3 w-full">
+                                  <span className="text-[11px] font-mono text-[#8C827A] pt-0.5 group-hover:text-amber-800 transition-colors shrink-0">
+                                    {itemNumber}
                                   </span>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center justify-between">
+                                      <span className="font-serif text-[15px] font-normal tracking-tight text-[#1A1A1A] group-hover:text-amber-900 transition-colors">
+                                        {item.name}
+                                      </span>
+                                      <ChevronRight className="w-3.5 h-3.5 text-[#8C827A] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all shrink-0" />
+                                    </div>
+                                    <p className="text-[11.5px] font-sans text-[#6C6863] group-hover:text-[#1A1A1A] leading-relaxed mt-0.5 transition-colors">
+                                      {item.subtitle}
+                                    </p>
+                                  </div>
                                 </div>
-                                <ChevronRight
-                                  className={`w-4 h-4 self-center shrink-0 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 ${
-                                    showDarkText ? 'text-amber-800' : 'text-amber-300'
-                                  }`}
-                                />
-                              </div>
-                            );
+                              );
 
-                            if (item.action) {
+                              if (item.action) {
+                                return (
+                                  <button
+                                    key={item.name}
+                                    onClick={() => {
+                                      setActiveDropdown(null);
+                                      item.action?.();
+                                    }}
+                                    className="group w-full p-2.5 rounded-none text-left transition-colors duration-150 cursor-pointer hover:bg-[#F2EFE9] border-b border-[#1A1A1A]/5 last:border-b-0"
+                                  >
+                                    {content}
+                                  </button>
+                                );
+                              }
+
                               return (
-                                <button
+                                <Link
                                   key={item.name}
-                                  onClick={() => {
-                                    setActiveDropdown(null);
-                                    item.action?.();
-                                  }}
-                                  className={`group w-full p-2.5 rounded-sm text-left transition-all duration-200 cursor-pointer border border-transparent ${
-                                    showDarkText
-                                      ? 'hover:bg-[#EFEAE1] hover:border-[#1A1A1A]/10'
-                                      : 'hover:bg-white/[0.08] hover:border-white/10'
-                                  }`}
+                                  href={item.href || '/'}
+                                  onClick={() => setActiveDropdown(null)}
+                                  className="group w-full p-2.5 rounded-none text-left transition-colors duration-150 cursor-pointer hover:bg-[#F2EFE9] border-b border-[#1A1A1A]/5 last:border-b-0"
                                 >
                                   {content}
-                                </button>
+                                </Link>
                               );
-                            }
+                            })}
+                          </div>
 
-                            return (
-                              <Link
-                                key={item.name}
-                                href={item.href || '/'}
-                                onClick={() => setActiveDropdown(null)}
-                                className={`group w-full p-2.5 rounded-sm text-left transition-all duration-200 cursor-pointer border border-transparent ${
-                                  showDarkText
-                                    ? 'hover:bg-[#EFEAE1] hover:border-[#1A1A1A]/10'
-                                    : 'hover:bg-white/[0.08] hover:border-white/10'
-                                }`}
-                              >
-                                {content}
-                              </Link>
-                            );
-                          })}
+                          {/* Right Column: Visual Atelier Preview Card */}
+                          <div className="border-l border-[#1A1A1A]/10 pl-6 flex flex-col justify-between">
+                            {section.id === 'products' ? (
+                              <div className="flex flex-col h-full justify-between">
+                                <div>
+                                  <div className="relative aspect-[16/10] w-full overflow-hidden mb-3 border border-[#1A1A1A]/10 bg-[#E8E4DC]">
+                                    <Image
+                                      src="/catalog/products/kitchen_countertops_hero.jpg"
+                                      alt="Verona Sintered Porcelain Island"
+                                      fill
+                                      className="object-cover transition-transform duration-500 hover:scale-105"
+                                    />
+                                  </div>
+                                  <span className="text-[9px] uppercase font-mono tracking-[0.2em] text-[#8C7355] block">
+                                    Atelier Focus
+                                  </span>
+                                  <h4 className="font-serif text-sm font-normal text-[#1A1A1A] mt-0.5">
+                                    Continuous Vein Flow
+                                  </h4>
+                                  <p className="text-[11px] text-[#6C6863] leading-relaxed mt-1">
+                                    Identical veining flows from island waterfall, up the backsplash, and across the floor.
+                                  </p>
+                                </div>
+
+                                <Link
+                                  href="/porcelain-countertops"
+                                  onClick={() => setActiveDropdown(null)}
+                                  className="mt-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.15em] font-medium text-amber-900 hover:text-black transition-colors"
+                                >
+                                  <span>Explore Catalogue</span>
+                                  <ArrowRight className="w-3 h-3" />
+                                </Link>
+                              </div>
+                            ) : (
+                              <div className="flex flex-col h-full justify-between">
+                                <div>
+                                  <div className="relative aspect-[16/10] w-full overflow-hidden mb-3 border border-[#1A1A1A]/10 bg-[#E8E4DC]">
+                                    <Image
+                                      src="/catalog/products/room_calcatta_extra.jpg"
+                                      alt="Verona Studio Room Visualizer"
+                                      fill
+                                      className="object-cover transition-transform duration-500 hover:scale-105"
+                                    />
+                                  </div>
+                                  <span className="text-[9px] uppercase font-mono tracking-[0.2em] text-amber-800 block">
+                                    In-Browser Studio
+                                  </span>
+                                  <h4 className="font-serif text-sm font-normal text-[#1A1A1A] mt-0.5">
+                                    Room Visualizer AI
+                                  </h4>
+                                  <p className="text-[11px] text-[#6C6863] leading-relaxed mt-1">
+                                    Point your phone camera or preview luxury spaces with real ambient room lighting.
+                                  </p>
+                                </div>
+
+                                <Link
+                                  href="/visualizer"
+                                  onClick={() => setActiveDropdown(null)}
+                                  className="mt-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.15em] font-medium text-amber-900 hover:text-black transition-colors"
+                                >
+                                  <span>Launch Studio</span>
+                                  <ArrowRight className="w-3 h-3" />
+                                </Link>
+                              </div>
+                            )}
+                          </div>
                         </div>
 
-                        {/* Bottom Footer Callout */}
-                        {section.id === 'products' && (
-                          <div
-                            className={`mt-2 pt-2.5 border-t flex items-center justify-between text-[11px] font-sans px-2.5 ${
-                              showDarkText
-                                ? 'border-[#1A1A1A]/10 text-[#6C6863]'
-                                : 'border-white/10 text-white/60'
-                            }`}
+                        {/* Bottom Utility Bar */}
+                        <div className="mt-5 pt-3.5 border-t border-[#1A1A1A]/10 flex items-center justify-between text-[11px] text-[#6C6863]">
+                          <span>Direct kiln freight dispatched nationwide</span>
+                          <button
+                            onClick={() => {
+                              setActiveDropdown(null);
+                              onOpenQuoteModal({ material: 'Curated Swatches' });
+                            }}
+                            className="inline-flex items-center gap-1 font-medium text-amber-900 hover:text-black transition-colors cursor-pointer"
                           >
-                            <span>Test our slabs in your space:</span>
-                            <Link
-                              href="/visualizer"
-                              onClick={() => setActiveDropdown(null)}
-                              className={`inline-flex items-center gap-1 font-medium transition-colors cursor-pointer ${
-                                showDarkText
-                                  ? 'text-amber-800 hover:text-black'
-                                  : 'text-amber-300 hover:text-white'
-                              }`}
-                            >
-                              Open Studio AI <ArrowRight className="w-3 h-3" />
-                            </Link>
-                          </div>
-                        )}
-
-                        {section.id === 'design-tools' && (
-                          <div
-                            className={`mt-2 pt-2.5 border-t flex items-center justify-between text-[11px] font-sans px-2.5 ${
-                              showDarkText
-                                ? 'border-[#1A1A1A]/10 text-[#6C6863]'
-                                : 'border-white/10 text-white/60'
-                            }`}
-                          >
-                            <span>Need custom crate logistics?</span>
-                            <Link
-                              href="/contact"
-                              onClick={() => setActiveDropdown(null)}
-                              className={`inline-flex items-center gap-1 font-medium transition-colors cursor-pointer ${
-                                showDarkText
-                                  ? 'text-amber-800 hover:text-black'
-                                  : 'text-amber-300 hover:text-white'
-                              }`}
-                            >
-                              Speak with Desk <ArrowRight className="w-3 h-3" />
-                            </Link>
-                          </div>
-                        )}
+                            <span>Request Swatch Samples</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
