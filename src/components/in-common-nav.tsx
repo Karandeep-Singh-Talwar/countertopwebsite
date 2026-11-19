@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChevronDown, ArrowRight, Sparkles, Calculator, Eye, Hammer, Package, HelpCircle, Phone, Mail } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, ArrowRight, Sparkles, Calculator, Eye, Hammer, Package, HelpCircle, Phone, Mail, X } from 'lucide-react';
 
 interface InCommonNavProps {
   onOpenBookCall: (opts?: { material?: string; service?: string }) => void;
@@ -24,7 +25,8 @@ interface DropdownItem {
 interface NavSection {
   id: string;
   title: string;
-  items: DropdownItem[];
+  items?: DropdownItem[];
+  action?: () => void;
 }
 
 export function InCommonNav({
@@ -41,6 +43,7 @@ export function InCommonNav({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileOpenSection, setMobileOpenSection] = useState<string | null>('products');
+  const [resourcesWipOpen, setResourcesWipOpen] = useState(false);
 
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
@@ -147,23 +150,7 @@ export function InCommonNav({
     {
       id: 'resources',
       title: 'Resources',
-      items: [
-        {
-          name: 'Contractor Wet-Saw Guide',
-          subtitle: 'Step-by-step on-site diamond wet saw cutting & miter calibration',
-          href: '/porcelain-countertops',
-        },
-        {
-          name: 'Tile Packaging & Freight',
-          subtitle: '15.5 sq.ft / 29kg box standards and jobsite crate logistics',
-          href: '/porcelain-tiles',
-        },
-        {
-          name: 'Architectural Specs & FAQ',
-          subtitle: '1000°C heat-proof & <0.04% zero-porosity technical data',
-          href: '/#categories-section',
-        },
-      ],
+      action: () => setResourcesWipOpen(true),
     },
     {
       id: 'contact-us',
@@ -215,6 +202,25 @@ export function InCommonNav({
           <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {navSections.map((section) => {
               const isOpen = activeDropdown === section.id;
+              const hasDropdown = Boolean(section.items && section.items.length > 0);
+
+              if (!hasDropdown) {
+                return (
+                  <button
+                    key={section.id}
+                    onClick={() => {
+                      setActiveDropdown(null);
+                      section.action?.();
+                    }}
+                    className={`inline-flex items-center gap-1.5 py-2 whitespace-nowrap cursor-pointer transition-opacity duration-200 hover:opacity-70 font-medium uppercase tracking-[0.2em] text-xs ${
+                      showDarkText ? 'text-[#1A1A1A]' : 'text-white'
+                    }`}
+                  >
+                    <span>{section.title}</span>
+                  </button>
+                );
+              }
+
               return (
                 <div
                   key={section.id}
@@ -238,7 +244,7 @@ export function InCommonNav({
                   </button>
 
                   {/* Dropdown Menu Flyout */}
-                  {isOpen && (
+                  {isOpen && section.items && (
                     <div
                       className={`absolute top-full left-0 mt-1.5 w-80 sm:w-96 rounded-none p-3 shadow-2xl transition-all duration-150 z-50 ${
                         showDarkText
@@ -312,37 +318,11 @@ export function InCommonNav({
           </nav>
         </div>
 
-        {/* Right: Streamlined 2-Action Box (Instant Quote & Book Call) */}
-        <div className="flex items-center">
-          <div
-            className={`hidden sm:flex items-center divide-x border text-xs uppercase tracking-[0.2em] ${
-              showDarkText
-                ? 'border-[#D9D4CC] divide-[#D9D4CC] bg-white/80 text-[#1A1A1A]'
-                : 'border-white/30 divide-white/30 bg-black/20 backdrop-blur-sm text-white'
-            }`}
-          >
-            <button
-              onClick={() => onOpenQuoteModal()}
-              className="px-5 py-2 hover:bg-black/5 transition-colors cursor-pointer font-medium whitespace-nowrap"
-            >
-              Instant Quote
-            </button>
-            <button
-              onClick={() => onOpenBookCall({ service: 'Contractor & Material Consultation' })}
-              className={`px-5 py-2 font-medium transition-colors cursor-pointer whitespace-nowrap ${
-                showDarkText
-                  ? 'bg-[#1A1A1A] text-white hover:bg-black'
-                  : 'bg-white text-[#1A1A1A] hover:bg-[#FAF8F5]'
-              }`}
-            >
-              Book Call
-            </button>
-          </div>
-
-          {/* Mobile Menu Trigger */}
+        {/* Right: Mobile Menu Trigger */}
+        <div className="flex items-center md:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`md:hidden p-2 rounded border cursor-pointer ml-3 ${
+            className={`p-2 rounded border cursor-pointer ${
               showDarkText ? 'border-[#D9D4CC] text-[#1A1A1A]' : 'border-white/30 text-white'
             }`}
             aria-label="Toggle Navigation Menu"
@@ -357,11 +337,30 @@ export function InCommonNav({
         <div className="md:hidden bg-[#FAF8F5] border-b border-[#E8E4DC] text-[#1A1A1A] px-6 py-6 space-y-6 max-h-[85vh] overflow-y-auto">
           {navSections.map((section) => {
             const isSectionOpen = mobileOpenSection === section.id;
+            const hasItems = Boolean(section.items && section.items.length > 0);
+
+            if (!hasItems) {
+              return (
+                <div key={section.id} className="border-b border-[#E8E4DC] pb-4">
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      section.action?.();
+                    }}
+                    className="w-full flex items-center justify-between text-left py-1 text-xs uppercase tracking-[0.25em] font-medium text-[#1A1A1A] cursor-pointer"
+                  >
+                    <span>{section.title}</span>
+                    <span className="text-[10px] text-amber-800 font-sans tracking-widest uppercase">In Progress</span>
+                  </button>
+                </div>
+              );
+            }
+
             return (
               <div key={section.id} className="border-b border-[#E8E4DC] pb-4">
                 <button
                   onClick={() => setMobileOpenSection(isSectionOpen ? null : section.id)}
-                  className="w-full flex items-center justify-between text-left py-1 text-xs uppercase tracking-[0.25em] font-medium text-[#1A1A1A]"
+                  className="w-full flex items-center justify-between text-left py-1 text-xs uppercase tracking-[0.25em] font-medium text-[#1A1A1A] cursor-pointer"
                 >
                   <span>{section.title}</span>
                   <ChevronDown
@@ -373,7 +372,7 @@ export function InCommonNav({
 
                 {isSectionOpen && (
                   <div className="mt-3 pl-2 flex flex-col space-y-3">
-                    {section.items.map((item) => {
+                    {section.items?.map((item) => {
                       if (item.action) {
                         return (
                           <button
@@ -422,7 +421,7 @@ export function InCommonNav({
                 setMobileMenuOpen(false);
                 onOpenBookCall();
               }}
-              className="w-full py-3 bg-[#1A1A1A] text-white text-xs uppercase tracking-widest text-center"
+              className="w-full py-3 bg-[#1A1A1A] text-white text-xs uppercase tracking-widest text-center cursor-pointer"
             >
               Book 1-on-1 Consultation
             </button>
@@ -431,13 +430,70 @@ export function InCommonNav({
                 setMobileMenuOpen(false);
                 onOpenQuoteModal();
               }}
-              className="w-full py-3 border border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-widest text-center"
+              className="w-full py-3 border border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-widest text-center cursor-pointer"
             >
               Request Itemized Quote
             </button>
           </div>
         </div>
       )}
+
+      {/* Work In Progress Modal for Resources */}
+      <AnimatePresence>
+        {resourcesWipOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-lg bg-[#FAF8F5] border border-[#1A1A1A]/20 shadow-2xl p-8 sm:p-10 text-[#1A1A1A]"
+            >
+              <button
+                onClick={() => setResourcesWipOpen(false)}
+                className="absolute top-5 right-5 p-2 text-[#6C6863] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="text-[11px] uppercase tracking-[0.25em] text-amber-800 font-sans font-medium mb-3">
+                Architectural Resource Library
+              </div>
+
+              <h3 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#1A1A1A] leading-tight">
+                Work in <span className="italic font-light text-amber-900">Progress</span>
+              </h3>
+
+              <p className="mt-4 text-sm text-[#59534E] leading-relaxed font-normal">
+                Our architectural technical dossiers, contractor wet-saw fabrication manuals, ASTM physical durability certificates, and freight logistics guides are currently being curated.
+              </p>
+
+              <p className="mt-3 text-sm text-[#1A1A1A] font-serif italic">
+                Please come again later — or connect directly with our advisory desk for instant material specifications.
+              </p>
+
+              <div className="mt-8 pt-6 border-t border-[#1A1A1A]/10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <button
+                  onClick={() => {
+                    setResourcesWipOpen(false);
+                    onOpenBookCall({ service: 'Architectural Resource Consultation' });
+                  }}
+                  className="flex-1 py-3 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center"
+                >
+                  Contact Specialist
+                </button>
+                <button
+                  onClick={() => setResourcesWipOpen(false)}
+                  className="px-6 py-3 border border-[#1A1A1A]/20 hover:border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center"
+                >
+                  Dismiss
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

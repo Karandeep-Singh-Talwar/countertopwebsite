@@ -72,8 +72,8 @@ export default function PorcelainTilesPage() {
         {/* Category Hero: Open & Borderless */}
         <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-16 md:py-24 border-b border-[#1A1A1A]/10">
           <div className="max-w-4xl">
-            <div className="text-xs uppercase tracking-[0.25em] text-[#6C6863] mb-3 font-mono">
-              03 / Architectural Continuity Sizing
+            <div className="text-xs uppercase tracking-[0.25em] text-[#8C827A] mb-3 font-sans font-medium">
+              Architectural Continuity Sizing
             </div>
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-normal tracking-tight text-[#1A1A1A] leading-[1.05]">
               Porcelain Tiles <span className="italic font-light text-amber-800">Catalogue</span>

@@ -38,8 +38,8 @@ export default function PorcelainCountertopsPage() {
         {/* Dedicated Hero Section: Open, borderless, airy */}
         <section className="max-w-[1680px] mx-auto px-6 md:px-12 py-16 md:py-24 border-b border-[#1A1A1A]/10">
           <div className="max-w-4xl">
-            <div className="text-xs uppercase tracking-[0.25em] text-[#6C6863] mb-3 font-mono">
-              01 / Flagship Technology &amp; Catalogue
+            <div className="text-xs uppercase tracking-[0.25em] text-[#8C827A] mb-3 font-sans font-medium">
+              Architectural Surface Dossier
             </div>
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-normal tracking-tight text-[#1A1A1A] leading-[1.05]">
               Porcelain Countertops <span className="italic font-light text-amber-800">Catalogue</span>
@@ -48,27 +48,27 @@ export default function PorcelainCountertopsPage() {
               Monolithic 9mm vitrified porcelain slabs engineered for kitchen countertops, island waterfalls, and full-height continuous splashbacks. Sized and calibrated so your existing general contractor or tile setter can cut and install using standard diamond wet saws—eliminating expensive stone fabricator markups.
             </p>
 
-            {/* Open Architectural Metric Row (ZERO BOXES) */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mt-12 pt-8 border-t border-[#1A1A1A]/10 font-mono">
+            {/* Editorial Metric Strip */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mt-12 pt-8 border-t border-[#1A1A1A]/10 font-sans">
               <div>
                 <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">9 mm</div>
                 <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Contractor Installed</div>
-                <div className="text-xs text-[#6C6863] mt-0.5 font-sans">Cut on-site with diamond wet saw</div>
+                <div className="text-xs text-[#6C6863] mt-0.5">Cut on-site with diamond wet saw</div>
               </div>
               <div>
-                <div className="text-3xl sm:text-4xl font-serif text-amber-800 font-normal">40–60%</div>
+                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">40–60%</div>
                 <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Lower Total Cost</div>
-                <div className="text-xs text-[#6C6863] mt-0.5 font-sans">$24 – $38 / sq.ft wholesale</div>
+                <div className="text-xs text-[#6C6863] mt-0.5">$24 – $38 / sq.ft direct wholesale</div>
               </div>
               <div>
                 <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">1000°C</div>
-                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Heat Proof</div>
-                <div className="text-xs text-[#6C6863] mt-0.5 font-sans">Direct hot pan safe, no scorch</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Thermal Limit</div>
+                <div className="text-xs text-[#6C6863] mt-0.5">Direct hot pan safe, no scorch</div>
               </div>
               <div>
-                <div className="text-3xl sm:text-4xl font-serif text-emerald-800 font-normal">&lt;0.04%</div>
-                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Zero Porosity</div>
-                <div className="text-xs text-[#6C6863] mt-0.5 font-sans">Impervious to wine &amp; turmeric</div>
+                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">&lt;0.04%</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Absorption Barrier</div>
+                <div className="text-xs text-[#6C6863] mt-0.5">Impervious to wine &amp; acids</div>
               </div>
             </div>
 

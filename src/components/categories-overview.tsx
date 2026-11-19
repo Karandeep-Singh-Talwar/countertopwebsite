@@ -108,20 +108,10 @@ export function CategoriesOverview({
                     className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-
-                  {/* Clean, minimalist price floating top-right without bulky box */}
-                  <div className="absolute top-4 right-4 text-xs uppercase tracking-[0.2em] text-white bg-black/60 backdrop-blur-md px-3 py-1 font-sans font-medium">
-                    {cat.priceTag}
-                  </div>
                 </Link>
 
                 {/* Editorial Metadata & Typography floating naturally */}
                 <div className="pt-8">
-                  <div className="flex items-center justify-between text-xs uppercase tracking-[0.25em] text-[#6C6863] mb-2 font-medium">
-                    <span>{cat.label}</span>
-                    <span>{cat.num}</span>
-                  </div>
-
                   <h3 className="text-2xl sm:text-3xl font-serif font-normal tracking-tight text-[#1A1A1A] mb-2 group-hover:text-amber-800 transition-colors">
                     <Link href={cat.href}>{cat.title}</Link>
                   </h3>
@@ -134,11 +124,11 @@ export function CategoriesOverview({
                     {cat.description}
                   </p>
 
-                  {/* Clean spec list separated by hairline, NO checkboxes or colored boxes */}
+                  {/* Clean spec list separated by hairline, quiet editorial styling */}
                   <div className="border-t border-[#1A1A1A]/10 pt-4 space-y-2 mb-8">
                     {cat.specs.map((spec, i) => (
-                      <div key={i} className="flex items-center gap-2.5 text-xs text-[#2E2B29] font-normal">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-700/60 shrink-0" />
+                      <div key={i} className="flex items-baseline gap-2.5 text-xs text-[#4A4541] font-normal leading-relaxed">
+                        <span className="text-[#8C827A] font-light">—</span>
                         <span>{spec}</span>
                       </div>
                     ))}
@@ -146,13 +136,16 @@ export function CategoriesOverview({
                 </div>
               </div>
 
-              {/* Borderless Editorial Link with Animated Hairline */}
-              <div className="pt-2">
+              {/* Borderless Editorial Link with Rate */}
+              <div className="pt-2 flex items-center justify-between border-t border-[#1A1A1A]/10 pt-4">
+                <span className="text-xs uppercase tracking-[0.15em] text-[#8C827A] font-sans">
+                  {cat.priceTag}
+                </span>
                 <Link
                   href={cat.href}
                   className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] group/link py-1 relative"
                 >
-                  <span>Explore {cat.title}</span>
+                  <span>Explore Collection</span>
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   <span className="absolute bottom-0 left-0 w-0 h-px bg-[#1A1A1A] transition-all duration-300 group-hover:w-full" />
                 </Link>
