@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,9 +16,9 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "VERONA Surfaces | Luxury Porcelain Countertops & Architectural Vitrified Tiles",
-  description: "Discover contractor-friendly 9mm vitrified porcelain slabs and matching large-format tiles. Cut on-site with standard diamond wet saws. Book a free consultation or request an instant quote.",
-  keywords: "porcelain countertops, vitrified porcelain slabs, porcelain tiles, kitchen remodel, 9mm porcelain, bathroom tiles, backsplash tiles, large format tiles",
+  title: "VERONA Surfaces | Luxury Architectural Countertops, Wall Surfaces & Flooring",
+  description: "Curated architectural surfaces and slabs across vitrified porcelain, natural granite, engineered quartz, and metamorphic quartzite for luxury countertops, backsplashes, and flooring.",
+  keywords: "porcelain countertops, quartzite slabs, granite countertops, quartz surfaces, architectural tiles, kitchen islands, backsplash tiles, large format tiles",
 };
 
 export default function RootLayout({
@@ -32,6 +33,13 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[#FAF8F5] text-[#1A1A1A] font-sans selection:bg-[#1A1A1A] selection:text-[#FAF8F5]">
         {children}
+        <Script
+          id="roomvoAssistant"
+          src="https://www.roomvo.com/static/scripts/b2b/common/assistant.js"
+          strategy="afterInteractive"
+          data-locale="en-us"
+          data-position="bottom-right"
+        />
       </body>
     </html>
   );

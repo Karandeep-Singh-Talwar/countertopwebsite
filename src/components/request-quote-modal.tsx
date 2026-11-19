@@ -200,14 +200,17 @@ export function RequestQuoteModal({
                 </div>
 
                 <div className="pt-2">
-                  <button
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-3.5 bg-[#1A1A1A] hover:bg-amber-800 text-white font-medium text-xs uppercase tracking-widest flex items-center justify-center gap-2 rounded-lg transition-all shadow-md cursor-pointer disabled:opacity-50"
+                    className="shimmer-liquid-sheen relative overflow-hidden w-full py-3.5 bg-[#1A1A1A] hover:bg-black text-white font-medium text-xs uppercase tracking-widest flex items-center justify-center gap-2 rounded-lg transition-all shadow-md hover:shadow-xl cursor-pointer disabled:opacity-50"
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>{isSubmitting ? 'Sending Estimate...' : 'Send Estimate & Contractor Specs'}</span>
-                  </button>
+                  </motion.button>
                   <p className="text-[10px] text-center text-[#767168] mt-2">
                     Instant delivery. No sales spam. We send CAD layout specs and contractor diamond wet-saw guides.
                   </p>

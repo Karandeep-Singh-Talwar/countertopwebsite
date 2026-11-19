@@ -59,6 +59,56 @@ body {
   border-radius: 4px;
 }
 
+/* Shimmer Sweep Animation for Animated Luxury Buttons */
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-160%) skewX(-20deg);
+  }
+  45%, 100% {
+    transform: translateX(180%) skewX(-20deg);
+  }
+}
+
+.shimmer-liquid-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-liquid-sheen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer-sweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+.shimmer-liquid-sheen-gold::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.25) 50%,
+    transparent 100%
+  );
+  animation: shimmer-sweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }

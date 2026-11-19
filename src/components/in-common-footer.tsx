@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Phone, Calculator, Calendar, ArrowRight, CheckCircle2, ShieldCheck, Truck } from 'lucide-react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Mail, Phone, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 interface InCommonFooterProps {
   onOpenBookCall: (opts?: { service?: string; material?: string }) => void;
@@ -26,91 +28,101 @@ export function InCommonFooter({
     }
   };
 
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <footer className="w-full bg-[#FAF8F5] text-[#1A1A1A] pt-16 pb-12 border-t border-[#E8E4DC] select-none">
+    <footer className="w-full bg-[#FAF8F5] text-[#1A1A1A] pt-20 pb-14 border-t border-[#E8E4DC] select-none">
       <div className="max-w-[1680px] mx-auto px-6 md:px-12">
-        {/* Top Segment: Brand Scope & Direct Digital Contact */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 border-b border-[#E8E4DC] items-start">
+        {/* Top Segment: Brand Scope & Direct Consultation */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-16 border-b border-[#E8E4DC] items-start"
+        >
           {/* Brand Info (5 cols) */}
-          <div className="lg:col-span-5 space-y-3">
-            <h4 className="text-2xl sm:text-3xl font-serif font-normal tracking-tight text-[#1A1A1A]">
-              Verona <span className="italic font-light text-amber-800">Surfaces</span>
-            </h4>
-            <span className="text-xs uppercase tracking-[0.25em] text-amber-800 font-medium block">
-              Architectural Vitrified Porcelain Catalogue
+          <div className="lg:col-span-5 space-y-4">
+            <Link href="/" className="inline-block group">
+              <h4 className="text-3xl sm:text-4xl font-serif font-normal tracking-tight text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                Verona <span className="italic font-light">Surfaces</span>
+              </h4>
+            </Link>
+            <span className="text-[11px] uppercase tracking-[0.25em] text-[#8C827A] font-sans font-medium block">
+              Architectural Surfaces Atelier
             </span>
             <p className="text-sm text-[#6C6863] max-w-md leading-relaxed font-normal">
-              100% online catalogue with direct-to-jobsite crate freight. We supply large-format 9mm vitrified porcelain slabs and matching tiles directly to homeowners, builders, and general contractors, eliminating expensive showroom markups and specialist stone fabricator overhead.
+              Curated architectural surfaces across four mineral technologies: vitrified porcelain, natural granite, engineered quartz, and metamorphic quartzite. Monolithic slabs and calibrated tiles delivered directly to residential and commercial jobsites nationwide.
             </p>
           </div>
 
-          {/* Digital Ordering & Helpdesk (3 cols) */}
-          <div className="lg:col-span-3 space-y-2 text-sm text-[#6C6863] font-normal">
-            <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-2">
-              Online Orders &amp; Inquiries
+          {/* Direct Ordering & Inquiries Desk (3 cols) */}
+          <div className="lg:col-span-3 space-y-2.5 text-sm text-[#6C6863] font-normal">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-3 font-sans">
+              Orders &amp; Architectural Inquiries
             </span>
             <a
               href="mailto:quotes@veronasurfaces.com"
-              className="text-[#1A1A1A] hover:underline font-medium flex items-center gap-1.5"
+              className="text-[#1A1A1A] hover:text-amber-800 transition-colors font-medium flex items-center gap-2"
             >
-              <Mail className="w-3.5 h-3.5 text-amber-700" />
+              <Mail className="w-3.5 h-3.5 text-amber-800" />
               <span>quotes@veronasurfaces.com</span>
             </a>
             <a
               href="tel:18005557522"
-              className="hover:underline flex items-center gap-1.5 pt-1"
+              className="hover:text-[#1A1A1A] transition-colors flex items-center gap-2 pt-0.5"
             >
-              <Phone className="w-3.5 h-3.5 text-amber-700" />
+              <Phone className="w-3.5 h-3.5 text-amber-800" />
               <span>+1 (800) 555-SLAB (7522)</span>
             </a>
-            <p className="text-xs text-[#6C6863] pt-1">
-              Digital line-item quotes &amp; CAD layout guides dispatched 24/7.
+            <p className="text-xs text-[#8C827A] pt-1 leading-relaxed">
+              Custom CAD layout dossiers &amp; technical specifications dispatched within 2 business hours.
             </p>
           </div>
 
-          {/* Quick Direct Actions: Open, borderless */}
-          <div className="lg:col-span-4 space-y-3 font-mono text-xs">
-            <div className="text-xs uppercase tracking-[0.25em] text-[#6C6863] font-medium">
-              Direct Jobsite Logistics
-            </div>
-            <p className="text-sm text-[#6C6863] font-normal font-sans leading-relaxed">
-              Wholesale crates dispatched directly to jobsites nationwide. Speak with an architectural advisor or request digital CAD layouts.
+          {/* Quick Direct Actions (4 cols) */}
+          <div className="lg:col-span-4 space-y-4 font-sans text-xs">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block font-sans">
+              Direct Project Procurement
+            </span>
+            <p className="text-sm text-[#6C6863] font-normal leading-relaxed">
+              Direct crate logistics from factory to site. Speak with an architectural surfaces consultant or request custom jobsite specifications.
             </p>
-            <div className="flex items-center gap-6 pt-2">
-              <button
+            <div className="flex flex-wrap items-center gap-6 pt-1">
+              <motion.button
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={() => onOpenQuoteModal()}
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
-                <Calculator className="w-3.5 h-3.5" />
                 <span>Request Specification</span>
-              </button>
-              <button
-                onClick={() => onOpenBookCall({ service: 'Online Contractor Consultation' })}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </motion.button>
+              <motion.button
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => onOpenBookCall({ service: 'Architectural Surface Consultation' })}
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#6C6863] hover:text-[#1A1A1A] py-1 border-b border-[#1A1A1A]/20 hover:border-[#1A1A1A] transition-colors cursor-pointer"
               >
-                <Calendar className="w-3.5 h-3.5" />
                 <span>Schedule Consultation</span>
-              </button>
+              </motion.button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Middle Segment: Newsletter & Essential Catalogue Links */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-12 border-b border-[#E8E4DC] items-start">
-          {/* Direct Email Digest */}
+        {/* Middle Segment: Newsletter & Site Navigation */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-10 py-16 border-b border-[#E8E4DC] items-start"
+        >
+          {/* Direct Email Digest (5 cols) */}
           <div className="lg:col-span-5 max-w-md">
-            <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-1">
-              Direct Trade &amp; Catalogue Updates
+            <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-2 font-sans">
+              Trade &amp; Architectural Dossier
             </span>
-            <p className="text-sm text-[#6C6863] mb-3 font-normal leading-relaxed">
-              Subscribe for new container arrivals, bookmatched vitrified batch releases, and architectural collection updates.
+            <p className="text-sm text-[#6C6863] mb-4 font-normal leading-relaxed">
+              Subscribe for new container arrivals, bookmatched quarry releases, and technical architectural updates.
             </p>
             <form onSubmit={handleNewsletterSubmit} className="space-y-2">
               <div className="flex border border-[#1A1A1A] bg-white">
@@ -120,112 +132,148 @@ export function InCommonFooter({
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter email address"
                   required
-                  className="flex-1 px-3 py-2 text-sm text-[#1A1A1A] placeholder-[#6C6863] focus:outline-none"
+                  className="flex-1 px-3.5 py-2.5 text-sm text-[#1A1A1A] placeholder-[#8C827A] focus:outline-none"
                 />
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
                   type="submit"
-                  className="px-5 py-2 bg-[#FAF8F5] border-l border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium hover:bg-[#EFECE6] transition-colors cursor-pointer"
+                  className="shimmer-liquid-sheen relative overflow-hidden px-6 py-2.5 bg-[#FAF8F5] border-l border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium hover:bg-[#EFECE6] transition-colors cursor-pointer"
                 >
                   Join
-                </button>
+                </motion.button>
               </div>
               {subscribed ? (
-                <p className="text-xs text-emerald-800 flex items-center gap-1 font-medium">
+                <p className="text-xs text-emerald-800 flex items-center gap-1.5 font-medium pt-1">
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Subscribed! Check inbox for catalogue specification dossier.</span>
+                  <span>Subscribed. Architectural dossier will be dispatched shortly.</span>
                 </p>
               ) : (
-                <p className="text-xs text-[#6C6863]">
-                  Direct catalogue supply. Zero spam. Unsubscribe at any time.
+                <p className="text-xs text-[#8C827A] pt-0.5">
+                  Direct trade communications. Zero promotional noise.
                 </p>
               )}
             </form>
           </div>
 
-          {/* Only Essential Catalogue Navigation */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-[#6C6863]">
-            {/* Column 1: Core Categories */}
+          {/* Navigation Columns aligned to current website (7 cols) */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm text-[#6C6863]">
+            {/* Column 1: Applications */}
             <div className="space-y-2.5">
-              <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-3">
-                Core Categories
+              <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-3 font-sans">
+                Applications
               </span>
-              <button
-                onClick={() => scrollTo('porcelain-catalog-section')}
-                className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
+              <Link
+                href="/countertops"
+                className="block hover:text-[#1A1A1A] transition-colors"
               >
-                Porcelain Countertops (USP)
-              </button>
-              <button
-                onClick={() => scrollTo('categories-section')}
-                className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
+                Countertops &amp; Islands
+              </Link>
+              <Link
+                href="/backsplash-walltile"
+                className="block hover:text-[#1A1A1A] transition-colors"
               >
-                Porcelain Tiles (600x1200mm)
-              </button>
-              <button
-                onClick={() => scrollTo('porcelain-catalog-section')}
-                className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
+                Backsplash &amp; Wall Tile
+              </Link>
+              <Link
+                href="/flooring"
+                className="block hover:text-[#1A1A1A] transition-colors"
               >
-                High-Gloss Vitrified Slabs
-              </button>
+                Architectural Flooring
+              </Link>
+              <Link
+                href="/porcelain-countertops"
+                className="block hover:text-[#1A1A1A] transition-colors text-xs text-[#8C827A] pt-1"
+              >
+                Porcelain Countertops
+              </Link>
+              <Link
+                href="/porcelain-tiles"
+                className="block hover:text-[#1A1A1A] transition-colors text-xs text-[#8C827A]"
+              >
+                Porcelain Tiles (600×1200mm)
+              </Link>
             </div>
 
-            {/* Column 2: Online Tools */}
-            <div className="space-y-2">
-              <span className="text-[11px] uppercase tracking-wider text-[#1A1A1A] font-semibold block mb-3">
-                Online Tools
+            {/* Column 2: Materials */}
+            <div className="space-y-2.5">
+              <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-3 font-sans">
+                Materials
               </span>
-              <button
-                onClick={() => scrollTo('savings-calculator')}
-                className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors font-medium text-[#1A1A1A]"
+              <Link
+                href="/countertops"
+                className="block hover:text-[#1A1A1A] transition-colors"
               >
-                Project Sizing Calculator
-              </button>
+                Vitrified Porcelain
+              </Link>
+              <Link
+                href="/countertops"
+                className="block hover:text-[#1A1A1A] transition-colors"
+              >
+                Natural Granite
+              </Link>
+              <Link
+                href="/countertops"
+                className="block hover:text-[#1A1A1A] transition-colors"
+              >
+                Engineered Quartz
+              </Link>
+              <Link
+                href="/countertops"
+                className="block hover:text-[#1A1A1A] transition-colors"
+              >
+                Metamorphic Quartzite
+              </Link>
+            </div>
+
+            {/* Column 3: Design & Consultation */}
+            <div className="space-y-2.5">
+              <span className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-semibold block mb-3 font-sans">
+                Design &amp; Trade
+              </span>
+              <Link
+                href="/visualizer"
+                className="block hover:text-[#1A1A1A] transition-colors font-medium text-[#1A1A1A]"
+              >
+                Room Visualizer AI
+              </Link>
               <button
                 onClick={() => onOpenQuoteModal()}
                 className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
               >
-                Direct Architectural Inquiry
+                Custom Specification Quote
               </button>
               <button
-                onClick={() => onOpenBookCall({ service: 'Contractor Wet-Saw Spec Pack' })}
+                onClick={() => onOpenBookCall({ service: 'Architectural Consultation' })}
                 className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
               >
-                Contractor Installation Guide
+                Schedule Consultation
               </button>
-              <button
-                onClick={() => scrollTo('usp-section')}
-                className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
+              <Link
+                href="/contact"
+                className="block hover:text-[#1A1A1A] transition-colors"
               >
-                Material Performance Contrast
-              </button>
-            </div>
-
-            {/* Column 3: Direct Advantage */}
-            <div className="space-y-2">
-              <span className="text-[11px] uppercase tracking-wider text-[#1A1A1A] font-semibold block mb-3">
-                Online Model
-              </span>
-              <div className="space-y-1 text-[11px] text-[#767168]">
-                <p className="font-medium text-[#1A1A1A]">100% Online Booked</p>
-                <p>Direct pallet delivery from kiln to jobsite.</p>
-                <p className="font-medium text-[#1A1A1A] pt-1">Your Contractor Installs</p>
-                <p>Cuts with standard diamond wet saw.</p>
-                <p className="font-medium text-[#1A1A1A] pt-1">Direct Factory Procurement</p>
-                <p>No showroom overhead or middlemen.</p>
-              </div>
+                Contact Atelier &amp; Inquiries
+              </Link>
+              <Link
+                href="/#usp-section"
+                className="block hover:text-[#1A1A1A] transition-colors"
+              >
+                Material Comparison
+              </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Bottom Bar: Clean Copyright & Essential Legal */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#767168] gap-4">
-          <p>© 2026 Verona Surfaces. Direct Online Architectural Catalogue. All rights reserved.</p>
+        {/* Bottom Bar: Clean Copyright & Legal */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#8C827A] gap-4 font-sans">
+          <p>© 2026 Verona Surfaces. Architectural Surfaces &amp; Slabs. All rights reserved.</p>
           <div className="flex items-center space-x-6 text-[11px]">
-            <span className="hover:text-[#1A1A1A] cursor-pointer">Privacy Policy</span>
+            <span className="hover:text-[#1A1A1A] cursor-pointer transition-colors">Privacy Policy</span>
             <span>·</span>
-            <span className="hover:text-[#1A1A1A] cursor-pointer">Terms of Supply</span>
+            <span className="hover:text-[#1A1A1A] cursor-pointer transition-colors">Terms of Supply</span>
             <span>·</span>
-            <span className="hover:text-[#1A1A1A] cursor-pointer">Contractor Technical Specs</span>
+            <span className="hover:text-[#1A1A1A] cursor-pointer transition-colors">ASTM Durability Standards</span>
           </div>
         </div>
       </div>

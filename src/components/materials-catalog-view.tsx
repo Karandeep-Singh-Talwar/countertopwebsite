@@ -287,10 +287,15 @@ export function MaterialsCatalogView({
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-            {filteredProducts.map((product) => (
-              <div
+            {filteredProducts.map((product, idx) => (
+              <motion.div
                 key={product.id}
-                className="group flex flex-col bg-white border border-[#1A1A1A]/10 transition-all duration-300 hover:border-[#1A1A1A] hover:shadow-xl"
+                initial={{ opacity: 0, y: 35, scale: 0.98 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.7, delay: (idx % 6) * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -6 }}
+                className="group flex flex-col bg-white border border-[#1A1A1A]/10 transition-all duration-300 hover:border-[#1A1A1A] hover:shadow-2xl"
               >
                 {/* Visual Preview */}
                 <div
@@ -340,19 +345,22 @@ export function MaterialsCatalogView({
                       </span>
                     </div>
 
-                    <button
+                    <motion.button
+                      whileHover={{ y: -2, scale: 1.04 }}
+                      whileTap={{ scale: 0.96 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       onClick={(e) => {
                         e.stopPropagation();
                         onOpenQuoteModal({ material: `${product.name} (${product.material})` });
                       }}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1A1A1A] hover:bg-black text-white text-[11px] uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer"
+                      className="shimmer-liquid-sheen relative overflow-hidden inline-flex items-center gap-1.5 px-4 py-2 bg-[#1A1A1A] hover:bg-black text-white text-[11px] uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer shadow-sm hover:shadow-md"
                     >
                       <span>Inquire</span>
                       <ArrowRight className="w-3 h-3" />
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -459,17 +467,23 @@ export function MaterialsCatalogView({
                   </div>
 
                   <div className="space-y-3 pt-6 border-t border-[#1A1A1A]/10">
-                    <button
+                    <motion.button
+                      whileHover={{ y: -2, scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       onClick={() => {
                         const name = activeProduct.name;
                         setActiveProduct(null);
                         onOpenQuoteModal({ material: `${name} (${activeProduct.material})` });
                       }}
-                      className="w-full py-3 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center"
+                      className="shimmer-liquid-sheen relative overflow-hidden w-full py-3 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.2em] font-medium transition-all shadow-md hover:shadow-xl cursor-pointer text-center"
                     >
                       Request Specification Quote
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ y: -2, scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       onClick={() => {
                         const name = activeProduct.name;
                         setActiveProduct(null);
@@ -478,10 +492,10 @@ export function MaterialsCatalogView({
                           service: `${categoryTitle} Consultation`,
                         });
                       }}
-                      className="w-full py-3 border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#F2EFE9] text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center"
+                      className="w-full py-3 border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#F2EFE9] text-xs uppercase tracking-[0.2em] font-medium transition-all cursor-pointer text-center"
                     >
                       Book Material Consultation
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
               </div>

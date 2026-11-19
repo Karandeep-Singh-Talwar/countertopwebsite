@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 interface PorcelainUspBannerProps {
   onOpenQuoteModal: (opts?: { material?: string }) => void;
@@ -61,19 +62,34 @@ export function PorcelainUspBanner({
 
   const comparisons = [
     {
-      title: 'Tooling & Fabrication',
-      verona: 'Calibrated 9mm profile cut and mitred on-site using standard diamond wet saws by your general contractor or tile setter.',
-      traditional: 'Heavy 20-30mm slabs requiring specialized CNC bridge saws, high-pressure waterjets, and long fabrication waitlists.',
+      title: 'Effortless On-Site Craft',
+      contrast: 'vs. Rigid Shop Fabrication',
+      veronaLabel: 'Verona Sintered 9mm Mass',
+      verona:
+        'Calibrated 9mm profile cut, mitred, and dressed on-site using standard diamond wet saws. Waterfall returns and precise cutouts executed without weeks of specialist CNC delay.',
+      traditionalLabel: 'Heavy 20-30mm Quarried Stone',
+      traditional:
+        'Brute 30mm slabs requiring industrial bridge saws, off-site shop queues, crane staging, and cabinet frame reinforcement.',
     },
     {
-      title: 'Spatial Continuity',
-      verona: 'Identical mineral glaze formulation flows uninterrupted across kitchen island countertops, full-height backsplashes, and floor tiles.',
-      traditional: 'Natural quarry lots and stone slab blocks cannot match thin floor tiles, resulting in broken veining and clashing shades.',
+      title: 'Monolithic Spatial Flow',
+      contrast: 'vs. Fragmented Quarry Lots',
+      veronaLabel: 'Continuous Vitrification',
+      verona:
+        'Identical mineral glaze formulation flows unbroken across kitchen island waterfalls, vertical splashbacks, and floor planes from a single harmonized batch.',
+      traditionalLabel: 'Disjointed Slab Blocks & Tiles',
+      traditional:
+        'Disparate quarry cuts and separate tile batches introduce clashing undertones, broken veining trajectories, and mismatched grout lines.',
     },
     {
-      title: 'Thermal & Chemical Stamina',
-      verona: '1200°C kiln vitrification with under 0.04% absorption. Completely safe for direct boiling cookware, wine, and oils without sealing.',
-      traditional: 'Porous marble etches instantly from lemon juice and requires annual sealing. Engineered quartz scorches permanently above 300°F.',
+      title: 'Absolute Culinary Armor',
+      contrast: 'vs. Vulnerable Porous Stone',
+      veronaLabel: 'Kiln-Fused Impermeability',
+      verona:
+        '1200°C sintering achieves under 0.04% absorption. Scorching Dutch ovens, citrus acids, turmeric, and espresso wipe clean with permanent zero-sealing confidence.',
+      traditionalLabel: 'Porous Marble & Synthetic Quartz',
+      traditional:
+        'Natural marble etches instantaneously under lemon juice and requires annual sealing; engineered polymer quartz permanently discolors and scorches above 300°F.',
     },
   ];
 
@@ -81,14 +97,26 @@ export function PorcelainUspBanner({
     <section id="usp-section" className="scroll-mt-20 w-full bg-[#111113] py-14 md:py-20 text-white border-t border-white/5">
       <div className="max-w-[1680px] mx-auto px-6 md:px-12">
         {/* Minimalist Editorial Header */}
-        <div className="mb-8 pb-5 border-b border-white/10 flex items-center justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-8 pb-5 border-b border-white/10 flex items-center justify-between"
+        >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal tracking-tight text-white leading-[1.1]">
             Why Modern Designers Prefer <span className="italic font-light text-amber-300">Porcelain</span>
           </h2>
-        </div>
+        </motion.div>
 
         {/* Reverted Accordion Strip (All 5 visible simultaneously, zero bullets, 2-line descriptions) */}
-        <div className="flex flex-col lg:flex-row gap-3 h-auto lg:h-[400px]">
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col lg:flex-row gap-3 h-auto lg:h-[400px]"
+        >
           {pillars.map((pillar, idx) => {
             const isActive = activeIndex === idx;
             return (
@@ -161,10 +189,16 @@ export function PorcelainUspBanner({
               </div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Architectural Material Contrast (Concise & Editorial) */}
-        <div className="border-t border-white/10 mt-16 pt-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="border-t border-white/10 mt-16 pt-12"
+        >
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
               <div className="text-[11px] uppercase tracking-[0.25em] text-amber-300 font-sans font-medium mb-2">
@@ -181,19 +215,30 @@ export function PorcelainUspBanner({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {comparisons.map((item, idx) => (
-              <div
+              <motion.div
                 key={idx}
-                className="border border-white/10 bg-white/[0.02] p-8 flex flex-col justify-between"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.7, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -4 }}
+                className="group border border-white/10 bg-white/[0.02] hover:border-amber-400/40 hover:bg-white/[0.04] p-8 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]"
               >
                 <div>
-                  <h4 className="text-xl font-serif text-white font-normal mb-6">
-                    {item.title}
-                  </h4>
+                  <div className="flex items-baseline justify-between mb-6 pb-4 border-b border-white/10">
+                    <h4 className="text-xl font-serif text-white font-normal group-hover:text-amber-200 transition-colors">
+                      {item.title}
+                    </h4>
+                    <span className="text-[11px] font-sans text-amber-300/80 tracking-wider">
+                      {item.contrast}
+                    </span>
+                  </div>
 
                   <div className="space-y-6">
                     <div>
-                      <div className="text-[10px] uppercase tracking-[0.2em] text-amber-300 font-sans font-medium mb-1.5">
-                        Verona Vitrified Porcelain
+                      <div className="text-[10px] uppercase tracking-[0.2em] text-amber-300 font-sans font-medium mb-1.5 flex items-center justify-between">
+                        <span>{item.veronaLabel}</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/20">VERONA</span>
                       </div>
                       <p className="text-sm text-white/90 leading-relaxed font-normal">
                         {item.verona}
@@ -202,7 +247,7 @@ export function PorcelainUspBanner({
 
                     <div className="pt-4 border-t border-white/10">
                       <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-sans font-medium mb-1.5">
-                        Quarried Stone &amp; Synthetic Quartz
+                        {item.traditionalLabel}
                       </div>
                       <p className="text-xs text-white/50 leading-relaxed font-light">
                         {item.traditional}
@@ -210,24 +255,10 @@ export function PorcelainUspBanner({
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-
-          <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <span className="text-xs text-white/50 font-light">
-              ASTM C373 water absorption verified (&lt;0.04%). ISO 13006 vitrification certified.
-            </span>
-            <button
-              type="button"
-              onClick={() => onOpenQuoteModal({ material: 'Verona Flagship Porcelain Slabs' })}
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-amber-300 hover:text-white transition-colors cursor-pointer font-medium"
-            >
-              <span>Request Material Specifications</span>
-              <span>&rarr;</span>
-            </button>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

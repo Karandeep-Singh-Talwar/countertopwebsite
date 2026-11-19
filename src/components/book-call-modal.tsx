@@ -456,15 +456,18 @@ export function BookCallModal({
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="px-4 py-2 border border-gray-300 text-gray-700 hover:text-black text-xs font-medium flex items-center gap-1.5 transition"
+                      className="px-4 py-2 border border-gray-300 text-gray-700 hover:text-black text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back</span>
                     </button>
-                    <button
+                    <motion.button
+                      whileHover={{ y: -2, scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       type="submit"
                       disabled={isSubmitting}
-                      className="px-7 py-3 bg-black hover:bg-gray-800 text-white font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition shadow-lg disabled:opacity-50"
+                      className="shimmer-liquid-sheen relative overflow-hidden px-7 py-3 bg-black hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition shadow-lg hover:shadow-2xl disabled:opacity-50 cursor-pointer"
                     >
                       {isSubmitting ? (
                         <span>Reserving Slot...</span>
@@ -474,7 +477,7 @@ export function BookCallModal({
                           <span>Confirm &amp; Book Consultation</span>
                         </>
                       )}
-                    </button>
+                    </motion.button>
                   </div>
                 </form>
               )}

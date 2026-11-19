@@ -24,6 +24,7 @@ interface DropdownItem {
 interface NavSection {
   id: string;
   title: string;
+  href?: string;
   items?: DropdownItem[];
   action?: () => void;
 }
@@ -150,23 +151,7 @@ export function InCommonNav({
     {
       id: 'contact-us',
       title: 'Contact Us',
-      items: [
-        {
-          name: 'Book 1-on-1 Consultation',
-          subtitle: '15-min phone review with a porcelain surface specialist',
-          action: () => onOpenBookCall({ service: 'Contractor & Material Consultation' }),
-        },
-        {
-          name: 'Request Custom Quote',
-          subtitle: 'Instant material, crate quantity, and freight calculation',
-          action: () => onOpenQuoteModal(),
-        },
-        {
-          name: 'Direct Inquiries Desk',
-          subtitle: 'quotes@veronasurfaces.com · Direct trade & builder support',
-          href: 'mailto:quotes@veronasurfaces.com',
-        },
-      ],
+      href: '/contact',
     },
   ];
 
@@ -198,6 +183,21 @@ export function InCommonNav({
             {navSections.map((section) => {
               const isOpen = activeDropdown === section.id;
               const hasDropdown = Boolean(section.items && section.items.length > 0);
+
+              if (section.href) {
+                const isCurrent = pathname === section.href;
+                return (
+                  <Link
+                    key={section.id}
+                    href={section.href}
+                    className={`inline-flex items-center gap-1.5 py-2 whitespace-nowrap cursor-pointer transition-opacity duration-200 hover:opacity-70 font-medium uppercase tracking-[0.2em] text-xs ${
+                      showDarkText ? 'text-[#1A1A1A]' : 'text-white'
+                    } ${isCurrent ? 'border-b border-amber-600 font-semibold' : ''}`}
+                  >
+                    <span>{section.title}</span>
+                  </Link>
+                );
+              }
 
               if (!hasDropdown) {
                 return (
@@ -308,16 +308,19 @@ export function InCommonNav({
 
         {/* Right: Desktop Consultation CTA + Mobile Menu Trigger */}
         <div className="flex items-center space-x-4">
-          <button
+          <motion.button
+            whileHover={{ y: -2, scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             onClick={() => onOpenBookCall({ service: 'Architectural Consultation' })}
-            className={`hidden md:inline-flex items-center px-5 py-2 text-xs uppercase tracking-[0.2em] font-medium transition-all duration-200 cursor-pointer ${
+            className={`hidden md:inline-flex items-center px-5 py-2 text-xs uppercase tracking-[0.2em] font-medium transition-all duration-200 cursor-pointer relative overflow-hidden ${
               showDarkText
-                ? 'border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white'
-                : 'border border-white/40 text-white hover:bg-white hover:text-[#1A1A1A]'
+                ? 'border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white shimmer-liquid-sheen'
+                : 'border border-white/40 text-white hover:bg-white hover:text-[#1A1A1A] shimmer-liquid-sheen'
             }`}
           >
             <span>Book Consultation</span>
-          </button>
+          </motion.button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -337,6 +340,21 @@ export function InCommonNav({
           {navSections.map((section) => {
             const isSectionOpen = mobileOpenSection === section.id;
             const hasItems = Boolean(section.items && section.items.length > 0);
+
+            if (section.href) {
+              return (
+                <div key={section.id} className="border-b border-[#E8E4DC] pb-4">
+                  <Link
+                    href={section.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full flex items-center justify-between text-left py-1 text-xs uppercase tracking-[0.25em] font-medium text-[#1A1A1A] cursor-pointer"
+                  >
+                    <span>{section.title}</span>
+                    <ArrowRight className="w-4 h-4 text-[#8C827A]" />
+                  </Link>
+                </div>
+              );
+            }
 
             if (!hasItems) {
               return (

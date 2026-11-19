@@ -26,12 +26,12 @@ export function InCommonHero({
         className="absolute inset-0 z-0"
       >
         <Image
-          src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2400&q=85"
+          src="/catalog/products/home_luxury_hero.jpg"
           alt="Architectural porcelain countertop interior bathed in warm ambient light"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center filter brightness-[0.75] contrast-[1.05]"
+          className="object-cover object-center filter brightness-[0.78] contrast-[1.05]"
         />
         {/* Soft atmospheric gradient overlays matching reference */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40 pointer-events-none" />
@@ -67,8 +67,8 @@ export function InCommonHero({
         >
           {/* Bottom Left: Editorial Statement */}
           <div className="md:col-span-7 lg:col-span-6 space-y-4">
-            <p className="text-white/85 text-base sm:text-lg leading-relaxed max-w-lg font-normal">
-              The contractor-friendly porcelain revolution. Flow identical Italian Calacatta, rare Amazonite, and deep Onyx from your kitchen island countertop, up the backsplash, and across the floor. Standard tile contractor installation with zero specialized stone cutter fees.
+            <p className="text-white/85 text-base sm:text-lg leading-relaxed max-w-lg font-light">
+              Monolithic mineral surfaces sculpted for architectural continuity. Unbroken veining flows effortlessly across kitchen island counters, vertical splashbacks, and floor planes, uniting Italian Calacatta, rare Amazonite, and deep volcanic stone.
             </p>
             <button
               onClick={onExploreClick}
@@ -82,10 +82,11 @@ export function InCommonHero({
           {/* Bottom Right: Direct Consultation Action */}
           <div className="md:col-span-5 lg:col-span-6 flex items-stretch sm:items-center justify-end">
             <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ y: -2, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               onClick={onOpenBookCall}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#FAF8F5] hover:bg-white text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium transition-all shadow-lg hover:shadow-xl cursor-pointer"
+              className="shimmer-liquid-sheen relative overflow-hidden inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#FAF8F5] hover:bg-white text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium transition-all shadow-lg hover:shadow-2xl cursor-pointer"
             >
               <Calendar className="w-3.5 h-3.5" />
               <span>Book Consultation</span>
