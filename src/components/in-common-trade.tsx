@@ -55,7 +55,7 @@ export function InCommonTrade({ onOpenBookCall, onOpenQuoteModal }: InCommonTrad
                 Apply for Trade Access
               </button>
               <button
-                onClick={() => onOpenQuoteModal({ material: 'Trade Specification & Bid Package' })}
+                onClick={() => onOpenBookCall({ service: 'Trade RFP Specification & Bid Package' })}
                 className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-[#1A1A1A] hover:underline cursor-pointer py-2 font-medium"
               >
                 <span>Submit RFP / Tender Plans</span>

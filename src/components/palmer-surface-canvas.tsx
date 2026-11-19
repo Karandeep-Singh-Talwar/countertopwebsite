@@ -1068,10 +1068,10 @@ export function PalmerSurfaceCanvas({
             {/* Quick Actions in Filter Row */}
             <div className="flex items-center gap-4">
               <button
-                onClick={() => onOpenQuoteModal()}
+                onClick={() => onOpenBookCall({ service: 'Sample Swatch Request' })}
                 className="text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:underline cursor-pointer"
               >
-                Request Line-Item Quote &rarr;
+                Request Swatches &rarr;
               </button>
             </div>
           </div>
@@ -1174,11 +1174,11 @@ export function PalmerSurfaceCanvas({
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      onOpenQuoteModal({ material: specimen.name });
+                      onOpenBookCall({ service: 'Sample Swatch Request', material: specimen.name });
                     }}
                     className="text-neutral-900 font-semibold hover:underline"
                   >
-                    Quick Quote &rarr;
+                    Request Swatches &rarr;
                   </button>
                 </div>
               </div>
@@ -1336,12 +1336,12 @@ export function PalmerSurfaceCanvas({
                 <button
                   onClick={() => {
                     setIsBottomMenuOpen(false);
-                    onOpenQuoteModal();
+                    onOpenBookCall({ service: 'Sample Swatch Request' });
                   }}
                   className="w-full py-3 rounded-2xl bg-white border border-neutral-300 text-neutral-900 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 hover:border-neutral-900 transition cursor-pointer"
                 >
                   <Mail className="w-4 h-4" />
-                  <span>Request Itemized Email Quote</span>
+                  <span>Request Swatches &amp; Sizing Estimate</span>
                 </button>
               </div>
             </motion.div>
@@ -1481,11 +1481,11 @@ export function PalmerSurfaceCanvas({
                         onClick={() => {
                           const matName = inspectedSpecimen.name;
                           setInspectedSpecimen(null);
-                          onOpenQuoteModal({ material: matName });
+                          onOpenBookCall({ service: 'Sample Swatch Request', material: matName });
                         }}
                         className="py-2.5 rounded-xl bg-white border border-neutral-300 text-neutral-800 text-xs font-semibold hover:border-neutral-900 transition cursor-pointer"
                       >
-                        Request Quote
+                        Request Swatches
                       </button>
 
                       <button

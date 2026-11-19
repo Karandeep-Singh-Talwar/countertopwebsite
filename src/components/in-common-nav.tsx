@@ -262,163 +262,110 @@ export function InCommonNav({
                     />
                   </button>
 
-                  {/* Dropdown Menu Flyout: Luxury Two-Column Architectural Atelier */}
+                  {/* Dropdown Menu Flyout: Luxury Dark Architectural Card (Exact Match to Design Reference) */}
                   <AnimatePresence>
                     {isOpen && section.items && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute top-full left-0 mt-3 w-[620px] lg:w-[680px] bg-[#FAF8F5]/98 backdrop-blur-2xl border border-[#1A1A1A]/12 text-[#1A1A1A] p-6 shadow-[0_30px_90px_rgba(26,26,26,0.18)] z-50 text-left select-none"
+                        exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute top-full left-0 mt-3 w-[480px] sm:w-[500px] bg-[#141413]/98 backdrop-blur-2xl border border-amber-500/20 text-white p-6 rounded-2xl shadow-[0_24px_70px_rgba(0,0,0,0.65)] z-50 text-left select-none"
                       >
                         {/* Top Header Tag */}
-                        <div className="flex items-center justify-between pb-3.5 border-b border-[#1A1A1A]/10 mb-5">
-                          <div className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-800" />
-                            <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-[#8C7355] font-medium">
-                              {section.id === 'products' ? 'Architectural Surface Collections' : 'Design & Specification Studio'}
-                            </span>
-                          </div>
-                          <span className="text-[9px] uppercase font-mono tracking-[0.2em] text-[#8C827A]">
-                            Verona Atelier
+                        <div className="flex items-center justify-between pb-3.5 border-b border-white/[0.08] mb-4">
+                          <span className="text-[10.5px] uppercase font-mono tracking-[0.25em] text-[#D4AF37] font-semibold">
+                            {section.id === 'products' ? 'ARCHITECTURAL SURFACES' : 'DESIGN & SPECIFICATION'}
+                          </span>
+                          <span className="text-[10px] uppercase font-mono tracking-[0.22em] text-[#D4AF37] font-medium">
+                            VERONA STUDIO
                           </span>
                         </div>
 
-                        {/* Two Columns: Left Navigation List + Right Atelier Spotlight */}
-                        <div className="grid grid-cols-[1.4fr_1fr] gap-6 items-stretch">
-                          {/* Left Column: Collection / Tool Items */}
-                          <div className="flex flex-col gap-2">
-                            {section.items.map((item, idx) => {
-                              const itemNumber = `0${idx + 1}`;
-                              const content = (
-                                <div className="flex items-start gap-3 w-full">
-                                  <span className="text-[11px] font-mono text-[#8C827A] pt-0.5 group-hover:text-amber-800 transition-colors shrink-0">
-                                    {itemNumber}
-                                  </span>
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex items-center justify-between">
-                                      <span className="font-serif text-[15px] font-normal tracking-tight text-[#1A1A1A] group-hover:text-amber-900 transition-colors">
-                                        {item.name}
-                                      </span>
-                                      <ChevronRight className="w-3.5 h-3.5 text-[#8C827A] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all shrink-0" />
-                                    </div>
-                                    <p className="text-[11.5px] font-sans text-[#6C6863] group-hover:text-[#1A1A1A] leading-relaxed mt-0.5 transition-colors">
-                                      {item.subtitle}
-                                    </p>
-                                  </div>
+                        {/* Items List */}
+                        <div className="flex flex-col gap-2.5">
+                          {section.items.map((item) => {
+                            const Icon = item.icon || Layers;
+                            const content = (
+                              <div className="flex items-start gap-3.5 w-full">
+                                <div className="w-10 h-10 rounded-lg bg-[#1C1A17] border border-[#2E2A24] flex items-center justify-center text-[#D4AF37] group-hover:border-[#D4AF37]/50 group-hover:text-amber-300 transition-colors shrink-0 mt-0.5">
+                                  <Icon className="w-5 h-5" />
                                 </div>
-                              );
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2">
+                                    <span className="font-serif text-[15px] sm:text-[16px] font-normal tracking-tight text-white group-hover:text-amber-100 transition-colors">
+                                      {item.name}
+                                    </span>
+                                    {item.badge && (
+                                      <span className="text-[9px] uppercase font-mono tracking-widest px-1.5 py-0.5 rounded-xs border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37] font-medium">
+                                        {item.badge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-[12px] font-sans text-[#9E988F] group-hover:text-[#D1CBC2] leading-relaxed mt-1 transition-colors">
+                                    {item.subtitle}
+                                  </p>
+                                </div>
+                              </div>
+                            );
 
-                              if (item.action) {
-                                return (
-                                  <button
-                                    key={item.name}
-                                    onClick={() => {
-                                      setActiveDropdown(null);
-                                      item.action?.();
-                                    }}
-                                    className="group w-full p-2.5 rounded-none text-left transition-colors duration-150 cursor-pointer hover:bg-[#F2EFE9] border-b border-[#1A1A1A]/5 last:border-b-0"
-                                  >
-                                    {content}
-                                  </button>
-                                );
-                              }
-
+                            if (item.action) {
                               return (
-                                <Link
+                                <button
                                   key={item.name}
-                                  href={item.href || '/'}
-                                  onClick={() => setActiveDropdown(null)}
-                                  className="group w-full p-2.5 rounded-none text-left transition-colors duration-150 cursor-pointer hover:bg-[#F2EFE9] border-b border-[#1A1A1A]/5 last:border-b-0"
+                                  onClick={() => {
+                                    setActiveDropdown(null);
+                                    item.action?.();
+                                  }}
+                                  className="group w-full p-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer hover:bg-white/[0.04]"
                                 >
                                   {content}
-                                </Link>
+                                </button>
                               );
-                            })}
-                          </div>
+                            }
 
-                          {/* Right Column: Visual Atelier Preview Card */}
-                          <div className="border-l border-[#1A1A1A]/10 pl-6 flex flex-col justify-between">
-                            {section.id === 'products' ? (
-                              <div className="flex flex-col h-full justify-between">
-                                <div>
-                                  <div className="relative aspect-[16/10] w-full overflow-hidden mb-3 border border-[#1A1A1A]/10 bg-[#E8E4DC]">
-                                    <Image
-                                      src="/catalog/products/kitchen_countertops_hero.jpg"
-                                      alt="Verona Sintered Porcelain Island"
-                                      fill
-                                      className="object-cover transition-transform duration-500 hover:scale-105"
-                                    />
-                                  </div>
-                                  <span className="text-[9px] uppercase font-mono tracking-[0.2em] text-[#8C7355] block">
-                                    Atelier Focus
-                                  </span>
-                                  <h4 className="font-serif text-sm font-normal text-[#1A1A1A] mt-0.5">
-                                    Continuous Vein Flow
-                                  </h4>
-                                  <p className="text-[11px] text-[#6C6863] leading-relaxed mt-1">
-                                    Identical veining flows from island waterfall, up the backsplash, and across the floor.
-                                  </p>
-                                </div>
-
-                                <Link
-                                  href="/porcelain-countertops"
-                                  onClick={() => setActiveDropdown(null)}
-                                  className="mt-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.15em] font-medium text-amber-900 hover:text-black transition-colors"
-                                >
-                                  <span>Explore Catalogue</span>
-                                  <ArrowRight className="w-3 h-3" />
-                                </Link>
-                              </div>
-                            ) : (
-                              <div className="flex flex-col h-full justify-between">
-                                <div>
-                                  <div className="relative aspect-[16/10] w-full overflow-hidden mb-3 border border-[#1A1A1A]/10 bg-[#E8E4DC]">
-                                    <Image
-                                      src="/catalog/products/room_calcatta_extra.jpg"
-                                      alt="Verona Studio Room Visualizer"
-                                      fill
-                                      className="object-cover transition-transform duration-500 hover:scale-105"
-                                    />
-                                  </div>
-                                  <span className="text-[9px] uppercase font-mono tracking-[0.2em] text-amber-800 block">
-                                    In-Browser Studio
-                                  </span>
-                                  <h4 className="font-serif text-sm font-normal text-[#1A1A1A] mt-0.5">
-                                    Room Visualizer AI
-                                  </h4>
-                                  <p className="text-[11px] text-[#6C6863] leading-relaxed mt-1">
-                                    Point your phone camera or preview luxury spaces with real ambient room lighting.
-                                  </p>
-                                </div>
-
-                                <Link
-                                  href="/visualizer"
-                                  onClick={() => setActiveDropdown(null)}
-                                  className="mt-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.15em] font-medium text-amber-900 hover:text-black transition-colors"
-                                >
-                                  <span>Launch Studio</span>
-                                  <ArrowRight className="w-3 h-3" />
-                                </Link>
-                              </div>
-                            )}
-                          </div>
+                            return (
+                              <Link
+                                key={item.name}
+                                href={item.href || '/'}
+                                onClick={() => setActiveDropdown(null)}
+                                className="group w-full p-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer hover:bg-white/[0.04]"
+                              >
+                                {content}
+                              </Link>
+                            );
+                          })}
                         </div>
 
-                        {/* Bottom Utility Bar */}
-                        <div className="mt-5 pt-3.5 border-t border-[#1A1A1A]/10 flex items-center justify-between text-[11px] text-[#6C6863]">
-                          <span>Direct kiln freight dispatched nationwide</span>
-                          <button
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              onOpenBookCall({ service: 'Sample Swatch Request', material: 'Curated Swatches' });
-                            }}
-                            className="inline-flex items-center gap-1 font-medium text-amber-900 hover:text-black transition-colors cursor-pointer"
-                          >
-                            <span>Request Swatch Samples</span>
-                            <ArrowRight className="w-3 h-3" />
-                          </button>
+                        {/* Bottom Footer Bar */}
+                        <div className="border-t border-[#262420] pt-3.5 mt-3 flex items-center justify-between text-xs">
+                          {section.id === 'products' ? (
+                            <>
+                              <span className="text-[#9E988F] font-sans">Test our slabs in your space:</span>
+                              <Link
+                                href="/visualizer"
+                                onClick={() => setActiveDropdown(null)}
+                                className="text-[#D4AF37] hover:text-amber-300 font-medium font-sans inline-flex items-center gap-1.5 transition-colors cursor-pointer group/link"
+                              >
+                                <span>Open Studio AI</span>
+                                <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
+                              </Link>
+                            </>
+                          ) : (
+                            <>
+                              <span className="text-[#9E988F] font-sans">Direct material consultation:</span>
+                              <button
+                                onClick={() => {
+                                  setActiveDropdown(null);
+                                  onOpenBookCall();
+                                }}
+                                className="text-[#D4AF37] hover:text-amber-300 font-medium font-sans inline-flex items-center gap-1.5 transition-colors cursor-pointer group/link"
+                              >
+                                <span>Book 15-Min Call</span>
+                                <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" />
+                              </button>
+                            </>
+                          )}
                         </div>
                       </motion.div>
                     )}
