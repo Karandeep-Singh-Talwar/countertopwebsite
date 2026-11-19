@@ -77,7 +77,7 @@ export function InCommonShowroom({ onOpenBookCall }: InCommonShowroomProps) {
             <div className="pt-4 flex flex-col sm:flex-row sm:items-baseline justify-between gap-6 text-[13px] text-[#767168]">
               <div className="space-y-1">
                 <p className="text-[#1A1A1A] font-medium">
-                  Quarters is open to the public Tuesday through Saturday from 11:00am – 6:00pm.
+                  Quarters is open to the public Tuesday through Saturday from 11:00am to 6:00pm.
                 </p>
                 <p>383 Broadway, Floor 2, New York, NY 10013</p>
                 <div className="pt-2 flex items-center gap-6 text-[12px] uppercase tracking-wider text-[#1A1A1A]">

@@ -22,7 +22,7 @@ export function DifferenceTable({ onOpenBookCall }: DifferenceTableProps) {
             The Verona Direct Difference
           </h2>
           <p className="text-sm sm:text-base text-slate-400 mt-3">
-            Traditional countertop shopping is broken—opaque slab yard pricing, 6-week delays, and subcontractor finger pointing. Here is how we revolutionized the journey.
+            Traditional countertop sourcing is often plagued by opaque slab yard pricing, multi-week delays, and subcontractor disputes. Here is how Verona streamlines the journey.
           </p>
         </div>
 

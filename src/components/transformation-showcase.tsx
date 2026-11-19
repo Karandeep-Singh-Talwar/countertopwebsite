@@ -43,7 +43,7 @@ export function TransformationShowcase({ onBookCallForProject }: TransformationS
               }`}
             >
               <MapPin className="w-3.5 h-3.5" />
-              <span>{item.city} — {item.roomType}</span>
+              <span>{item.city} · {item.roomType}</span>
             </button>
           ))}
         </div>

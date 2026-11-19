@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Calendar, Calculator, ArrowRight } from 'lucide-react';
+import { Calendar, ArrowRight } from 'lucide-react';
 
 interface InCommonHeroProps {
   onOpenBookCall: () => void;
@@ -65,42 +65,30 @@ export function InCommonHero({
           transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end pt-8 border-t border-white/20"
         >
-          {/* Bottom Left: Editorial Statement matching In Common With */}
+          {/* Bottom Left: Editorial Statement */}
           <div className="md:col-span-7 lg:col-span-6 space-y-4">
             <p className="text-white/85 text-base sm:text-lg leading-relaxed max-w-lg font-normal">
-              The contractor-friendly porcelain revolution. Flow identical high-gloss Italian Calacatta, rare Amazonite, and deep Onyx from your kitchen island countertop, up the backsplash, and across the floor. Any tile contractor can install—zero specialized stone cutter fees.
+              The contractor-friendly porcelain revolution. Flow identical Italian Calacatta, rare Amazonite, and deep Onyx from your kitchen island countertop, up the backsplash, and across the floor. Standard tile contractor installation with zero specialized stone cutter fees.
             </p>
             <button
               onClick={onExploreClick}
               className="group inline-flex items-center gap-3 text-white text-xs uppercase tracking-[0.2em] font-medium hover:text-amber-200 transition-colors cursor-pointer"
             >
-              <span>Explore Porcelain Slabs</span>
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5 font-light">
-                —
-              </span>
+              <span>Explore Surface Catalogue</span>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
             </button>
           </div>
 
-          {/* Bottom Right: Direct Conversion CTA Buttons */}
-          <div className="md:col-span-5 lg:col-span-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3.5">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={onOpenQuoteModal}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-white/30 hover:border-white/70 bg-black/30 hover:bg-black/50 backdrop-blur-md text-white text-xs uppercase tracking-[0.2em] font-medium transition-all cursor-pointer"
-            >
-              <Calculator className="w-3.5 h-3.5" />
-              <span>Instant Slab Quote</span>
-            </motion.button>
-
+          {/* Bottom Right: Direct Consultation Action */}
+          <div className="md:col-span-5 lg:col-span-6 flex items-stretch sm:items-center justify-end">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenBookCall}
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#FAF8F5] hover:bg-white text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium transition-all shadow-lg hover:shadow-xl cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#FAF8F5] hover:bg-white text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium transition-all shadow-lg hover:shadow-xl cursor-pointer"
             >
               <Calendar className="w-3.5 h-3.5" />
-              <span>Book Virtual Call</span>
+              <span>Book Consultation</span>
             </motion.button>
           </div>
         </motion.div>

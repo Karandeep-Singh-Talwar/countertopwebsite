@@ -47,7 +47,7 @@ export function InCommonFeatures({
             <div className="lg:col-span-4 flex flex-col justify-between space-y-10 lg:pl-4">
               <div>
                 <p className="text-[14px] sm:text-[15px] leading-relaxed text-[#1A1A1A]/85 font-normal tracking-wide">
-                  A monolithic natural stone that brings its luminous crystalline depth and soft gold-umber veining to the fore. Designed for spaces of every style and scale, Taj Mahal pairs a tactile honed satin touch with extraordinary mineral density—impervious to heat, acid, scratching, and time.
+                  A monolithic natural stone that brings its luminous crystalline depth and soft gold-umber veining to the fore. Designed for spaces of every style and scale, Taj Mahal pairs a tactile honed satin touch with extraordinary mineral density, impervious to heat, acid, scratching, and time.
                 </p>
 
                 <div className="mt-6 flex items-center gap-6 text-[12px] text-[#767168] uppercase tracking-wider">

@@ -63,7 +63,7 @@ export function InCommonCatalog({
           <div className="md:col-span-9 lg:col-span-10">
             {/* Introductory Statement */}
             <p className="text-[17px] sm:text-[19px] md:text-[21px] font-sans font-normal leading-[1.6] text-[#1A1A1A] max-w-3xl mb-14 tracking-[-0.01em]">
-              Since our founding, our architectural stone collection has grown to encompass hand-selected natural marbles, monolithic Brazilian quartzites, engineered quartz, and artisanal handcrafted zellige tiles—suitable for both bespoke residential sanctuaries and monumental commercial developments.
+              Since our founding, our architectural stone collection has grown to encompass hand-selected natural marbles, monolithic Brazilian quartzites, engineered quartz, and artisanal handcrafted zellige tiles, suitable for both bespoke residential sanctuaries and monumental commercial developments.
             </p>
 
             {/* 3-Card Grid matching In Common With */}
@@ -114,8 +114,8 @@ export function InCommonCatalog({
                 onClick={onOpenSwatches}
                 className="text-[12px] uppercase tracking-[0.16em] text-[#1A1A1A] hover:text-amber-900 transition-colors cursor-pointer flex items-center gap-2"
               >
-                <span>Shop All Surfaces & In-Page Colors</span>
-                <span className="font-light">—</span>
+                <span>Shop All Surfaces &amp; In-Page Colors</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
 
               <div className="flex items-center space-x-4">

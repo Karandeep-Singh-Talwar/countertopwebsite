@@ -61,7 +61,7 @@ export function InCommonCollections({
           <div className="md:col-span-9 lg:col-span-10">
             {/* Introductory Text */}
             <p className="text-[17px] sm:text-[19px] md:text-[21px] font-sans font-normal leading-[1.6] text-[#1A1A1A] max-w-3xl mb-14 tracking-[-0.01em]">
-              Each of our curated surface collections bears its own distinct geological identity. Because each material requires specialized quarrying methods and honing techniques, they're not only visually unique—they're tonally and tactically diverse, as well.
+              Each of our curated surface collections bears its own distinct geological identity. Because each material requires specialized quarrying methods and honing techniques, they are not only visually unique, but tonally and tactically diverse as well.
             </p>
 
             {/* 3-Column Tall Vertical Image Cards matching In Common With */}

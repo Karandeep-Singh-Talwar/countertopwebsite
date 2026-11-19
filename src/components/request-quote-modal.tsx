@@ -132,9 +132,9 @@ export function RequestQuoteModal({
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-xs pt-1 border-t border-[#F0EDE6]">
-                  <span className="text-[#767168] font-medium">Estimated Slabs + Install:</span>
-                  <span className="font-mono text-base font-bold text-amber-700">
-                    ${calculatedEstimate.toLocaleString()}
+                  <span className="text-[#767168] font-medium">Trade Pricing:</span>
+                  <span className="font-mono text-xs font-semibold text-amber-800 uppercase tracking-wider">
+                    Custom Jobsite Quotation
                   </span>
                 </div>
               </div>
@@ -226,7 +226,7 @@ export function RequestQuoteModal({
                 Estimate &amp; Specs on the Way!
               </h3>
               <p className="text-xs text-[#1A1A1A]/70 max-w-sm mx-auto leading-relaxed">
-                We have emailed your complete itemized PDF estimate of <strong>${calculatedEstimate.toLocaleString()}</strong> ({initialSqFt} sq.ft scope) to <strong>{email}</strong>.
+                We have emailed your complete itemized PDF quotation and material specification dossier ({initialSqFt} sq.ft scope) to <strong>{email}</strong>.
               </p>
               <div className="pt-2">
                 <button

@@ -11,7 +11,7 @@ interface FAQItem {
 const FAQS: FAQItem[] = [
   {
     q: 'What is the practical difference between Quartz, Natural Quartzite, and Marble?',
-    a: 'Engineered Quartz is non-porous and never requires sealing, making it the most stain-resistant option for busy households. Natural Quartzite is a metamorphic rock diamond-hardened by geological pressure—it has the organic veining of marble but is heatproof up to 600°F. Natural Marble is softer and more porous, ideal for luxurious aesthetics with our included 15-year nano-sealant shield.',
+    a: 'Engineered Quartz is non-porous and never requires sealing, making it the most stain-resistant option for busy households. Natural Quartzite is a metamorphic rock diamond-hardened by geological pressure, featuring the organic veining of marble while remaining heatproof up to 600°F. Natural Marble is softer and more porous, ideal for luxurious aesthetics with our included 15-year nano-sealant shield.',
   },
   {
     q: 'How does the free 15-minute consultation call work?',

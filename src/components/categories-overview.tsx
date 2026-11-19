@@ -16,28 +16,23 @@ export function CategoriesOverview({
 }: CategoriesOverviewProps) {
   const categories = [
     {
-      num: '01',
       id: 'countertops',
       href: '/countertops',
-      label: 'SURFACE APPLICATION',
       title: 'Countertops',
       tagline: 'Porcelain · Granite · Quartz · Quartzite',
       description:
         'Engineered for chef islands, perimeter counters, and waterfall returns. Choose between contractor-friendly 9mm vitrified porcelain, dense natural volcanic granite, zero-maintenance quartz, and crown-jewel metamorphic quartzite.',
       image: '/catalog/products/kitchen_countertops_hero.jpg',
       specs: [
-        'Porcelain: Cut on-site with diamond wet saw',
-        'Granite: Natural volcanic heat & scratch stamina',
+        'Porcelain: Cut on-site with standard diamond wet saw',
+        'Granite: Natural volcanic heat and scratch stamina',
         'Quartz: 100% non-porous zero-sealing uniformity',
         'Quartzite: Marble elegance with diamond toughness',
       ],
-      priceTag: 'From $24 / sq.ft',
     },
     {
-      num: '02',
       id: 'backsplash-walltile',
       href: '/backsplash-walltile',
-      label: 'VERTICAL CONTINUITY',
       title: 'Backsplash & Wall Tile',
       tagline: 'Porcelain · Granite · Quartz · Quartzite',
       description:
@@ -45,29 +40,25 @@ export function CategoriesOverview({
       image: '/catalog/products/backsplash_walltile_hero.jpg',
       specs: [
         'Bookmatched continuous vein flow',
-        'Direct stove heat & grease impervious',
-        'Shower, vanity & fireplace wall cladding',
-        'Available in matching slabs & calibrated tiles',
+        'Direct stove heat and grease impervious',
+        'Shower, vanity and fireplace wall cladding',
+        'Available in matching slabs and calibrated tiles',
       ],
-      priceTag: 'From $24 / sq.ft',
     },
     {
-      num: '03',
       id: 'flooring',
       href: '/flooring',
-      label: 'ARCHITECTURAL FOUNDATION',
       title: 'Flooring',
       tagline: 'Porcelain · Granite · Quartz · Quartzite',
       description:
         'Harmonize your entire open-concept floor plan. Large-format 600×1200mm vitrified tiles, granite pavers, and quartzite floor stones engineered for heavy residential and commercial foot traffic.',
       image: '/catalog/products/flooring_hero.jpg',
       specs: [
-        'Exact color harmony to countertops & walls',
-        'Calibrated 600×1200mm & 600×600mm sizing',
-        'PEI IV/V frost, stain & scratch proofing',
-        'Direct wholesale jobsite crate freight',
+        'Exact color harmony to countertops and walls',
+        'Calibrated 600×1200mm and 600×600mm sizing',
+        'PEI IV/V frost, stain and scratch proofing',
+        'Direct jobsite crate freight and pallet dispatch',
       ],
-      priceTag: 'From $18 / sq.ft',
     },
   ];
 
@@ -86,7 +77,7 @@ export function CategoriesOverview({
           </div>
 
           <p className="text-[#6C6863] text-base sm:text-lg max-w-xl font-normal leading-relaxed">
-            Every surface application—<strong className="text-[#1A1A1A]">Countertops, Backsplash &amp; Wall Tile, and Flooring</strong>—curated across four core stone technologies: Porcelain, Granite, Quartz, and Quartzite.
+            Curated across four core mineral technologies: Porcelain, Granite, Quartz, and Quartzite for comprehensive interior continuity.
           </p>
         </div>
 
@@ -125,10 +116,10 @@ export function CategoriesOverview({
                   </p>
 
                   {/* Clean spec list separated by hairline, quiet editorial styling */}
-                  <div className="border-t border-[#1A1A1A]/10 pt-4 space-y-2 mb-8">
+                  <div className="border-t border-[#1A1A1A]/10 pt-4 space-y-2.5 mb-8">
                     {cat.specs.map((spec, i) => (
-                      <div key={i} className="flex items-baseline gap-2.5 text-xs text-[#4A4541] font-normal leading-relaxed">
-                        <span className="text-[#8C827A] font-light">—</span>
+                      <div key={i} className="flex items-center gap-2.5 text-xs text-[#4A4541] font-normal leading-relaxed">
+                        <span className="w-1 h-1 rounded-full bg-[#1A1A1A]/30 shrink-0" />
                         <span>{spec}</span>
                       </div>
                     ))}
@@ -136,10 +127,10 @@ export function CategoriesOverview({
                 </div>
               </div>
 
-              {/* Borderless Editorial Link with Rate */}
-              <div className="pt-2 flex items-center justify-between border-t border-[#1A1A1A]/10 pt-4">
-                <span className="text-xs uppercase tracking-[0.15em] text-[#8C827A] font-sans">
-                  {cat.priceTag}
+              {/* Borderless Editorial Link (Zero Pricing) */}
+              <div className="pt-4 border-t border-[#1A1A1A]/10 flex items-center justify-between">
+                <span className="text-xs uppercase tracking-[0.15em] text-[#8C827A] font-sans font-medium">
+                  Atelier Sourced
                 </span>
                 <Link
                   href={cat.href}

@@ -45,7 +45,7 @@ export default function PorcelainCountertopsPage() {
               Porcelain Countertops <span className="italic font-light text-amber-800">Catalogue</span>
             </h1>
             <p className="mt-6 text-[#6C6863] text-base sm:text-lg font-normal leading-relaxed">
-              Monolithic 9mm vitrified porcelain slabs engineered for kitchen countertops, island waterfalls, and full-height continuous splashbacks. Sized and calibrated so your existing general contractor or tile setter can cut and install using standard diamond wet saws—eliminating expensive stone fabricator markups.
+              Monolithic 9mm vitrified porcelain slabs engineered for kitchen countertops, island waterfalls, and full-height continuous splashbacks. Sized and calibrated so your existing general contractor or tile setter can cut and install using standard diamond wet saws with zero stone fabricator delays.
             </p>
 
             {/* Editorial Metric Strip */}
@@ -56,9 +56,9 @@ export default function PorcelainCountertopsPage() {
                 <div className="text-xs text-[#6C6863] mt-0.5">Cut on-site with diamond wet saw</div>
               </div>
               <div>
-                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">40–60%</div>
-                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Lower Total Cost</div>
-                <div className="text-xs text-[#6C6863] mt-0.5">$24 – $38 / sq.ft direct wholesale</div>
+                <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">Zero</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-[#1A1A1A] font-medium mt-1">Annual Sealing</div>
+                <div className="text-xs text-[#6C6863] mt-0.5">Permanently stain-resistant vitrification</div>
               </div>
               <div>
                 <div className="text-3xl sm:text-4xl font-serif text-[#1A1A1A] font-normal">1000°C</div>
@@ -73,18 +73,18 @@ export default function PorcelainCountertopsPage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-8 mt-10">
-              <Link
-                href="/#savings-calculator"
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
-              >
-                <Calculator className="w-3.5 h-3.5" />
-                <span>Calculate Your Project Savings</span>
-              </Link>
               <button
                 onClick={() => handleOpenQuoteModal({ material: 'Porcelain Countertops Collection' })}
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#59534E] hover:text-[#1A1A1A] py-1 border-b border-[#1A1A1A]/20 hover:border-[#1A1A1A] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
                 <span>Request Custom Quote</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={() => handleOpenBookCall({ service: 'Contractor Porcelain Consultation' })}
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#59534E] hover:text-[#1A1A1A] py-1 border-b border-[#1A1A1A]/20 hover:border-[#1A1A1A] transition-colors cursor-pointer"
+              >
+                <span>Schedule Material Consultation</span>
               </button>
             </div>
           </div>

@@ -19,7 +19,6 @@ interface DropdownItem {
   subtitle: string;
   href?: string;
   action?: () => void;
-  badge?: string;
 }
 
 interface NavSection {
@@ -114,19 +113,16 @@ export function InCommonNav({
           name: 'Countertop',
           subtitle: 'Porcelain, Granite, Quartz & Quartzite slabs for kitchen islands',
           href: '/countertops',
-          badge: '4 Materials',
         },
         {
           name: 'Backsplash & WallTile',
           subtitle: 'Continuous veined slabs & moisture-proof wall tiles',
           href: '/backsplash-walltile',
-          badge: '4 Materials',
         },
         {
           name: 'Flooring',
           subtitle: 'High-traffic vitrified pavers & natural stone floor tiles',
           href: '/flooring',
-          badge: '4 Materials',
         },
       ],
     },
@@ -138,11 +134,10 @@ export function InCommonNav({
           name: 'Room Visualizer',
           subtitle: 'Interactive in-browser AI tool to preview slabs in your kitchen',
           href: '/visualizer',
-          badge: 'Interactive',
         },
         {
-          name: 'Savings Calculator',
-          subtitle: 'Compare direct porcelain wholesale against stone fabricator costs',
+          name: 'Project Sizing Calculator',
+          subtitle: 'Estimate surface area, crate quantities and freight logistics',
           action: () => onOpenQuoteModal(),
         },
       ],
@@ -259,16 +254,9 @@ export function InCommonNav({
                         {section.items.map((item) => {
                           const content = (
                             <div className="flex flex-col text-left">
-                              <div className="flex items-center justify-between">
-                                <span className="font-medium text-xs tracking-wider uppercase">
-                                  {item.name}
-                                </span>
-                                {item.badge && (
-                                  <span className="text-[9px] uppercase px-1.5 py-0.5 tracking-wider bg-amber-800/10 text-amber-800 font-mono">
-                                    {item.badge}
-                                  </span>
-                                )}
-                              </div>
+                              <span className="font-medium text-xs tracking-wider uppercase text-[#1A1A1A]">
+                                {item.name}
+                              </span>
                               <span className="text-[11px] normal-case tracking-normal opacity-70 font-sans mt-0.5 leading-snug">
                                 {item.subtitle}
                               </span>
@@ -318,11 +306,22 @@ export function InCommonNav({
           </nav>
         </div>
 
-        {/* Right: Mobile Menu Trigger */}
-        <div className="flex items-center md:hidden">
+        {/* Right: Desktop Consultation CTA + Mobile Menu Trigger */}
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => onOpenBookCall({ service: 'Architectural Consultation' })}
+            className={`hidden md:inline-flex items-center px-5 py-2 text-xs uppercase tracking-[0.2em] font-medium transition-all duration-200 cursor-pointer ${
+              showDarkText
+                ? 'border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white'
+                : 'border border-white/40 text-white hover:bg-white hover:text-[#1A1A1A]'
+            }`}
+          >
+            <span>Book Consultation</span>
+          </button>
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`p-2 rounded border cursor-pointer ${
+            className={`p-2 rounded border cursor-pointer md:hidden ${
               showDarkText ? 'border-[#D9D4CC] text-[#1A1A1A]' : 'border-white/30 text-white'
             }`}
             aria-label="Toggle Navigation Menu"
@@ -470,7 +469,7 @@ export function InCommonNav({
               </p>
 
               <p className="mt-3 text-sm text-[#1A1A1A] font-serif italic">
-                Please come again later — or connect directly with our advisory desk for instant material specifications.
+                Please check back soon. Connect directly with our advisory desk for instant material specifications.
               </p>
 
               <div className="mt-8 pt-6 border-t border-[#1A1A1A]/10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">

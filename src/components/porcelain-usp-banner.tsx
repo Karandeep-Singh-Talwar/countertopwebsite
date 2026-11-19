@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Check, AlertCircle } from 'lucide-react';
 
 interface PorcelainUspBannerProps {
   onOpenQuoteModal: (opts?: { material?: string }) => void;
@@ -23,7 +22,7 @@ export function PorcelainUspBanner({
       num: '01',
       title: 'Contractor Installable',
       description:
-        'Cut and mitred on-site with standard diamond wet saws—zero specialized stone fabricator wait times or fees.',
+        'Cut and mitred on-site with standard diamond wet saws with zero specialized stone fabricator wait times.',
       image: '/catalog/products/room_volcano_green.jpg',
     },
     {
@@ -37,9 +36,9 @@ export function PorcelainUspBanner({
     {
       id: 'cost' as const,
       num: '03',
-      title: 'Direct Wholesale Cost',
+      title: 'Direct Jobsite Logistics',
       description:
-        'Delivers the depth of $150+ natural quarried marble at 40–60% lower material cost with direct jobsite freight.',
+        'Delivers the depth of rare Italian natural quarried marble with direct jobsite freight and zero showroom markups.',
       image: '/catalog/products/room_amazonite.jpg',
     },
     {
@@ -60,60 +59,21 @@ export function PorcelainUspBanner({
     },
   ];
 
-  const comparisonRows = [
+  const comparisons = [
     {
-      spec: 'Sourcing & Wholesale Pricing',
-      verona: '$28 – $38 / sq.ft direct wholesale · True factory-to-builder pricing with zero showroom commissions or middleman markups',
-      competitorPorcelain: '$90 – $160 / sq.ft retail · Multi-tier dealer markups through boutique design centers & showrooms',
-      traditionalStone: '$120 – $250+ / sq.ft · Exorbitant quarry extraction markups, fragile transit costs, and high fabrication fees',
-      veronaBadge: 'Factory-Direct Wholesale',
-      competitorAlert: '3× to 5× retail markup',
-      traditionalAlert: '2.5× to 4× higher total cost',
+      title: 'Tooling & Fabrication',
+      verona: 'Calibrated 9mm profile cut and mitred on-site using standard diamond wet saws by your general contractor or tile setter.',
+      traditional: 'Heavy 20-30mm slabs requiring specialized CNC bridge saws, high-pressure waterjets, and long fabrication waitlists.',
     },
     {
-      spec: 'Fabrication & Job-Site Tooling',
-      verona: 'Standard commercial diamond wet saw · Mitred and cut directly on-site by general contractor or tile setter',
-      competitorPorcelain: 'Rigid 12–20mm heavy slabs · Requires certified specialty fabricators, high-pressure waterjets, and $2,000+ shop minimums',
-      traditionalStone: 'Heavy 20–30mm brute weight · Requires dedicated stone fabrication shops, crane deliveries, and cabinet reinforcement',
-      veronaBadge: 'Standard Wet Saw Workable',
-      competitorAlert: 'Specialist fabricator & CNC lock-in',
-      traditionalAlert: 'Reinforced subtop framing required',
+      title: 'Spatial Continuity',
+      verona: 'Identical mineral glaze formulation flows uninterrupted across kitchen island countertops, full-height backsplashes, and floor tiles.',
+      traditional: 'Natural quarry lots and stone slab blocks cannot match thin floor tiles, resulting in broken veining and clashing shades.',
     },
     {
-      spec: 'Inventory & Lead Times',
-      verona: 'In-Stock US Warehousing · Ships palletized within 48–72 hours directly to your job site or facility',
-      competitorPorcelain: '8–14 week overseas container transit from Europe · Construction stops if a slab chips or needs extra square footage',
-      traditionalStone: '4–6 week queue waiting for slab yard template scheduling, bridge saw cutting, and edge polishing',
-      veronaBadge: '48–72h US Dispatch',
-      competitorAlert: '8–14 week backorders',
-      traditionalAlert: '4–6 week shop wait time',
-    },
-    {
-      spec: 'Unified Multi-Surface Batch Continuity',
-      verona: '100% Guaranteed Exact Batch Calibration · Same porcelain material flows seamlessly across island, full-height backsplash, and floor',
-      competitorPorcelain: 'Fragmented production catalogs · Countertop slab patterns rarely match floor tile lines in dye lot or thickness',
-      traditionalStone: 'Incompatible sizing and quarry lots · Slab blocks cannot match thin floor tiles, breaking architectural continuity',
-      veronaBadge: 'Full Multi-Surface Continuity',
-      competitorAlert: 'Vein & shade mismatch across surfaces',
-      traditionalAlert: 'Zero floor tile matching',
-    },
-    {
-      spec: 'Mineral Glaze Depth & Surface Realism',
-      verona: '400+ DPI Deep Vitrified Mineral Glaze · Multi-layer Italian glaze with translucent crystal depth and non-repeating continuous faces',
-      competitorPorcelain: 'Variable digital printing · Many brands use flat, repetitive inkjet decals with visible dot-matrix grain upon close inspection',
-      traditionalStone: 'Natural fissures and impurities in quarried stone; engineered quartz looks synthetic with flat plastic resin flecks',
-      veronaBadge: 'Translucent Italian Glaze',
-      competitorAlert: 'Flat digital decal prints',
-      traditionalAlert: 'Unstable fissures & resin matrix',
-    },
-    {
-      spec: 'Heat, Stain & Acid Endurance',
-      verona: '1200°C True Vitrification · < 0.04% Absorption · Set boiling cast iron directly on surface; wine, citrus, and oils wipe clean with zero sealing',
-      competitorPorcelain: 'High heat tolerance, but high internal tension in uncalibrated slabs makes exposed miter edges prone to micro-chipping',
-      traditionalStone: 'Porous & fragile · Marble etches from lemon juice in 60 seconds (requires annual sealing); Quartz scorches permanently above 300°F',
-      veronaBadge: '1200°C Proof · Zero Sealing',
-      competitorAlert: 'Edge chip sensitivity',
-      traditionalAlert: 'Permanent wine etching & scorch risk',
+      title: 'Thermal & Chemical Stamina',
+      verona: '1200°C kiln vitrification with under 0.04% absorption. Completely safe for direct boiling cookware, wine, and oils without sealing.',
+      traditional: 'Porous marble etches instantly from lemon juice and requires annual sealing. Engineered quartz scorches permanently above 300°F.',
     },
   ];
 
@@ -169,7 +129,7 @@ export function PorcelainUspBanner({
                 <div className="relative z-10 flex flex-col justify-between h-full p-5 sm:p-6">
                   {/* Top Bar: Numeral */}
                   <div>
-                    <span className="font-mono text-xs uppercase tracking-widest text-amber-400 font-semibold">
+                    <span className="font-sans text-[11px] uppercase tracking-[0.25em] text-amber-300 font-medium">
                       {pillar.num}
                     </span>
                   </div>
@@ -203,141 +163,69 @@ export function PorcelainUspBanner({
           })}
         </div>
 
-        {/* Upgraded Architectural Specification Matrix */}
+        {/* Architectural Material Contrast (Concise & Editorial) */}
         <div className="border-t border-white/10 mt-16 pt-12">
-          {/* Matrix Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
-              <div className="text-[11px] uppercase tracking-[0.25em] text-amber-400 font-mono mb-2 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                <span>Why Verona Stone · The Architectural Advantage</span>
+              <div className="text-[11px] uppercase tracking-[0.25em] text-amber-300 font-sans font-medium mb-2">
+                Architectural Advantage
               </div>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif font-normal text-white tracking-tight">
-                How Our Porcelain Compares to the Market
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal text-white tracking-tight">
+                How Porcelain Compares
               </h3>
             </div>
-            <p className="text-xs sm:text-sm text-white/60 max-w-lg font-sans font-light leading-relaxed">
-              Why builders, architects, and homeowners choose Verona Stone over expensive porcelain design boutiques and high-maintenance natural stone.
+            <p className="text-sm text-white/60 max-w-lg font-light leading-relaxed">
+              Why architects, general contractors, and homeowners specify Verona vitrified porcelain over fragile natural stone and synthetic quartz.
             </p>
           </div>
 
-          {/* Luxury Elevated Matrix Table */}
-          <div className="overflow-hidden border border-white/10 bg-black/40 backdrop-blur-xs">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse min-w-[840px]">
-                <thead>
-                  <tr className="border-b border-white/15">
-                    <th className="py-5 px-6 font-mono text-xs uppercase tracking-[0.2em] text-white/40 w-[22%] bg-white/[0.01]">
-                      Criterion
-                    </th>
-
-                    {/* Featured Column: Verona Porcelain */}
-                    <th className="py-5 px-6 w-[34%] bg-amber-400/[0.04] border-x border-amber-400/25 relative">
-                      <div className="inline-block text-[9px] uppercase tracking-[0.2em] font-mono text-amber-300 bg-amber-400/10 px-2.5 py-0.5 border border-amber-400/30 mb-2">
-                        Verona Advantage
-                      </div>
-                      <div className="text-base font-serif font-normal text-white flex items-center gap-1.5">
-                        <span>Verona Vitrified Porcelain</span>
-                      </div>
-                      <div className="text-[11px] font-mono text-amber-400/80 tracking-wider mt-0.5">
-                        Factory-Direct Sourced · 9mm Mass
-                      </div>
-                    </th>
-
-                    {/* Competitor Porcelain */}
-                    <th className="py-5 px-6 w-[22%] bg-white/[0.01]">
-                      <div className="text-sm font-serif font-normal text-white/80">
-                        Other Porcelain Showrooms
-                      </div>
-                      <div className="text-[11px] font-mono text-white/40 tracking-wider mt-0.5">
-                        Neolith / Dekton / Boutique Importers
-                      </div>
-                    </th>
-
-                    {/* Traditional Stone & Quartz */}
-                    <th className="py-5 px-6 w-[22%] bg-white/[0.01]">
-                      <div className="text-sm font-serif font-normal text-white/80">
-                        Traditional Quarried Stone
-                      </div>
-                      <div className="text-[11px] font-mono text-white/40 tracking-wider mt-0.5">
-                        Granite / Marble / Quartz
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody className="divide-y divide-white/5 text-xs sm:text-sm">
-                  {comparisonRows.map((row, idx) => (
-                    <tr
-                      key={idx}
-                      className="group transition-colors hover:bg-white/[0.02]"
-                    >
-                      {/* Metric Name */}
-                      <td className="py-4.5 px-6 font-medium text-white/90 bg-white/[0.01]">
-                        <span className="block text-xs uppercase tracking-wider text-amber-400/70 font-mono mb-0.5">
-                          0{idx + 1}
-                        </span>
-                        <span className="text-sm text-white font-serif">
-                          {row.spec}
-                        </span>
-                      </td>
-
-                      {/* Verona Porcelain (Featured Lane) */}
-                      <td className="py-4.5 px-6 bg-amber-400/[0.025] border-x border-amber-400/20 text-white font-normal">
-                        <div className="flex items-start gap-2.5">
-                          <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                          <div>
-                            <div className="text-[11px] font-mono text-amber-300 font-medium mb-1">
-                              {row.veronaBadge}
-                            </div>
-                            <span className="text-white/95 leading-relaxed font-normal text-xs sm:text-sm">
-                              {row.verona}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Competitor Porcelain Showrooms */}
-                      <td className="py-4.5 px-6 text-white/60 font-normal leading-relaxed">
-                        <p>{row.competitorPorcelain}</p>
-                        {row.competitorAlert && (
-                          <div className="mt-2 flex items-center gap-1.5 text-[11px] font-mono text-amber-300/60 bg-white/[0.02] px-2 py-0.5 border border-white/5 rounded-xs w-fit">
-                            <AlertCircle className="w-3 h-3 shrink-0 text-amber-400/70" />
-                            <span>{row.competitorAlert}</span>
-                          </div>
-                        )}
-                      </td>
-
-                      {/* Traditional Quarried Stone & Quartz */}
-                      <td className="py-4.5 px-6 text-white/60 font-normal leading-relaxed">
-                        <p>{row.traditionalStone}</p>
-                        {row.traditionalAlert && (
-                          <div className="mt-2 flex items-center gap-1.5 text-[11px] font-mono text-rose-300/60 bg-white/[0.02] px-2 py-0.5 border border-white/5 rounded-xs w-fit">
-                            <AlertCircle className="w-3 h-3 shrink-0 text-rose-400/70" />
-                            <span>{row.traditionalAlert}</span>
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Matrix Footer Action Callout */}
-            <div className="p-4 sm:p-5 bg-white/[0.02] border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <span className="text-xs font-sans text-white/60 tracking-normal">
-                Direct factory-wholesale pricing with guaranteed in-stock US pallet dispatch. ASTM &amp; ISO 13006 verified.
-              </span>
-              <button
-                type="button"
-                onClick={() => onOpenQuoteModal({ material: 'Verona Flagship Porcelain Slabs' })}
-                className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.15em] text-amber-400 hover:text-amber-300 transition-colors cursor-pointer self-start sm:self-auto font-medium"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {comparisons.map((item, idx) => (
+              <div
+                key={idx}
+                className="border border-white/10 bg-white/[0.02] p-8 flex flex-col justify-between"
               >
-                <span>Request Wholesale Trade Pricing</span>
-                <span>→</span>
-              </button>
-            </div>
+                <div>
+                  <h4 className="text-xl font-serif text-white font-normal mb-6">
+                    {item.title}
+                  </h4>
+
+                  <div className="space-y-6">
+                    <div>
+                      <div className="text-[10px] uppercase tracking-[0.2em] text-amber-300 font-sans font-medium mb-1.5">
+                        Verona Vitrified Porcelain
+                      </div>
+                      <p className="text-sm text-white/90 leading-relaxed font-normal">
+                        {item.verona}
+                      </p>
+                    </div>
+
+                    <div className="pt-4 border-t border-white/10">
+                      <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-sans font-medium mb-1.5">
+                        Quarried Stone &amp; Synthetic Quartz
+                      </div>
+                      <p className="text-xs text-white/50 leading-relaxed font-light">
+                        {item.traditional}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <span className="text-xs text-white/50 font-light">
+              ASTM C373 water absorption verified (&lt;0.04%). ISO 13006 vitrification certified.
+            </span>
+            <button
+              type="button"
+              onClick={() => onOpenQuoteModal({ material: 'Verona Flagship Porcelain Slabs' })}
+              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-amber-300 hover:text-white transition-colors cursor-pointer font-medium"
+            >
+              <span>Request Material Specifications</span>
+              <span>&rarr;</span>
+            </button>
           </div>
         </div>
       </div>

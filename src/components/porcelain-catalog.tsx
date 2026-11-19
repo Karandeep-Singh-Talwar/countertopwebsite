@@ -175,11 +175,6 @@ export function PorcelainCatalog({
                       className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-
-                    {/* Floating Price */}
-                    <div className="absolute top-4 right-4 text-xs uppercase tracking-[0.2em] text-white bg-black/60 backdrop-blur-md px-3 py-1 font-sans font-medium">
-                      {mat.priceEstimate}
-                    </div>
                   </div>
 
                   {/* Editorial Spec Caption: Clean, borderless, typography-driven */}
@@ -409,8 +404,8 @@ export function PorcelainCatalog({
                       <span className="text-emerald-700 font-medium">&lt; 0.04% (Impervious)</span>
                     </div>
                     <div className="flex justify-between py-1">
-                      <span className="text-[#8C827A]">Wholesale Rate:</span>
-                      <span className="text-amber-800 font-bold">{activeMaterial.priceEstimate}</span>
+                      <span className="text-[#8C827A]">Pricing:</span>
+                      <span className="text-[#1A1A1A] font-medium">Trade Inquiries Only</span>
                     </div>
                   </div>
 

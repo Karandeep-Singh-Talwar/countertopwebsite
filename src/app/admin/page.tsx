@@ -805,7 +805,7 @@ export default function AdminCatalogPage() {
                     type="text"
                     value={formData.uspHighlight}
                     onChange={(e) => setFormData({ ...formData, uspHighlight: e.target.value })}
-                    placeholder="Any licensed tile contractor can cut, mitre, and install—eliminating stone fabricator delays."
+                    placeholder="Any licensed tile contractor can cut, mitre, and install, eliminating stone fabricator delays."
                     className="w-full bg-stone-50 border border-stone-300 px-3 py-2 text-stone-900 focus:outline-none focus:border-amber-800"
                   />
                 </div>

@@ -92,7 +92,7 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
   const [surfaceFinish, setSurfaceFinish] = useState<string>('High-Gloss Polished');
 
   // Project Timeline
-  const [projectTimeline, setProjectTimeline] = useState<string>('Ready to Order (1–2 Weeks)');
+  const [projectTimeline, setProjectTimeline] = useState<string>('Ready to Order (1-2 Weeks)');
 
   // Benchmark Stone comparison
   const [stoneType, setStoneType] = useState<'quartzite' | 'marble' | 'quartz'>('marble');
@@ -485,8 +485,8 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
               </span>
               <div className="flex flex-wrap gap-2.5">
                 {[
-                  'Ready to Order (1–2 Weeks)',
-                  'In Renovation (30–60 Days)',
+                  'Ready to Order (1-2 Weeks)',
+                  'In Renovation (30-60 Days)',
                   'Planning & Blueprint Phase',
                 ].map((time) => (
                   <button

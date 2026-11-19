@@ -79,14 +79,14 @@ export default function PorcelainTilesPage() {
               Porcelain Tiles <span className="italic font-light text-amber-800">Catalogue</span>
             </h1>
             <p className="mt-6 text-[#6C6863] text-base sm:text-lg font-normal leading-relaxed">
-              Large-format 600×1200mm (24"×48") and 600×600mm (24"×24") vitrified floor and wall tiles. Pressed with the exact same high-gloss and silk glazes as our porcelain countertops—allowing unbroken material continuity across your floors, feature walls, shower enclosures, and exterior terraces.
+              Large-format 600×1200mm (24"×48") and 600×600mm (24"×24") vitrified floor and wall tiles. Pressed with the exact same high-gloss and silk glazes as our porcelain countertops, allowing unbroken material continuity across your floors, feature walls, shower enclosures, and exterior terraces.
             </p>
 
             {/* Open Crate & Tile Packaging Console (ZERO BOXES) */}
             <div className="mt-12 pt-8 border-t border-[#1A1A1A]/10">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8">
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] font-mono mb-1">
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] font-sans font-medium mb-1">
                     Jobsite Crate Packaging Calculator
                   </div>
                   <div className="text-sm text-[#6C6863] font-normal leading-relaxed">
@@ -95,7 +95,7 @@ export default function PorcelainTilesPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono uppercase text-[#6C6863]">Coverage Area:</span>
+                  <span className="text-xs font-sans uppercase tracking-wider text-[#6C6863]">Coverage Area:</span>
                   <input
                     type="number"
                     min={15}
@@ -103,35 +103,35 @@ export default function PorcelainTilesPage() {
                     step={10}
                     value={tileSqFt}
                     onChange={(e) => setTileSqFt(Math.max(15, Number(e.target.value)))}
-                    className="w-24 bg-transparent border-b border-[#1A1A1A]/30 focus:border-amber-800 text-xl font-mono text-[#1A1A1A] text-right py-0.5 outline-none"
+                    className="w-24 bg-transparent border-b border-[#1A1A1A]/30 focus:border-amber-800 text-xl font-serif text-[#1A1A1A] text-right py-0.5 outline-none"
                   />
-                  <span className="text-xs font-mono text-[#6C6863]">sq.ft</span>
+                  <span className="text-xs font-sans text-[#6C6863]">sq.ft</span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 font-mono">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 font-sans">
                 <div>
                   <div className="text-3xl font-serif text-[#1A1A1A] font-normal">{boxesNeeded}</div>
                   <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] mt-1 font-medium">Boxes Needed</div>
-                  <div className="text-xs text-[#6C6863] font-sans mt-0.5">15.5 sq.ft per box</div>
+                  <div className="text-xs text-[#6C6863] mt-0.5">15.5 sq.ft per box</div>
                 </div>
                 <div>
                   <div className="text-3xl font-serif text-[#1A1A1A] font-normal">{totalWeightKg} kg</div>
                   <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] mt-1 font-medium">Pallet Mass</div>
-                  <div className="text-xs text-[#6C6863] font-sans mt-0.5">~{Math.round(totalWeightKg * 2.204)} lbs freight</div>
+                  <div className="text-xs text-[#6C6863] mt-0.5">~{Math.round(totalWeightKg * 2.204)} lbs freight</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-serif text-emerald-800 font-normal">${estimatedCost.toLocaleString()}</div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] mt-1 font-medium">Wholesale Cost</div>
-                  <div className="text-xs text-[#6C6863] font-sans mt-0.5">Direct jobsite freight</div>
+                  <div className="text-3xl font-serif text-[#1A1A1A] font-normal">Jobsite Crate</div>
+                  <div className="text-xs uppercase tracking-[0.2em] text-[#6C6863] mt-1 font-medium">Logistics Dispatch</div>
+                  <div className="text-xs text-[#6C6863] mt-0.5">Direct freight to facility</div>
                 </div>
                 <div className="flex items-end">
                   <button
                     onClick={() => handleOpenQuoteModal({ material: `Porcelain Tile Crate (${boxesNeeded} Boxes / ${tileSqFt} sq.ft)`, sqFt: tileSqFt })}
                     className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
                   >
-                    <Calculator className="w-3.5 h-3.5" />
                     <span>Get Tile Crate Quote</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
@@ -193,10 +193,6 @@ export default function PorcelainTilesPage() {
                       className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-
-                    <div className="absolute top-4 right-4 text-[11px] uppercase tracking-wider text-white bg-black/50 backdrop-blur-md px-3 py-1 font-mono">
-                      $18 – $26 / sq.ft
-                    </div>
                   </div>
 
                   <div className="pt-6">
@@ -295,8 +291,8 @@ export default function PorcelainTilesPage() {
                       <span className="text-[#1A1A1A] font-medium">15.5 sq.ft (2 pcs / box)</span>
                     </div>
                     <div className="flex justify-between py-1">
-                      <span className="text-[#8C827A]">Rate Range:</span>
-                      <span className="text-amber-800 font-bold">$18 – $26 / sq.ft</span>
+                      <span className="text-[#8C827A]">Pricing:</span>
+                      <span className="text-[#1A1A1A] font-medium">Trade Inquiries Only</span>
                     </div>
                   </div>
 

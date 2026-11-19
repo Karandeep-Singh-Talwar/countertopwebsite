@@ -39,11 +39,11 @@ interface MaterialsCatalogViewProps {
   onOpenBookCall: (opts?: { material?: string; service?: string }) => void;
 }
 
-const MATERIAL_TABS: { id: MaterialType; label: string; badge: string }[] = [
-  { id: 'porcelain', label: 'Porcelain', badge: 'Contractor 9mm' },
-  { id: 'granite', label: 'Granite', badge: 'Natural Igneous' },
-  { id: 'quartz', label: 'Quartz', badge: 'Zero Sealing' },
-  { id: 'quartzite', label: 'Quartzite', badge: 'Crown Jewel' },
+const MATERIAL_TABS: { id: MaterialType; label: string }[] = [
+  { id: 'porcelain', label: 'Porcelain' },
+  { id: 'granite', label: 'Granite' },
+  { id: 'quartz', label: 'Quartz' },
+  { id: 'quartzite', label: 'Quartzite' },
 ];
 
 const PALETTES: { id: ColorPalette; label: string }[] = [
@@ -157,11 +157,11 @@ export function MaterialsCatalogView({
             </div>
 
             {/* Quick Action */}
-            <div className="hidden lg:flex items-center gap-4 text-xs font-mono">
-              <span className="text-[#6C6863]">Direct Wholesale Freight</span>
+            <div className="hidden lg:flex items-center gap-6 text-xs font-sans tracking-[0.15em] uppercase text-[#6C6863]">
+              <span>Direct Jobsite Logistics</span>
               <button
                 onClick={() => onOpenQuoteModal({ material: `${meta.title} (${categoryTitle})` })}
-                className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider font-semibold py-1 border-b border-[#1A1A1A] cursor-pointer hover:text-amber-800"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
                 <span>Request Custom Quote</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -227,10 +227,10 @@ export function MaterialsCatalogView({
             </div>
             <div>
               <span className="text-[11px] uppercase tracking-[0.2em] text-[#8C827A] block font-sans">
-                Wholesale Valuation
+                Fabrication Tooling
               </span>
               <span className="text-lg sm:text-xl font-serif text-[#1A1A1A] mt-1.5 block">
-                {meta.metrics.avgPrice}
+                Standard Wet Saw
               </span>
             </div>
           </div>
@@ -333,10 +333,10 @@ export function MaterialsCatalogView({
                   <div className="pt-4 border-t border-[#1A1A1A]/10 flex items-center justify-between">
                     <div>
                       <span className="text-[10px] uppercase tracking-[0.2em] text-[#8C827A] block font-sans">
-                        Wholesale Rate · {product.finish}
+                        Surface Finish
                       </span>
-                      <span className="text-lg font-serif text-[#1A1A1A] font-medium">
-                        {product.priceEstimate}
+                      <span className="text-sm font-serif text-[#1A1A1A] font-medium">
+                        {product.finish}
                       </span>
                     </div>
 
@@ -345,9 +345,9 @@ export function MaterialsCatalogView({
                         e.stopPropagation();
                         onOpenQuoteModal({ material: `${product.name} (${product.material})` });
                       }}
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#1A1A1A] hover:bg-black text-white text-[11px] uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1A1A1A] hover:bg-black text-white text-[11px] uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer"
                     >
-                      <span>Get Quote</span>
+                      <span>Inquire</span>
                       <ArrowRight className="w-3 h-3" />
                     </button>
                   </div>
@@ -391,21 +391,21 @@ export function MaterialsCatalogView({
                   </div>
 
                   {/* Toggle between Full Slab vs Room Application */}
-                  <div className="p-4 bg-[#1A1714] border-t border-white/10 flex items-center justify-between text-xs font-mono text-white">
-                    <span className="uppercase tracking-wider opacity-60">Inspection View</span>
+                  <div className="p-4 bg-[#1A1714] border-t border-white/10 flex items-center justify-between text-xs font-sans text-white">
+                    <span className="uppercase tracking-[0.2em] opacity-60">Inspection View</span>
                     <div className="flex items-center divide-x divide-white/20 border border-white/20">
                       <button
                         onClick={() => setViewMode('slab')}
-                        className={`px-3 py-1.5 transition-colors cursor-pointer uppercase tracking-wider ${
-                          viewMode === 'slab' ? 'bg-white text-[#1A1A1A] font-bold' : 'hover:bg-white/10'
+                        className={`px-3 py-1.5 transition-colors cursor-pointer uppercase tracking-[0.15em] ${
+                          viewMode === 'slab' ? 'bg-white text-[#1A1A1A] font-medium' : 'hover:bg-white/10'
                         }`}
                       >
                         Full Slab Texture
                       </button>
                       <button
                         onClick={() => setViewMode('room')}
-                        className={`px-3 py-1.5 transition-colors cursor-pointer uppercase tracking-wider ${
-                          viewMode === 'room' ? 'bg-white text-[#1A1A1A] font-bold' : 'hover:bg-white/10'
+                        className={`px-3 py-1.5 transition-colors cursor-pointer uppercase tracking-[0.15em] ${
+                          viewMode === 'room' ? 'bg-white text-[#1A1A1A] font-medium' : 'hover:bg-white/10'
                         }`}
                       >
                         Room Application
@@ -417,46 +417,43 @@ export function MaterialsCatalogView({
                 {/* Details Column (5 cols) */}
                 <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6 bg-[#FAF8F5]">
                   <div>
-                    <div className="text-[10px] uppercase font-mono tracking-[0.25em] text-amber-800">
+                    <div className="text-[10px] uppercase font-sans font-medium tracking-[0.25em] text-amber-800">
                       {activeProduct.material} · {categoryTitle}
                     </div>
-                    <h3 className="text-3xl font-serif text-[#1A1A1A] mt-2">
+                    <h3 className="text-3xl font-serif font-normal text-[#1A1A1A] mt-2">
                       {activeProduct.name}
                     </h3>
-                    <div className="text-xl font-serif font-semibold text-[#1A1A1A] mt-2">
-                      {activeProduct.priceEstimate}
-                    </div>
                     <p className="text-xs text-[#6C6863] mt-3 leading-relaxed">
                       {activeProduct.description}
                     </p>
 
                     {/* Technical Specifications */}
-                    <div className="mt-6 pt-6 border-t border-[#1A1A1A]/10 space-y-2.5 text-xs font-mono">
+                    <div className="mt-6 pt-6 border-t border-[#1A1A1A]/10 space-y-2.5 text-xs font-sans">
                       <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                         <span className="text-[#6C6863]">Thickness</span>
-                        <span className="font-semibold text-[#1A1A1A]">{activeProduct.thickness}</span>
+                        <span className="font-medium text-[#1A1A1A]">{activeProduct.thickness}</span>
                       </div>
                       <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                         <span className="text-[#6C6863]">Available Dimensions</span>
-                        <span className="font-semibold text-[#1A1A1A] text-right">
+                        <span className="font-medium text-[#1A1A1A] text-right">
                           {activeProduct.dimensions.join(' · ')}
                         </span>
                       </div>
                       <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                         <span className="text-[#6C6863]">Surface Finish</span>
-                        <span className="font-semibold text-[#1A1A1A]">{activeProduct.finish}</span>
+                        <span className="font-medium text-[#1A1A1A]">{activeProduct.finish}</span>
                       </div>
                       <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                         <span className="text-[#6C6863]">Hardness Rating</span>
-                        <span className="font-semibold text-[#1A1A1A]">{activeProduct.specs.hardness}</span>
+                        <span className="font-medium text-[#1A1A1A]">{activeProduct.specs.hardness}</span>
                       </div>
                       <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                         <span className="text-[#6C6863]">Porosity</span>
-                        <span className="font-semibold text-emerald-800">{activeProduct.specs.waterAbsorption}</span>
+                        <span className="font-medium text-emerald-800">{activeProduct.specs.waterAbsorption}</span>
                       </div>
                       <div className="flex justify-between py-1 border-b border-[#1A1A1A]/5">
                         <span className="text-[#6C6863]">Heat Resistance</span>
-                        <span className="font-semibold text-amber-800">{activeProduct.specs.thermalRating}</span>
+                        <span className="font-medium text-amber-800">{activeProduct.specs.thermalRating}</span>
                       </div>
                     </div>
                   </div>
@@ -468,9 +465,9 @@ export function MaterialsCatalogView({
                         setActiveProduct(null);
                         onOpenQuoteModal({ material: `${name} (${activeProduct.material})` });
                       }}
-                      className="w-full py-3 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer text-center"
+                      className="w-full py-3 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center"
                     >
-                      Request Itemized Quote
+                      Request Specification Quote
                     </button>
                     <button
                       onClick={() => {
@@ -481,9 +478,9 @@ export function MaterialsCatalogView({
                           service: `${categoryTitle} Consultation`,
                         });
                       }}
-                      className="w-full py-3 border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#F2EFE9] text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer text-center"
+                      className="w-full py-3 border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#F2EFE9] text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center"
                     >
-                      Book Free Consultation
+                      Book Material Consultation
                     </button>
                   </div>
                 </div>

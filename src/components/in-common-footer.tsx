@@ -47,7 +47,7 @@ export function InCommonFooter({
               Architectural Vitrified Porcelain Catalogue
             </span>
             <p className="text-sm text-[#6C6863] max-w-md leading-relaxed font-normal">
-              100% online catalogue with direct-to-jobsite crate freight. We supply large-format 9mm vitrified porcelain slabs and matching tiles directly to homeowners, builders, and general contractors—eliminating expensive showroom markups and specialist stone fabricator overhead.
+              100% online catalogue with direct-to-jobsite crate freight. We supply large-format 9mm vitrified porcelain slabs and matching tiles directly to homeowners, builders, and general contractors, eliminating expensive showroom markups and specialist stone fabricator overhead.
             </p>
           </div>
 
@@ -89,14 +89,14 @@ export function InCommonFooter({
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
                 <Calculator className="w-3.5 h-3.5" />
-                <span>Instant Quote</span>
+                <span>Request Specification</span>
               </button>
               <button
                 onClick={() => onOpenBookCall({ service: 'Online Contractor Consultation' })}
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#6C6863] hover:text-[#1A1A1A] py-1 border-b border-[#1A1A1A]/20 hover:border-[#1A1A1A] transition-colors cursor-pointer"
               >
                 <Calendar className="w-3.5 h-3.5" />
-                <span>Book Call</span>
+                <span>Schedule Consultation</span>
               </button>
             </div>
           </div>
@@ -110,7 +110,7 @@ export function InCommonFooter({
               Direct Trade &amp; Catalogue Updates
             </span>
             <p className="text-sm text-[#6C6863] mb-3 font-normal leading-relaxed">
-              Subscribe for new container arrivals, bookmatched vitrified batch releases, and wholesale pricing updates.
+              Subscribe for new container arrivals, bookmatched vitrified batch releases, and architectural collection updates.
             </p>
             <form onSubmit={handleNewsletterSubmit} className="space-y-2">
               <div className="flex border border-[#1A1A1A] bg-white">
@@ -132,7 +132,7 @@ export function InCommonFooter({
               {subscribed ? (
                 <p className="text-xs text-emerald-800 flex items-center gap-1 font-medium">
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Subscribed! Check inbox for wholesale catalogue PDF.</span>
+                  <span>Subscribed! Check inbox for catalogue specification dossier.</span>
                 </p>
               ) : (
                 <p className="text-xs text-[#6C6863]">
@@ -178,13 +178,13 @@ export function InCommonFooter({
                 onClick={() => scrollTo('savings-calculator')}
                 className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors font-medium text-[#1A1A1A]"
               >
-                Cost &amp; Savings Calculator
+                Project Sizing Calculator
               </button>
               <button
                 onClick={() => onOpenQuoteModal()}
                 className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
               >
-                Instant Estimate by Email
+                Direct Architectural Inquiry
               </button>
               <button
                 onClick={() => onOpenBookCall({ service: 'Contractor Wet-Saw Spec Pack' })}
@@ -196,7 +196,7 @@ export function InCommonFooter({
                 onClick={() => scrollTo('usp-section')}
                 className="block hover:text-[#1A1A1A] text-left cursor-pointer transition-colors"
               >
-                Porcelain vs Natural Stone Table
+                Material Performance Contrast
               </button>
             </div>
 
@@ -210,7 +210,7 @@ export function InCommonFooter({
                 <p>Direct pallet delivery from kiln to jobsite.</p>
                 <p className="font-medium text-[#1A1A1A] pt-1">Your Contractor Installs</p>
                 <p>Cuts with standard diamond wet saw.</p>
-                <p className="font-medium text-[#1A1A1A] pt-1">Direct Wholesale Rates</p>
+                <p className="font-medium text-[#1A1A1A] pt-1">Direct Factory Procurement</p>
                 <p>No showroom overhead or middlemen.</p>
               </div>
             </div>

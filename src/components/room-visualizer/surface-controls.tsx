@@ -139,7 +139,7 @@ export function SurfaceControls({ surfaces, selectedIds, products, onSelect, onS
               return product ? (
                 <p className="mt-3 text-sm">
                   <span className="font-serif text-lg">{product.name}</span>
-                  <span className="block text-xs text-[#6C6863]">{product.finish} · {product.priceEstimate}</span>
+                  <span className="block text-xs text-[#6C6863]">{product.finish} · 9mm Calibrated</span>
                 </p>
               ) : null;
             })()}
