@@ -47,8 +47,8 @@ export default function HomePage() {
     }
   };
 
-  const handleSelectCategory = (cat: 'porcelain-countertops' | 'porcelain-tiles') => {
-    setActiveCategory(cat);
+  const handleSelectCategory = (cat: string) => {
+    setActiveCategory(cat as any);
     router.push(`/${cat}`);
   };
 

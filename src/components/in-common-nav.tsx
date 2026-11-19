@@ -109,19 +109,21 @@ export function InCommonNav({
       items: [
         {
           name: 'Countertop',
-          subtitle: '9mm monolithic porcelain slabs for islands & perimeter counters',
-          href: '/porcelain-countertops',
-          badge: 'Flagship',
+          subtitle: 'Porcelain, Granite, Quartz & Quartzite slabs for kitchen islands',
+          href: '/countertops',
+          badge: '4 Materials',
         },
         {
           name: 'Backsplash & WallTile',
-          subtitle: 'Full-height continuous veining & vertical shower surrounds',
-          href: '/porcelain-countertops#categories-section',
+          subtitle: 'Continuous veined slabs & moisture-proof wall tiles',
+          href: '/backsplash-walltile',
+          badge: '4 Materials',
         },
         {
           name: 'Flooring',
-          subtitle: 'Architectural vitrified tiles in 600×1200mm & 600×600mm',
-          href: '/porcelain-tiles',
+          subtitle: 'High-traffic vitrified pavers & natural stone floor tiles',
+          href: '/flooring',
+          badge: '4 Materials',
         },
       ],
     },
