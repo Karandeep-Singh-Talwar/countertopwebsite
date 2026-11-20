@@ -11,9 +11,9 @@ interface PorcelainUspBannerProps {
 }
 
 export function PorcelainUspBanner({
-  onOpenQuoteModal,
-  onOpenBookCall,
-  onExploreCatalog,
+  onOpenQuoteModal: _onOpenQuoteModal,
+  onOpenBookCall: _onOpenBookCall,
+  onExploreCatalog: _onExploreCatalog,
 }: PorcelainUspBannerProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
@@ -62,39 +62,45 @@ export function PorcelainUspBanner({
 
   const comparisons = [
     {
-      title: 'Effortless On-Site Craft',
-      contrast: 'vs. Rigid Shop Fabrication',
-      veronaLabel: 'Verona Sintered 9mm Mass',
+      num: '01',
+      category: 'CONTINUOUS FLOW',
+      title: 'Counter-to-Backsplash',
       verona:
-        'Calibrated 9mm profile cut, mitred, and dressed on-site using standard diamond wet saws. Waterfall returns and precise cutouts executed without weeks of specialist CNC delay.',
-      traditionalLabel: 'Heavy 20-30mm Quarried Stone',
-      traditional:
-        'Brute 30mm slabs requiring industrial bridge saws, off-site shop queues, crane staging, and cabinet frame reinforcement.',
+        'Unbroken slab flows seamlessly into full backsplash and floor planes from a single continuous run.',
+      naturalStone:
+        'Disjointed quarry lots, mismatched veining seams, and exorbitant custom fabrication fees.',
     },
     {
-      title: 'Monolithic Spatial Flow',
-      contrast: 'vs. Fragmented Quarry Lots',
-      veronaLabel: 'Continuous Vitrification',
+      num: '02',
+      category: 'INTEGRATED MILLWORK',
+      title: 'Monolithic Sinks',
       verona:
-        'Identical mineral glaze formulation flows unbroken across kitchen island waterfalls, vertical splashbacks, and floor planes from a single harmonized batch.',
-      traditionalLabel: 'Disjointed Slab Blocks & Tiles',
-      traditional:
-        'Disparate quarry cuts and separate tile batches introduce clashing undertones, broken veining trajectories, and mismatched grout lines.',
+        'Precision mitred apron basins and knife-edge drawers withstand boiling water and thermal shock.',
+      naturalStone:
+        'Too brittle for mitred joins; demands secondary undermount metal pans and concealed brackets.',
     },
     {
-      title: 'Absolute Culinary Armor',
-      contrast: 'vs. Vulnerable Porous Stone',
-      veronaLabel: 'Kiln-Fused Impermeability',
+      num: '03',
+      category: 'CONTINUITY',
+      title: 'Indoor-to-Outdoor',
       verona:
-        '1200°C sintering achieves under 0.04% absorption. Scorching Dutch ovens, citrus acids, turmeric, and espresso wipe clean with permanent zero-sealing confidence.',
-      traditionalLabel: 'Porous Marble & Synthetic Quartz',
-      traditional:
-        'Natural marble etches instantaneously under lemon juice and requires annual sealing; engineered polymer quartz permanently discolors and scorches above 300°F.',
+        'Zero UV fading or frost crack; flows seamlessly across glass thresholds directly to outdoor terraces.',
+      naturalStone:
+        'Yellows and chalks under solar rays; winter freeze-thaw cycles provoke micro-fissure splitting.',
+    },
+    {
+      num: '04',
+      category: 'STRUCTURE',
+      title: 'Floating Cantilevers',
+      verona:
+        'High flexural endurance allows razor-thin 12mm island overhangs without visible steel sub-framing.',
+      naturalStone:
+        'Heavier 30mm dead-weight prone to sudden shear; requires bulky steel gussets and knee corbels.',
     },
   ];
 
   return (
-    <section id="usp-section" className="scroll-mt-20 w-full bg-[#111113] py-14 md:py-20 text-white border-t border-white/5">
+    <section id="usp-section" className="scroll-mt-20 w-full bg-[#111113] py-14 md:py-24 text-white border-t border-white/5">
       <div className="max-w-[1680px] mx-auto px-6 md:px-12">
         {/* Minimalist Editorial Header */}
         <motion.div
@@ -109,7 +115,7 @@ export function PorcelainUspBanner({
           </h2>
         </motion.div>
 
-        {/* Reverted Accordion Strip (All 5 visible simultaneously, zero bullets, 2-line descriptions) */}
+        {/* Accordion Strip (All 5 visible simultaneously, zero bullets, 2-line descriptions) */}
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -191,68 +197,77 @@ export function PorcelainUspBanner({
           })}
         </motion.div>
 
-        {/* Architectural Material Contrast (Concise & Editorial) */}
+        {/* Revamped "How Porcelain Compares": Engineered for Permanence, Crafted for Living */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="border-t border-white/10 mt-16 pt-12"
+          className="border-t border-white/10 mt-16 md:mt-24 pt-12 md:pt-16"
         >
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 lg:mb-16 gap-6">
             <div>
-              <div className="text-[11px] uppercase tracking-[0.25em] text-amber-300 font-sans font-medium mb-2">
-                Architectural Advantage
-              </div>
-              <h3 className="text-3xl sm:text-4xl md:text-5xl font-serif font-normal text-white tracking-tight">
-                How Porcelain Compares
+              <h3 className="text-3xl sm:text-4xl lg:text-[46px] font-serif font-normal text-white tracking-tight leading-[1.15]">
+                Engineered for Permanence,<br />
+                <span className="italic font-light text-neutral-300">Crafted for Living</span>
               </h3>
             </div>
-            <p className="text-sm text-white/60 max-w-lg font-light leading-relaxed">
-              Why architects, general contractors, and homeowners specify Verona vitrified porcelain over fragile natural stone and synthetic quartz.
-            </p>
+            <div className="max-w-md lg:max-w-lg">
+              <p className="text-sm sm:text-[15px] text-neutral-400 font-light leading-relaxed">
+                Where classic marble demands constant vigilance, Verona vitrified stone offers complete freedom. Hot cast-iron, spilled Chianti, and morning sunlight leave no trace.
+              </p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {/* 4 Architectural Comparison Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {comparisons.map((item, idx) => (
               <motion.div
-                key={idx}
+                key={item.num}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.7, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.7, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -4 }}
-                className="group border border-white/10 bg-white/[0.02] hover:border-amber-400/40 hover:bg-white/[0.04] p-8 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]"
+                className="group rounded-2xl border border-white/[0.08] bg-[#141416]/90 hover:border-amber-400/30 hover:bg-[#18181B]/95 p-7 flex flex-col justify-between transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.4)]"
               >
                 <div>
-                  <div className="flex items-baseline justify-between mb-6 pb-4 border-b border-white/10">
-                    <h4 className="text-xl font-serif text-white font-normal group-hover:text-amber-200 transition-colors">
-                      {item.title}
-                    </h4>
-                    <span className="text-[11px] font-sans text-amber-300/80 tracking-wider">
-                      {item.contrast}
+                  {/* Top: Numeral & Category Tag */}
+                  <div className="flex items-baseline justify-between mb-3">
+                    <span className="font-serif text-2xl sm:text-3xl font-light text-neutral-500/70 tracking-tight">
+                      {item.num}
+                    </span>
+                    <span className="font-sans text-[10px] uppercase tracking-[0.24em] text-neutral-400 font-medium">
+                      {item.category}
                     </span>
                   </div>
 
-                  <div className="space-y-6">
-                    <div>
-                      <div className="text-[10px] uppercase tracking-[0.2em] text-amber-300 font-sans font-medium mb-1.5 flex items-center justify-between">
-                        <span>{item.veronaLabel}</span>
-                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/20">VERONA</span>
-                      </div>
-                      <p className="text-sm text-white/90 leading-relaxed font-normal">
-                        {item.verona}
-                      </p>
-                    </div>
+                  {/* Feature Title */}
+                  <h4 className="font-serif text-xl sm:text-2xl text-white font-normal tracking-tight min-h-[58px] flex items-center leading-snug">
+                    {item.title}
+                  </h4>
 
-                    <div className="pt-4 border-t border-white/10">
-                      <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-sans font-medium mb-1.5">
-                        {item.traditionalLabel}
-                      </div>
-                      <p className="text-xs text-white/50 leading-relaxed font-light">
-                        {item.traditional}
-                      </p>
+                  {/* Verona Porcelain Block */}
+                  <div className="mt-6">
+                    <div className="flex items-center gap-2 text-[9.5px] font-sans font-semibold tracking-[0.22em] text-[#D4AF37] uppercase mb-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+                      <span>Verona Porcelain</span>
                     </div>
+                    <p className="text-xs text-neutral-300 leading-relaxed font-normal">
+                      {item.verona}
+                    </p>
+                  </div>
+
+                  {/* Natural Stone Block */}
+                  <div className="mt-6 pt-5 border-t border-white/[0.07]">
+                    <div className="flex items-center gap-2 text-[9.5px] font-sans font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-neutral-500" />
+                      <span>Natural Stone</span>
+                    </div>
+                    <p className="text-xs text-neutral-500 leading-relaxed font-light">
+                      {item.naturalStone}
+                    </p>
                   </div>
                 </div>
               </motion.div>
