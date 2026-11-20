@@ -112,32 +112,12 @@ export function InCommonNav({
       }`}
     >
       <div ref={navRef} className="max-w-[1680px] mx-auto px-6 md:px-12">
-        {/* Tier 1: Petersham-style Brand Crest & Top Utility Strip */}
+        {/* Tier 1: Petersham-style Brand Crest */}
         <div className="grid grid-cols-2 md:grid-cols-3 items-center py-2.5 sm:py-3 transition-all duration-300">
-          {/* Left Utility: Takeoff Estimator & Swatches Shortcuts */}
-          <div className="hidden md:flex items-center space-x-6 text-[10px] uppercase tracking-[0.24em] font-sans font-medium text-current/75">
-            <button
-              onClick={() => {
-                if (onOpenEstimator) {
-                  onOpenEstimator();
-                } else {
-                  onOpenQuoteModal({ material: 'Porcelain Surface Package' });
-                }
-              }}
-              className="hover:opacity-100 hover:text-amber-800 transition-colors cursor-pointer"
-            >
-              Takeoff Estimator
-            </button>
-            <span className="opacity-30">|</span>
-            <button
-              onClick={() => onOpenBookCall({ service: 'Curated Swatches' })}
-              className="hover:opacity-100 hover:text-amber-800 transition-colors cursor-pointer"
-            >
-              Curated Swatches
-            </button>
-          </div>
+          {/* Left: Spacer to ensure absolute center alignment */}
+          <div className="hidden md:block" />
 
-          {/* Center: Heritage Architectural Crest & Wordmark (Always with Atelier di Porcellana) */}
+          {/* Center: Heritage Architectural Crest & Wordmark (Without Subtitle) */}
           <div className="col-span-1 md:col-span-1 flex justify-start md:justify-center">
             <Link
               href="/"
@@ -147,7 +127,7 @@ export function InCommonNav({
                 size={isScrolled ? 32 : 38}
                 textColor={showDarkText ? '#1A1A1A' : '#FAF8F5'}
                 crestColor={showDarkText ? '#8C6D46' : '#E6C687'}
-                showSubtitle={true}
+                showSubtitle={false}
                 className="transition-all duration-300"
               />
             </Link>
@@ -191,7 +171,7 @@ export function InCommonNav({
 
         {/* Tier 2: Centered Heritage Navigation Bar */}
         <nav className="hidden md:flex items-center justify-center space-x-10 lg:space-x-14 py-2 text-xs tracking-[0.22em] font-sans font-medium uppercase relative">
-          {/* 1. Products Dropdown Trigger & Compact Floating Menu */}
+          {/* 1. Products Dropdown Trigger & Clean Floating Menu */}
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('products')}
@@ -214,7 +194,7 @@ export function InCommonNav({
               />
             </button>
 
-            {/* Compact Floating Menu: Products */}
+            {/* Minimalist Floating Menu: Products */}
             <AnimatePresence>
               {activeDropdown === 'products' && (
                 <motion.div
@@ -222,10 +202,10 @@ export function InCommonNav({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 4, scale: 0.98 }}
                   transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 min-w-[300px] select-none"
+                  className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 min-w-[270px] select-none"
                 >
                   <div className="bg-[#FAF8F5]/96 backdrop-blur-2xl border border-[#1A1A1A]/10 shadow-[0_16px_40px_rgba(26,23,20,0.12)] p-2 text-[#1A1A1A]">
-                    <div className="p-2 divide-y divide-[#1A1A1A]/8">
+                    <div className="p-1 divide-y divide-[#1A1A1A]/8">
                       {/* 1. Countertops */}
                       <Link
                         href="/countertops"
@@ -237,9 +217,6 @@ export function InCommonNav({
                             Countertops &amp; Islands
                           </span>
                           <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
-                        </div>
-                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
-                          9mm · 12mm · 20mm Solid Mass
                         </div>
                       </Link>
 
@@ -255,9 +232,6 @@ export function InCommonNav({
                           </span>
                           <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
                         </div>
-                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
-                          6mm · 9mm Calibrated
-                        </div>
                       </Link>
 
                       {/* 3. Flooring */}
@@ -272,9 +246,6 @@ export function InCommonNav({
                           </span>
                           <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
                         </div>
-                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
-                          9mm · 20mm Paver Profile
-                        </div>
                       </Link>
                     </div>
                   </div>
@@ -283,7 +254,7 @@ export function InCommonNav({
             </AnimatePresence>
           </div>
 
-          {/* 2. Design Tools Dropdown Trigger & Compact Floating Menu */}
+          {/* 2. Design Tools Dropdown Trigger & Clean Floating Menu */}
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('design-tools')}
@@ -306,7 +277,7 @@ export function InCommonNav({
               />
             </button>
 
-            {/* Compact Floating Menu: Design Tools */}
+            {/* Minimalist Floating Menu: Design Tools */}
             <AnimatePresence>
               {activeDropdown === 'design-tools' && (
                 <motion.div
@@ -314,10 +285,10 @@ export function InCommonNav({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 4, scale: 0.98 }}
                   transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 min-w-[300px] select-none"
+                  className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 min-w-[270px] select-none"
                 >
                   <div className="bg-[#FAF8F5]/96 backdrop-blur-2xl border border-[#1A1A1A]/10 shadow-[0_16px_40px_rgba(26,23,20,0.12)] p-2 text-[#1A1A1A]">
-                    <div className="p-2 divide-y divide-[#1A1A1A]/8">
+                    <div className="p-1 divide-y divide-[#1A1A1A]/8">
                       {/* Tool 1: Estimator */}
                       <button
                         onClick={() => {
@@ -336,9 +307,6 @@ export function InCommonNav({
                           </span>
                           <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
                         </div>
-                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
-                          Instant Square-Foot Takeoff
-                        </div>
                       </button>
 
                       {/* Tool 2: Visualizer (WIP Trigger) */}
@@ -354,9 +322,6 @@ export function InCommonNav({
                             Room Visualizer 3D
                           </span>
                           <span className="text-[9px] font-mono uppercase tracking-wider text-amber-800 font-medium">Preview</span>
-                        </div>
-                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
-                          Perspective Studio · In Calibration
                         </div>
                       </button>
                     </div>
