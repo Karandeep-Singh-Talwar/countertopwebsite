@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface PorcelainUspBannerProps {
   onOpenQuoteModal: (opts?: { material?: string }) => void;
@@ -16,6 +16,21 @@ export function PorcelainUspBanner({
   onExploreCatalog: _onExploreCatalog,
 }: PorcelainUspBannerProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [comparisonMode, setComparisonMode] = useState<'grid' | 'rolling'>('grid');
+  const [rollingIndex, setRollingIndex] = useState<number>(0);
+
+  const handleNextComparison = () => {
+    setRollingIndex((prev) => (prev === 3 ? 0 : prev + 1));
+  };
+
+  const handlePrevComparison = () => {
+    setRollingIndex((prev) => (prev === 0 ? 3 : prev - 1));
+  };
+
+  const openBottomMaskStyle: React.CSSProperties = {
+    WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 100%)',
+    maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 100%)',
+  };
 
   const pillars = [
     {
@@ -206,69 +221,287 @@ export function PorcelainUspBanner({
           className="border-t border-white/[0.08] mt-16 md:mt-24 pt-12 md:pt-16"
         >
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 lg:mb-16 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 lg:mb-14 gap-6">
             <div>
               <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-serif font-normal text-white tracking-tight leading-[1.18]">
                 Engineered for Permanence,<br />
                 <span className="italic font-light text-neutral-200">Crafted for Living</span>
               </h3>
             </div>
-            <div className="max-w-md lg:max-w-lg">
-              <p className="text-xs sm:text-[13px] text-neutral-400 font-light leading-relaxed">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6">
+              <p className="max-w-md text-xs sm:text-[13px] text-neutral-400 font-light leading-relaxed">
                 Where classic marble demands constant vigilance, Carrara &amp; Clay vitrified stone offers complete freedom. Hot cast-iron, spilled Chianti, and morning sunlight leave no trace.
               </p>
+
+              {/* View Toggle */}
+              <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-md self-start sm:self-center shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setComparisonMode('grid')}
+                  className={`px-3 py-1 text-[11px] font-mono tracking-wider uppercase rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+                    comparisonMode === 'grid'
+                      ? 'bg-white/15 text-white font-medium shadow-sm'
+                      : 'text-neutral-500 hover:text-neutral-300'
+                  }`}
+                  aria-label="Grid view"
+                >
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
+                  <span>Grid</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setComparisonMode('rolling')}
+                  className={`px-3 py-1 text-[11px] font-mono tracking-wider uppercase rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+                    comparisonMode === 'rolling'
+                      ? 'bg-white/15 text-white font-medium shadow-sm'
+                      : 'text-neutral-500 hover:text-neutral-300'
+                  }`}
+                  aria-label="Rolling deck view"
+                >
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                  </svg>
+                  <span>Rolling</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* 4 Architectural Comparison Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
-            {comparisons.map((item, idx) => (
+          {/* Card Presentation: Grid vs 3D Rolling Deck */}
+          <AnimatePresence mode="wait">
+            {comparisonMode === 'grid' ? (
               <motion.div
-                key={item.num}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.7, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -4 }}
-                className="group rounded-2xl border border-white/[0.06] bg-[#0E0E10] hover:border-amber-400/20 p-6 lg:p-7 flex flex-col justify-between transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.5)]"
+                key="grid-view"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5"
               >
-                <div>
-                  {/* Top: Numeral */}
-                  <div className="mb-4">
-                    <span className="font-serif text-3xl font-light text-neutral-500/80 tracking-tight">
-                      {item.num}
-                    </span>
-                  </div>
+                {comparisons.map((item, idx) => (
+                  <motion.div
+                    key={item.num}
+                    initial={{ opacity: 0, y: 45 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{
+                      duration: 0.8,
+                      delay: idx * 0.22,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    whileHover={{ y: -4 }}
+                    style={openBottomMaskStyle}
+                    className="group relative rounded-t-2xl sm:rounded-t-3xl border-t border-x border-b-0 border-white/[0.08] hover:border-amber-400/25 bg-gradient-to-b from-[#141417]/95 via-[#0e0e11]/70 to-transparent p-6 lg:p-7 pb-16 lg:pb-24 flex flex-col justify-between transition-colors duration-300"
+                  >
+                    <div>
+                      {/* Top: Numeral */}
+                      <div className="mb-4">
+                        <span className="font-serif text-3xl font-light text-neutral-500/80 tracking-tight">
+                          {item.num}
+                        </span>
+                      </div>
 
-                  {/* Feature Title */}
-                  <h4 className="font-serif text-xl sm:text-2xl text-white font-normal tracking-tight min-h-[56px] flex items-center leading-snug">
-                    {item.num === '01' ? (
-                      <>Counter-to-<br />Backsplash</>
-                    ) : (
-                      item.title
-                    )}
-                  </h4>
+                      {/* Feature Title */}
+                      <h4 className="font-serif text-xl sm:text-2xl text-white font-normal tracking-tight min-h-[56px] flex items-center leading-snug">
+                        {item.num === '01' ? (
+                          <>Counter-to-<br />Backsplash</>
+                        ) : (
+                          item.title
+                        )}
+                      </h4>
 
-                  {/* Primary Feature Benefit */}
-                  <div className="mt-4">
-                    <p className="text-[11.5px] sm:text-xs text-neutral-200/90 leading-relaxed font-light">
-                      {item.verona}
-                    </p>
-                  </div>
+                      {/* Primary Feature Benefit */}
+                      <div className="mt-4">
+                        <p className="text-[11.5px] sm:text-xs text-neutral-200/90 leading-relaxed font-light">
+                          {item.verona}
+                        </p>
+                      </div>
 
-                  {/* Natural Stone Block */}
-                  <div className="mt-5">
-                    <div className="text-[9px] font-mono font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-1.5">
-                      <span>NATURAL STONE</span>
+                      {/* Natural Stone Block */}
+                      <div className="mt-5">
+                        <div className="text-[9px] font-mono font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-1.5">
+                          <span>NATURAL STONE</span>
+                        </div>
+                        <p className="text-[11.5px] sm:text-xs text-neutral-500 leading-relaxed font-light">
+                          {item.naturalStone}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-[11.5px] sm:text-xs text-neutral-500 leading-relaxed font-light">
-                      {item.naturalStone}
-                    </p>
-                  </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="rolling-view"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="relative w-full max-w-5xl mx-auto py-6 sm:py-10 flex flex-col items-center select-none"
+              >
+                {/* Left Arrow */}
+                <button
+                  type="button"
+                  onClick={handlePrevComparison}
+                  aria-label="Previous specification"
+                  className="absolute left-0 sm:left-4 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-white/10 bg-[#0E0E10]/80 hover:bg-[#1A1A1E] backdrop-blur-md flex items-center justify-center text-white/70 hover:text-white hover:border-amber-400/40 transition-all shadow-[0_8px_24px_rgba(0,0,0,0.6)]"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+
+                {/* Right Arrow */}
+                <button
+                  type="button"
+                  onClick={handleNextComparison}
+                  aria-label="Next specification"
+                  className="absolute right-0 sm:right-4 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-white/10 bg-[#0E0E10]/80 hover:bg-[#1A1A1E] backdrop-blur-md flex items-center justify-center text-white/70 hover:text-white hover:border-amber-400/40 transition-all shadow-[0_8px_24px_rgba(0,0,0,0.6)]"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                {/* 3D Rolling Stage */}
+                <div className="relative w-full h-[400px] sm:h-[420px] flex items-center justify-center overflow-hidden [perspective:1000px]">
+                  {comparisons.map((item, idx) => {
+                    let offset = (idx - rollingIndex + comparisons.length) % comparisons.length;
+                    if (offset > 2) offset -= 4;
+
+                    const isActive = offset === 0;
+                    const isLeft = offset === -1;
+                    const isRight = offset === 1;
+
+                    let xPos = '0%';
+                    let scale = 1;
+                    let opacity = 1;
+                    let zIndex = 30;
+                    let rotateY = 0;
+
+                    if (isActive) {
+                      xPos = '0%';
+                      scale = 1;
+                      opacity = 1;
+                      zIndex = 30;
+                      rotateY = 0;
+                    } else if (isLeft) {
+                      xPos = '-58%';
+                      scale = 0.86;
+                      opacity = 0.35;
+                      zIndex = 20;
+                      rotateY = 10;
+                    } else if (isRight) {
+                      xPos = '58%';
+                      scale = 0.86;
+                      opacity = 0.35;
+                      zIndex = 20;
+                      rotateY = -10;
+                    } else {
+                      xPos = '0%';
+                      scale = 0.72;
+                      opacity = 0;
+                      zIndex = 10;
+                      rotateY = 0;
+                    }
+
+                    return (
+                      <motion.div
+                        key={item.num}
+                        animate={{
+                          x: xPos,
+                          scale,
+                          opacity,
+                          zIndex,
+                          rotateY,
+                        }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 280,
+                          damping: 30,
+                          mass: 0.8,
+                        }}
+                        drag={isActive ? 'x' : false}
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0.2}
+                        onDragEnd={(_, info) => {
+                          if (info.offset.x < -40 || info.velocity.x < -300) {
+                            handleNextComparison();
+                          } else if (info.offset.x > 40 || info.velocity.x > 300) {
+                            handlePrevComparison();
+                          }
+                        }}
+                        onClick={() => {
+                          if (isLeft) handlePrevComparison();
+                          if (isRight) handleNextComparison();
+                        }}
+                        style={openBottomMaskStyle}
+                        className={`absolute w-[290px] sm:w-[350px] md:w-[380px] rounded-t-2xl sm:rounded-t-3xl border-t border-x border-b-0 border-white/[0.08] bg-gradient-to-b from-[#141417]/95 via-[#0e0e11]/70 to-transparent p-6 sm:p-7 pb-16 sm:pb-24 shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-colors duration-300 ${
+                          isActive
+                            ? 'cursor-grab active:cursor-grabbing border-amber-400/30'
+                            : 'cursor-pointer hover:opacity-50'
+                        }`}
+                      >
+                        <div>
+                          {/* Top: Numeral */}
+                          <div className="mb-4">
+                            <span className="font-serif text-3xl font-light text-neutral-500/80 tracking-tight">
+                              {item.num}
+                            </span>
+                          </div>
+
+                          {/* Feature Title */}
+                          <h4 className="font-serif text-xl sm:text-2xl text-white font-normal tracking-tight min-h-[56px] flex items-center leading-snug">
+                            {item.num === '01' ? (
+                              <>Counter-to-<br />Backsplash</>
+                            ) : (
+                              item.title
+                            )}
+                          </h4>
+
+                          {/* Primary Feature Benefit */}
+                          <div className="mt-4">
+                            <p className="text-[11.5px] sm:text-xs text-neutral-200/90 leading-relaxed font-light">
+                              {item.verona}
+                            </p>
+                          </div>
+
+                          {/* Natural Stone Block */}
+                          <div className="mt-5">
+                            <div className="text-[9px] font-mono font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-1.5">
+                              <span>NATURAL STONE</span>
+                            </div>
+                            <p className="text-[11.5px] sm:text-xs text-neutral-500 leading-relaxed font-light">
+                              {item.naturalStone}
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                {/* Rolling Indicator Pills */}
+                <div className="flex items-center justify-center gap-2 mt-4 sm:mt-6">
+                  {comparisons.map((item, idx) => (
+                    <button
+                      key={item.num}
+                      type="button"
+                      onClick={() => setRollingIndex(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === rollingIndex
+                          ? 'w-8 bg-amber-400/90 shadow-[0_0_12px_rgba(251,191,36,0.35)]'
+                          : 'w-2 bg-white/20 hover:bg-white/40'
+                      }`}
+                      aria-label={`Specification ${item.num}`}
+                    />
+                  ))}
                 </div>
               </motion.div>
-            ))}
-          </div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>
