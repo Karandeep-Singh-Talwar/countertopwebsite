@@ -57,7 +57,7 @@ export function InCommonNav({
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -142,10 +142,10 @@ export function InCommonNav({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-[0.16,1,0.3,1] ${
         showDarkText
-          ? 'bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#E8E4DC] text-[#1A1A1A] py-3.5 shadow-sm'
-          : 'bg-transparent text-white py-5'
+          ? 'bg-[#FAF8F5]/70 md:bg-white/60 backdrop-blur-2xl backdrop-saturate-180 text-[#1A1A1A] py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.03)]'
+          : 'bg-transparent text-white py-4.5'
       }`}
     >
       <div
@@ -177,7 +177,7 @@ export function InCommonNav({
                     href={section.href}
                     className={`inline-flex items-center gap-1.5 py-2 whitespace-nowrap cursor-pointer transition-opacity duration-200 hover:opacity-70 font-medium uppercase tracking-[0.2em] text-xs ${
                       showDarkText ? 'text-[#1A1A1A]' : 'text-white'
-                    } ${isCurrent ? 'border-b border-amber-600 font-semibold' : ''}`}
+                    } ${isCurrent ? 'text-amber-800 font-semibold' : ''}`}
                   >
                     <span>{section.title}</span>
                   </Link>
@@ -262,9 +262,9 @@ export function InCommonNav({
             whileTap={{ scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             onClick={() => onOpenBookCall({ service: 'Architectural Consultation' })}
-            className={`hidden md:inline-flex items-center px-5 py-2 text-xs uppercase tracking-[0.2em] font-medium transition-all duration-200 cursor-pointer relative overflow-hidden ${
+            className={`hidden md:inline-flex items-center px-5 py-2 text-xs uppercase tracking-[0.2em] font-medium transition-all duration-300 cursor-pointer relative overflow-hidden backdrop-blur-sm ${
               showDarkText
-                ? 'border border-[#1A1A1A] text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white shimmer-liquid-sheen'
+                ? 'border border-[#1A1A1A]/30 text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white shimmer-liquid-sheen'
                 : 'border border-white/40 text-white hover:bg-white hover:text-[#1A1A1A] shimmer-liquid-sheen'
             }`}
           >
@@ -273,8 +273,8 @@ export function InCommonNav({
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`p-2 rounded border cursor-pointer md:hidden ${
-              showDarkText ? 'border-[#D9D4CC] text-[#1A1A1A]' : 'border-white/30 text-white'
+            className={`p-2 rounded border cursor-pointer md:hidden backdrop-blur-sm ${
+              showDarkText ? 'border-[#1A1A1A]/20 text-[#1A1A1A]' : 'border-white/30 text-white'
             }`}
             aria-label="Toggle Navigation Menu"
           >
@@ -285,7 +285,7 @@ export function InCommonNav({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#FAF8F5] border-b border-[#E8E4DC] text-[#1A1A1A] px-6 py-6 space-y-6 max-h-[85vh] overflow-y-auto">
+        <div className="md:hidden bg-[#FAF8F5]/90 backdrop-blur-2xl text-[#1A1A1A] px-6 py-6 space-y-6 max-h-[85vh] overflow-y-auto shadow-2xl">
           {navSections.map((section) => {
             const isSectionOpen = mobileOpenSection === section.id;
             const hasItems = Boolean(section.items && section.items.length > 0);

@@ -26,7 +26,7 @@ export interface SurfaceMask {
 /** 'slab' = one continuous book-matched slab; 'tile' = gridded tiles with grout. */
 export type SurfaceLayout = 'slab' | 'tile';
 
-/** Laying patterns inspired by Virtual-Tile-Visualization-System / Roomvo: Stack Grid, Running Bond (Staggered Brick), or 45° Diamond. */
+/** Architectural laying patterns: Stack Grid, Running Bond (Staggered Brick), or 45° Diamond. */
 export type SurfacePattern = 'grid' | 'running_bond' | 'diamond';
 
 export interface Surface {

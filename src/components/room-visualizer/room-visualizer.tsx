@@ -188,12 +188,12 @@ export function RoomVisualizer({ onConsultLook, onRequestQuote, initialMaterial,
     const specs = surfaces.flatMap((s) => {
       const light = lightMaps.get(s.id);
       if (!light) return [];
-      const product = PRODUCTS.find((p) => p.id === s.productId);
+      const product = products.find((p) => p.id === s.productId) || PRODUCTS.find((p) => p.id === s.productId);
       const spec = buildDrawSpec(s, product, baseLuminance.get(s.id) ?? 0.5, shadeStrength, photo.width, light);
       return spec ? [spec] : [];
     });
     renderer.render(specs, showOriginal);
-  }, [renderer, photo, surfaces, lightMaps, baseLuminance, shadeStrength, showOriginal, textureTick]);
+  }, [renderer, photo, surfaces, products, lightMaps, baseLuminance, shadeStrength, showOriginal, textureTick]);
 
   const runDetection = async (next: HTMLCanvasElement, token: number) => {
     const size = { width: next.width, height: next.height };

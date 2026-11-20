@@ -6,8 +6,7 @@
 // to an unknown scale and shift: the shift vanishes in the gradient and the
 // scale is shared by the whole photo, so comparing gradient directions and
 // relative sizes is enough to tell counter tops from cabinet fronts, and one
-// wall plane from another. This is the in-browser stand-in for Roomvo's
-// server-side depth + plane fitting.
+// wall plane from another. Runs in-browser depth and plane fitting.
 
 import { medianColor } from './surface-cleanup';
 import type { SurfaceMask } from './types';

@@ -53,7 +53,13 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'verona2026';
+  const authHeader = request.headers.get('x-admin-password');
+  if (authHeader !== ADMIN_PASSWORD) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   return NextResponse.json({
     totalBookings: bookingsLog.length,
     recentBookings: bookingsLog.slice(0, 10),

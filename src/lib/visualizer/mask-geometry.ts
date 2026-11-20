@@ -1,7 +1,6 @@
 // Turns a class mask from the segmentation model into separate surfaces: one
 // per connected region, each with a perspective quad and a label anchor.
-// Roomvo does this with per-plane 3D fitting on its servers; a hull-based quad
-// is the lightweight in-browser approximation (users can still drag corners).
+// Uses lightweight in-browser hull-based quads (users can still drag corners).
 
 import { isConvexQuad, type Point, type Quad } from './homography';
 import type { SurfaceMask } from './types';

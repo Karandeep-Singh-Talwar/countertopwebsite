@@ -1,4 +1,4 @@
-// Low-frequency lighting for one surface, the stand-in for Roomvo's lightMapTexture.
+// Low-frequency ambient lighting estimation for one surface.
 //
 // Multiplying the new material by the photo's raw per-pixel brightness also
 // copies the old surface's pattern (grout lines, star tiles, granite flecks).

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
-import { VeronaVisualizerLauncher } from "@/components/verona-visualizer-launcher";
 import "./globals.css";
 
 const inter = Inter({
@@ -33,7 +32,6 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[#FAF8F5] text-[#1A1A1A] font-sans selection:bg-[#1A1A1A] selection:text-[#FAF8F5]">
         {children}
-        <VeronaVisualizerLauncher />
       </body>
     </html>
   );

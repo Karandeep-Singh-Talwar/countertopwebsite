@@ -1,6 +1,6 @@
 // Main-thread side of auto-detection: sends a downscaled photo to the worker,
 // then turns class masks (plus depth, when available) into ready-to-render
-// surfaces - one per plane, like Roomvo's per-surface product instances.
+// surfaces - one per detected architectural plane.
 
 import type { Point, Quad } from './homography';
 import { describeRegions } from './mask-geometry';
