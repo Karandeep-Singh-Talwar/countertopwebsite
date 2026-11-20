@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -247,113 +248,15 @@ export function InCommonNav({
                     aria-expanded={isOpen}
                     className={`inline-flex items-center gap-1.5 py-2 whitespace-nowrap cursor-pointer transition-all duration-200 font-medium uppercase tracking-[0.2em] text-xs ${
                       showDarkText ? 'text-[#1A1A1A]' : 'text-white'
-                    } ${isOpen ? 'opacity-100 text-amber-800' : 'hover:opacity-70'}`}
+                    } ${isOpen ? 'opacity-100 text-amber-700 font-semibold' : 'hover:opacity-70'}`}
                   >
                     <span>{section.title}</span>
                     <ChevronDown
                       className={`w-3.5 h-3.5 transition-transform duration-300 ease-[0.16,1,0.3,1] ${
-                        isOpen ? 'rotate-180 text-amber-800' : 'opacity-70'
+                        isOpen ? 'rotate-180 text-amber-700' : 'opacity-70'
                       }`}
                     />
                   </button>
-
-                  {/* Dropdown Menu Flyout: Sleek Architectural Glass */}
-                  <AnimatePresence>
-                    {isOpen && section.items && (
-                      <div className="absolute top-full left-0 pt-2.5 z-50 select-none">
-                        <motion.div
-                          initial={{ opacity: 0, y: 8, scale: 0.98, filter: 'blur(4px)' }}
-                          animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-                          exit={{ opacity: 0, y: 6, scale: 0.98, filter: 'blur(4px)' }}
-                          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                          className={`w-80 p-2 rounded-xl transition-all duration-300 text-left ${
-                            showDarkText
-                              ? 'bg-[#FAF8F5]/98 backdrop-blur-2xl border border-[#E8E4DC] text-[#1A1A1A] shadow-[0_20px_45px_-10px_rgba(26,23,20,0.15),0_0_0_1px_rgba(255,255,255,0.8)_inset]'
-                              : 'bg-[#121110]/95 backdrop-blur-2xl border border-white/15 text-[#F5F2EB] shadow-[0_25px_60px_-10px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.1)_inset]'
-                          }`}
-                        >
-                          <div className="flex flex-col gap-1">
-                            {section.items.map((item, idx) => {
-                              const itemContent = (
-                                <div className="flex items-center justify-between w-full py-1">
-                                  <div className="flex items-center gap-3 min-w-0">
-                                    <span
-                                      className={`text-[10px] font-mono tracking-wider transition-colors duration-200 shrink-0 ${
-                                        showDarkText
-                                          ? 'text-[#8C827A] group-hover:text-amber-800'
-                                          : 'text-white/40 group-hover:text-amber-300'
-                                      }`}
-                                    >
-                                      0{idx + 1}
-                                    </span>
-                                    <span className="whitespace-nowrap font-medium text-xs tracking-[0.16em] uppercase truncate">
-                                      {item.name}
-                                    </span>
-                                    {item.badge && (
-                                      <span className="inline-flex items-center gap-1.5 text-[9px] font-mono tracking-[0.15em] uppercase text-amber-500/90 font-medium shrink-0">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                                        <span>{item.badge}</span>
-                                      </span>
-                                    )}
-                                  </div>
-                                  <ChevronRight
-                                    className={`w-3.5 h-3.5 transition-all duration-300 ease-out group-hover:translate-x-1 shrink-0 ${
-                                      showDarkText
-                                        ? 'text-[#8C827A] group-hover:text-amber-800'
-                                        : 'text-white/40 group-hover:text-amber-300'
-                                    }`}
-                                  />
-                                </div>
-                              );
-
-                              if (item.action) {
-                                return (
-                                  <motion.button
-                                    key={item.name}
-                                    initial={{ opacity: 0, x: -6 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.2, delay: idx * 0.035, ease: [0.16, 1, 0.3, 1] }}
-                                    onClick={() => {
-                                      setActiveDropdown(null);
-                                      item.action?.();
-                                    }}
-                                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer text-left group active:scale-[0.99] ${
-                                      showDarkText
-                                        ? 'text-[#2C2825] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/[0.05]'
-                                        : 'text-[#E8E4DC] hover:text-white hover:bg-white/[0.08]'
-                                    }`}
-                                  >
-                                    {itemContent}
-                                  </motion.button>
-                                );
-                              }
-
-                              return (
-                                <motion.div
-                                  key={item.name}
-                                  initial={{ opacity: 0, x: -6 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ duration: 0.2, delay: idx * 0.035, ease: [0.16, 1, 0.3, 1] }}
-                                >
-                                  <Link
-                                    href={item.href || '/'}
-                                    onClick={() => setActiveDropdown(null)}
-                                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer group active:scale-[0.99] ${
-                                      showDarkText
-                                        ? 'text-[#2C2825] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/[0.05]'
-                                        : 'text-[#E8E4DC] hover:text-white hover:bg-white/[0.08]'
-                                    }`}
-                                  >
-                                    {itemContent}
-                                  </Link>
-                                </motion.div>
-                              );
-                            })}
-                          </div>
-                        </motion.div>
-                      </div>
-                    )}
-                  </AnimatePresence>
                 </div>
               );
             })}
@@ -383,10 +286,373 @@ export function InCommonNav({
             }`}
             aria-label="Toggle Navigation Menu"
           >
-            <span className="text-xs uppercase tracking-[0.25em] font-medium">Menu</span>
+            <div className="w-5 h-4 flex flex-col justify-between">
+              <span className={`block h-0.5 w-full ${showDarkText ? 'bg-[#1A1A1A]' : 'bg-white'}`} />
+              <span className={`block h-0.5 w-full ${showDarkText ? 'bg-[#1A1A1A]' : 'bg-white'}`} />
+              <span className={`block h-0.5 w-full ${showDarkText ? 'bg-[#1A1A1A]' : 'bg-white'}`} />
+            </div>
           </button>
         </div>
       </div>
+
+      {/* Full Horizon Architectural Mega-Ribbon (Boffi / Poliform Style) */}
+      <AnimatePresence>
+        {activeDropdown && (activeDropdown === 'products' || activeDropdown === 'design-tools') && (
+          <div
+            onMouseEnter={() => {
+              if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current);
+                closeTimerRef.current = null;
+              }
+            }}
+            onMouseLeave={handleMouseLeave}
+            className="hidden md:block absolute top-full left-0 right-0 w-full select-none"
+          >
+            <motion.div
+              key={activeDropdown}
+              initial={{ opacity: 0, y: -10, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -8, filter: 'blur(6px)' }}
+              transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
+              className={`w-full border-b transition-colors duration-300 ${
+                showDarkText
+                  ? 'bg-[#FAF8F5]/98 backdrop-blur-3xl border-[#E8E4DC] text-[#1A1A1A] shadow-[0_30px_60px_-10px_rgba(26,23,20,0.12)]'
+                  : 'bg-[#0E0D0C]/96 backdrop-blur-3xl border-white/12 text-[#FAF8F5] shadow-[0_40px_80px_rgba(0,0,0,0.85)]'
+              }`}
+            >
+              <div className="max-w-[1680px] mx-auto px-6 md:px-12 py-9">
+                {activeDropdown === 'products' ? (
+                  <div>
+                    {/* Architectural Ribbon Header */}
+                    <div className="flex items-end justify-between pb-5 mb-7 border-b border-current/10">
+                      <div>
+                        <div className="text-[11px] uppercase tracking-[0.25em] font-sans font-medium text-amber-700">
+                          Architectural Surface Collections
+                        </div>
+                        <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight mt-1">
+                          Monolithic Porcelain Atelier
+                        </h3>
+                      </div>
+                      <div className="text-xs opacity-60 font-light max-w-sm hidden lg:block text-right">
+                        Direct wholesale freight to jobsite · Sintered at 1200°C · Zero porous maintenance
+                      </div>
+                    </div>
+
+                    {/* 3 Visual Columns Grid */}
+                    <div className="grid grid-cols-3 gap-8 lg:gap-10">
+                      {/* Column 1: Countertops & Waterfalls */}
+                      <Link
+                        href="/countertops"
+                        onClick={() => setActiveDropdown(null)}
+                        className="group block"
+                      >
+                        <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900/10">
+                          <Image
+                            src="/catalog/products/kitchen_countertops_hero.jpg"
+                            alt="Countertops & Waterfalls"
+                            fill
+                            sizes="33vw"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-300" />
+                          <div className={`absolute top-3 left-3 px-2.5 py-1 text-[9px] font-mono tracking-widest uppercase border backdrop-blur-md ${
+                            showDarkText
+                              ? 'bg-[#FAF8F5]/90 text-[#1A1A1A] border-[#1A1A1A]/10'
+                              : 'bg-black/70 text-white border-white/20'
+                          }`}>
+                            9mm · 12mm · 20mm Mass
+                          </div>
+                        </div>
+                        <div className="pt-4">
+                          <div className="text-[10px] font-mono tracking-widest uppercase text-amber-700 font-medium">
+                            01 / Islands &amp; Wet Bars
+                          </div>
+                          <h4 className="font-serif text-xl font-normal tracking-tight mt-1 group-hover:text-amber-700 transition-colors flex items-center justify-between">
+                            <span>Countertops &amp; Waterfalls</span>
+                            <ArrowRight className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          </h4>
+                          <p className="text-xs opacity-70 mt-1.5 leading-relaxed font-light">
+                            Large-format porcelain slabs cut on-site. Impervious to heat, wine, and blade marks.
+                          </p>
+                        </div>
+                      </Link>
+
+                      {/* Column 2: Backsplash & Wall Tile */}
+                      <Link
+                        href="/backsplash-walltile"
+                        onClick={() => setActiveDropdown(null)}
+                        className="group block"
+                      >
+                        <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900/10">
+                          <Image
+                            src="/catalog/products/backsplash_walltile_hero.jpg"
+                            alt="Backsplash & Wall Tile"
+                            fill
+                            sizes="33vw"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-300" />
+                          <div className={`absolute top-3 left-3 px-2.5 py-1 text-[9px] font-mono tracking-widest uppercase border backdrop-blur-md ${
+                            showDarkText
+                              ? 'bg-[#FAF8F5]/90 text-[#1A1A1A] border-[#1A1A1A]/10'
+                              : 'bg-black/70 text-white border-white/20'
+                          }`}>
+                            6mm · 9mm Calibrated
+                          </div>
+                        </div>
+                        <div className="pt-4">
+                          <div className="text-[10px] font-mono tracking-widest uppercase text-amber-700 font-medium">
+                            02 / Vertical Cladding
+                          </div>
+                          <h4 className="font-serif text-xl font-normal tracking-tight mt-1 group-hover:text-amber-700 transition-colors flex items-center justify-between">
+                            <span>Backsplash &amp; Wall Tile</span>
+                            <ArrowRight className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          </h4>
+                          <p className="text-xs opacity-70 mt-1.5 leading-relaxed font-light">
+                            Continuous veined slabs &amp; calibrated tiles for cooking zones, vertical reveals, and spa showers.
+                          </p>
+                        </div>
+                      </Link>
+
+                      {/* Column 3: Architectural Flooring */}
+                      <Link
+                        href="/flooring"
+                        onClick={() => setActiveDropdown(null)}
+                        className="group block"
+                      >
+                        <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900/10">
+                          <Image
+                            src="/catalog/products/flooring_hero.jpg"
+                            alt="Architectural Flooring"
+                            fill
+                            sizes="33vw"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-300" />
+                          <div className={`absolute top-3 left-3 px-2.5 py-1 text-[9px] font-mono tracking-widest uppercase border backdrop-blur-md ${
+                            showDarkText
+                              ? 'bg-[#FAF8F5]/90 text-[#1A1A1A] border-[#1A1A1A]/10'
+                              : 'bg-black/70 text-white border-white/20'
+                          }`}>
+                            9mm · 20mm Paver Profile
+                          </div>
+                        </div>
+                        <div className="pt-4">
+                          <div className="text-[10px] font-mono tracking-widest uppercase text-amber-700 font-medium">
+                            03 / Open-Plan Surfaces
+                          </div>
+                          <h4 className="font-serif text-xl font-normal tracking-tight mt-1 group-hover:text-amber-700 transition-colors flex items-center justify-between">
+                            <span>Architectural Flooring</span>
+                            <ArrowRight className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          </h4>
+                          <p className="text-xs opacity-70 mt-1.5 leading-relaxed font-light">
+                            High-traffic vitrified pavers &amp; grand-format tiles delivering unbroken indoor-to-outdoor continuity.
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+
+                    {/* Bottom Horizon Action Shelf */}
+                    <div className="mt-8 pt-6 border-t border-current/10 flex items-center justify-between text-xs">
+                      <div className="opacity-60 font-light flex items-center gap-6">
+                        <span>Continuous Vein Matching Guarantee</span>
+                        <span>·</span>
+                        <span>ASTM C373 Water Absorption &lt;0.04%</span>
+                      </div>
+                      <div className="flex items-center gap-8">
+                        <button
+                          onClick={() => {
+                            setActiveDropdown(null);
+                            onOpenBookCall({ service: 'Sample Swatch Request' });
+                          }}
+                          className="hover:text-amber-700 uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer flex items-center gap-2"
+                        >
+                          <span>Request Curated Swatches</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setActiveDropdown(null);
+                            onOpenBookCall({ service: 'Architectural Consultation' });
+                          }}
+                          className="hover:text-amber-700 uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer flex items-center gap-2"
+                        >
+                          <span>Book Consultation</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    {/* Design Tools Header */}
+                    <div className="flex items-end justify-between pb-5 mb-7 border-b border-current/10">
+                      <div>
+                        <div className="text-[11px] uppercase tracking-[0.25em] font-sans font-medium text-amber-700">
+                          Architectural Design Suite
+                        </div>
+                        <h3 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight mt-1">
+                          Estimation &amp; Visualization Studio
+                        </h3>
+                      </div>
+                      <div className="text-xs opacity-60 font-light max-w-sm hidden lg:block text-right">
+                        Instant dimensional takeoffs · 3D room homography · 1-on-1 engineer consults
+                      </div>
+                    </div>
+
+                    {/* 3 Visual Columns Grid for Tools */}
+                    <div className="grid grid-cols-3 gap-8 lg:gap-10">
+                      {/* Tool 1: Surface Takeoff Estimator */}
+                      <button
+                        onClick={() => {
+                          setActiveDropdown(null);
+                          if (onOpenEstimator) {
+                            onOpenEstimator();
+                          } else {
+                            onOpenQuoteModal({ material: 'Porcelain Surface Package' });
+                          }
+                        }}
+                        className="group block text-left cursor-pointer"
+                      >
+                        <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900/10">
+                          <Image
+                            src="/catalog/products/room_fuji_gold.jpg"
+                            alt="Surface Takeoff Estimator"
+                            fill
+                            sizes="33vw"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-300" />
+                          <div className={`absolute top-3 left-3 px-2.5 py-1 text-[9px] font-mono tracking-widest uppercase border backdrop-blur-md ${
+                            showDarkText
+                              ? 'bg-[#FAF8F5]/90 text-[#1A1A1A] border-[#1A1A1A]/10'
+                              : 'bg-black/70 text-white border-white/20'
+                          }`}>
+                            Interactive Takeoff Engine
+                          </div>
+                        </div>
+                        <div className="pt-4">
+                          <div className="text-[10px] font-mono tracking-widest uppercase text-amber-700 font-medium">
+                            01 / Budget &amp; Sizing
+                          </div>
+                          <h4 className="font-serif text-xl font-normal tracking-tight mt-1 group-hover:text-amber-700 transition-colors flex items-center justify-between">
+                            <span>Surface Takeoff Estimator</span>
+                            <ArrowRight className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          </h4>
+                          <p className="text-xs opacity-70 mt-1.5 leading-relaxed font-light">
+                            Input square footage to calculate estimated slab requirements, edge profiles, and pricing in 30 seconds.
+                          </p>
+                        </div>
+                      </button>
+
+                      {/* Tool 2: 3D Room Visualizer */}
+                      <button
+                        onClick={() => {
+                          setActiveDropdown(null);
+                          setVisualizerWipOpen(true);
+                        }}
+                        className="group block text-left cursor-pointer"
+                      >
+                        <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900/10">
+                          <Image
+                            src="/catalog/products/room_calcatta_extra.jpg"
+                            alt="Room Visualizer 3D"
+                            fill
+                            sizes="33vw"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-300" />
+                          <div className={`absolute top-3 left-3 px-2.5 py-1 text-[9px] font-mono tracking-widest uppercase border backdrop-blur-md flex items-center gap-1.5 ${
+                            showDarkText
+                              ? 'bg-[#FAF8F5]/90 text-[#1A1A1A] border-[#1A1A1A]/10'
+                              : 'bg-black/70 text-white border-white/20'
+                          }`}>
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                            <span>Preview Studio</span>
+                          </div>
+                        </div>
+                        <div className="pt-4">
+                          <div className="text-[10px] font-mono tracking-widest uppercase text-amber-700 font-medium flex items-center gap-2">
+                            <span>02 / Perspective Studio</span>
+                            <span className="text-[9px] font-mono text-amber-600 font-normal">In Calibration</span>
+                          </div>
+                          <h4 className="font-serif text-xl font-normal tracking-tight mt-1 group-hover:text-amber-700 transition-colors flex items-center justify-between">
+                            <span>Room Visualizer 3D</span>
+                            <ArrowRight className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          </h4>
+                          <p className="text-xs opacity-70 mt-1.5 leading-relaxed font-light">
+                            Preview Verona slabs directly inside your kitchen or bathroom with native light and perspective transfer.
+                          </p>
+                        </div>
+                      </button>
+
+                      {/* Tool 3: 1-on-1 Architectural Review */}
+                      <button
+                        onClick={() => {
+                          setActiveDropdown(null);
+                          onOpenBookCall({ service: 'Architectural Surface Review' });
+                        }}
+                        className="group block text-left cursor-pointer"
+                      >
+                        <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900/10">
+                          <Image
+                            src="/catalog/products/room_amazonite.jpg"
+                            alt="Architectural Review"
+                            fill
+                            sizes="33vw"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-colors duration-300" />
+                          <div className={`absolute top-3 left-3 px-2.5 py-1 text-[9px] font-mono tracking-widest uppercase border backdrop-blur-md ${
+                            showDarkText
+                              ? 'bg-[#FAF8F5]/90 text-[#1A1A1A] border-[#1A1A1A]/10'
+                              : 'bg-black/70 text-white border-white/20'
+                          }`}>
+                            15-Min Phone or Video Review
+                          </div>
+                        </div>
+                        <div className="pt-4">
+                          <div className="text-[10px] font-mono tracking-widest uppercase text-amber-700 font-medium">
+                            03 / Specialist Consultation
+                          </div>
+                          <h4 className="font-serif text-xl font-normal tracking-tight mt-1 group-hover:text-amber-700 transition-colors flex items-center justify-between">
+                            <span>1-on-1 Architectural Review</span>
+                            <ArrowRight className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          </h4>
+                          <p className="text-xs opacity-70 mt-1.5 leading-relaxed font-light">
+                            Direct technical discussion with an architectural materials consultant. Bring CAD drawings or floor plans.
+                          </p>
+                        </div>
+                      </button>
+                    </div>
+
+                    {/* Bottom Horizon Action Shelf */}
+                    <div className="mt-8 pt-6 border-t border-current/10 flex items-center justify-between text-xs">
+                      <div className="opacity-60 font-light flex items-center gap-6">
+                        <span>Digital CAD Surface Maps</span>
+                        <span>·</span>
+                        <span>Itemized Takeoffs Dispatched Same Day</span>
+                      </div>
+                      <div className="flex items-center gap-8">
+                        <button
+                          onClick={() => {
+                            setActiveDropdown(null);
+                            onOpenBookCall({ service: 'Architectural Drawing Review' });
+                          }}
+                          className="hover:text-amber-700 uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer flex items-center gap-2"
+                        >
+                          <span>Submit Architectural Drawings</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
