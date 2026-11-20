@@ -258,8 +258,7 @@ export function PorcelainUspBanner({
 
                   {/* Natural Stone Block */}
                   <div className="mt-5">
-                    <div className="text-[9px] font-mono font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-1.5 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-neutral-600" />
+                    <div className="text-[9px] font-mono font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-1.5">
                       <span>NATURAL STONE</span>
                     </div>
                     <p className="text-[11.5px] sm:text-xs text-neutral-500 leading-relaxed font-light">
