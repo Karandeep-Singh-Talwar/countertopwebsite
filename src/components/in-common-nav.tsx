@@ -114,7 +114,7 @@ export function InCommonNav({
       <div ref={navRef} className="max-w-[1680px] mx-auto px-6 md:px-12">
         {/* Tier 1: Petersham-style Brand Crest & Top Utility Strip */}
         <div className="grid grid-cols-2 md:grid-cols-3 items-center py-2.5 sm:py-3 transition-all duration-300">
-          {/* Left Utility: Specification & Estimator Shortcuts */}
+          {/* Left Utility: Takeoff Estimator & Swatches Shortcuts */}
           <div className="hidden md:flex items-center space-x-6 text-[10px] uppercase tracking-[0.24em] font-sans font-medium text-current/75">
             <button
               onClick={() => {
@@ -137,17 +137,17 @@ export function InCommonNav({
             </button>
           </div>
 
-          {/* Center: Heritage Architectural Crest & Wordmark */}
+          {/* Center: Heritage Architectural Crest & Wordmark (Always with Atelier di Porcellana) */}
           <div className="col-span-1 md:col-span-1 flex justify-start md:justify-center">
             <Link
               href="/"
               className="group flex flex-col items-start md:items-center justify-center transition-opacity hover:opacity-90 py-0.5"
             >
               <VeronaCrestLogo
-                size={isScrolled ? 30 : 38}
+                size={isScrolled ? 32 : 38}
                 textColor={showDarkText ? '#1A1A1A' : '#FAF8F5'}
                 crestColor={showDarkText ? '#8C6D46' : '#E6C687'}
-                showSubtitle={!isScrolled}
+                showSubtitle={true}
                 className="transition-all duration-300"
               />
             </Link>
@@ -190,8 +190,8 @@ export function InCommonNav({
         <div className="hidden md:block w-full border-b border-current/10" />
 
         {/* Tier 2: Centered Heritage Navigation Bar */}
-        <nav className="hidden md:flex items-center justify-center space-x-10 lg:space-x-14 py-2 text-xs tracking-[0.22em] font-sans font-medium uppercase">
-          {/* 1. Products Dropdown Trigger */}
+        <nav className="hidden md:flex items-center justify-center space-x-10 lg:space-x-14 py-2 text-xs tracking-[0.22em] font-sans font-medium uppercase relative">
+          {/* 1. Products Dropdown Trigger & Compact Floating Menu */}
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('products')}
@@ -213,9 +213,77 @@ export function InCommonNav({
                 }`}
               />
             </button>
+
+            {/* Compact Floating Menu: Products */}
+            <AnimatePresence>
+              {activeDropdown === 'products' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 min-w-[300px] select-none"
+                >
+                  <div className="bg-[#FAF8F5]/96 backdrop-blur-2xl border border-[#1A1A1A]/10 shadow-[0_16px_40px_rgba(26,23,20,0.12)] p-2 text-[#1A1A1A]">
+                    <div className="p-2 divide-y divide-[#1A1A1A]/8">
+                      {/* 1. Countertops */}
+                      <Link
+                        href="/countertops"
+                        onClick={() => setActiveDropdown(null)}
+                        className="group block py-2.5 px-3 hover:bg-[#1A1A1A]/[0.03] transition-colors"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                            Countertops &amp; Islands
+                          </span>
+                          <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
+                        </div>
+                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
+                          9mm · 12mm · 20mm Solid Mass
+                        </div>
+                      </Link>
+
+                      {/* 2. Backsplash & Wall Tile */}
+                      <Link
+                        href="/backsplash-walltile"
+                        onClick={() => setActiveDropdown(null)}
+                        className="group block py-2.5 px-3 hover:bg-[#1A1A1A]/[0.03] transition-colors"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                            Backsplash &amp; Wall Tile
+                          </span>
+                          <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
+                        </div>
+                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
+                          6mm · 9mm Calibrated
+                        </div>
+                      </Link>
+
+                      {/* 3. Flooring */}
+                      <Link
+                        href="/flooring"
+                        onClick={() => setActiveDropdown(null)}
+                        className="group block py-2.5 px-3 hover:bg-[#1A1A1A]/[0.03] transition-colors"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                            Architectural Flooring
+                          </span>
+                          <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
+                        </div>
+                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
+                          9mm · 20mm Paver Profile
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          {/* 2. Design Tools Dropdown Trigger */}
+          {/* 2. Design Tools Dropdown Trigger & Compact Floating Menu */}
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('design-tools')}
@@ -237,6 +305,65 @@ export function InCommonNav({
                 }`}
               />
             </button>
+
+            {/* Compact Floating Menu: Design Tools */}
+            <AnimatePresence>
+              {activeDropdown === 'design-tools' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 min-w-[300px] select-none"
+                >
+                  <div className="bg-[#FAF8F5]/96 backdrop-blur-2xl border border-[#1A1A1A]/10 shadow-[0_16px_40px_rgba(26,23,20,0.12)] p-2 text-[#1A1A1A]">
+                    <div className="p-2 divide-y divide-[#1A1A1A]/8">
+                      {/* Tool 1: Estimator */}
+                      <button
+                        onClick={() => {
+                          setActiveDropdown(null);
+                          if (onOpenEstimator) {
+                            onOpenEstimator();
+                          } else {
+                            onOpenQuoteModal({ material: 'Porcelain Surface Package' });
+                          }
+                        }}
+                        className="w-full text-left group block py-2.5 px-3 hover:bg-[#1A1A1A]/[0.03] transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                            Takeoff Estimator
+                          </span>
+                          <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
+                        </div>
+                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
+                          Instant Square-Foot Takeoff
+                        </div>
+                      </button>
+
+                      {/* Tool 2: Visualizer (WIP Trigger) */}
+                      <button
+                        onClick={() => {
+                          setActiveDropdown(null);
+                          openVisualizerWip();
+                        }}
+                        className="w-full text-left group block py-2.5 px-3 hover:bg-[#1A1A1A]/[0.03] transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                            Room Visualizer 3D
+                          </span>
+                          <span className="text-[9px] font-mono uppercase tracking-wider text-amber-800 font-medium">Preview</span>
+                        </div>
+                        <div className="text-[9.5px] font-mono tracking-widest uppercase text-[#736E68] mt-0.5">
+                          Perspective Studio · In Calibration
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* 3. Resources (WIP Trigger) */}
@@ -258,371 +385,6 @@ export function InCommonNav({
           </Link>
         </nav>
       </div>
-
-      {/* Petersham Nurseries-Inspired 4-Column Architectural Ledger Ribbon */}
-      <AnimatePresence>
-        {activeDropdown && (activeDropdown === 'products' || activeDropdown === 'design-tools') && (
-          <div
-            onMouseEnter={() => {
-              if (closeTimerRef.current) {
-                clearTimeout(closeTimerRef.current);
-                closeTimerRef.current = null;
-              }
-            }}
-            onMouseLeave={handleMouseLeave}
-            className="hidden md:block absolute top-full left-0 right-0 w-full select-none"
-          >
-            <motion.div
-              key={activeDropdown}
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full bg-[#FAF8F5]/98 backdrop-blur-2xl border-b border-[#1A1A1A]/10 text-[#1A1A1A] shadow-[0_30px_60px_-15px_rgba(26,23,20,0.12)]"
-            >
-              <div className="max-w-[1680px] mx-auto px-6 md:px-12 py-8">
-                {activeDropdown === 'products' ? (
-                  <div>
-                    {/* 4-Column Petersham Ledger with Hairline Dividers */}
-                    <div className="grid grid-cols-4 divide-x divide-[#1A1A1A]/10">
-                      {/* Column 1: Countertops */}
-                      <div className="pr-8">
-                        <div className="text-xs font-serif uppercase tracking-[0.2em] font-semibold text-[#1A1A1A] mb-1.5">
-                          Countertops &amp; Islands
-                        </div>
-                        <Link
-                          href="/countertops"
-                          onClick={() => setActiveDropdown(null)}
-                          className="text-[10px] uppercase tracking-[0.22em] text-amber-800 hover:text-amber-950 font-medium mb-4 block"
-                        >
-                          View All Countertops &rarr;
-                        </Link>
-                        <div className="flex flex-col space-y-2 text-[11px] uppercase tracking-[0.16em] text-[#4A4642] font-normal">
-                          <Link href="/countertops" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Kitchen Waterfall Islands
-                          </Link>
-                          <Link href="/countertops" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Integrated Seamless Sinks
-                          </Link>
-                          <Link href="/countertops" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            High-Temperature Cooktop Slabs
-                          </Link>
-                          <Link href="/countertops" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Outdoor Alfresco Kitchens
-                          </Link>
-                          <Link href="/countertops" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Calacatta &amp; Statuario Veins
-                          </Link>
-                        </div>
-                        <div className="mt-5 pt-3 border-t border-[#1A1A1A]/10 text-[9px] font-mono tracking-widest uppercase text-[#736E68]">
-                          9mm · 12mm · 20mm Solid Mass
-                        </div>
-                      </div>
-
-                      {/* Column 2: Backsplash & Wall Tile */}
-                      <div className="px-8">
-                        <div className="text-xs font-serif uppercase tracking-[0.2em] font-semibold text-[#1A1A1A] mb-1.5">
-                          Backsplash &amp; Wall Tile
-                        </div>
-                        <Link
-                          href="/backsplash-walltile"
-                          onClick={() => setActiveDropdown(null)}
-                          className="text-[10px] uppercase tracking-[0.22em] text-amber-800 hover:text-amber-950 font-medium mb-4 block"
-                        >
-                          View All Backsplash &rarr;
-                        </Link>
-                        <div className="flex flex-col space-y-2 text-[11px] uppercase tracking-[0.16em] text-[#4A4642] font-normal">
-                          <Link href="/backsplash-walltile" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Full-Height Vertical Cladding
-                          </Link>
-                          <Link href="/backsplash-walltile" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Mirror-Matched Bookvein Walls
-                          </Link>
-                          <Link href="/backsplash-walltile" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Calibrated 600&times;1200 Field Tiles
-                          </Link>
-                          <Link href="/backsplash-walltile" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Architectural Fireplace Hearths
-                          </Link>
-                          <Link href="/backsplash-walltile" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Zero-Grout Spa Enclosures
-                          </Link>
-                        </div>
-                        <div className="mt-5 pt-3 border-t border-[#1A1A1A]/10 text-[9px] font-mono tracking-widest uppercase text-[#736E68]">
-                          6mm · 9mm Calibrated
-                        </div>
-                      </div>
-
-                      {/* Column 3: Flooring */}
-                      <div className="px-8">
-                        <div className="text-xs font-serif uppercase tracking-[0.2em] font-semibold text-[#1A1A1A] mb-1.5">
-                          Architectural Flooring
-                        </div>
-                        <Link
-                          href="/flooring"
-                          onClick={() => setActiveDropdown(null)}
-                          className="text-[10px] uppercase tracking-[0.22em] text-amber-800 hover:text-amber-950 font-medium mb-4 block"
-                        >
-                          View All Flooring &rarr;
-                        </Link>
-                        <div className="flex flex-col space-y-2 text-[11px] uppercase tracking-[0.16em] text-[#4A4642] font-normal">
-                          <Link href="/flooring" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Grand-Format Vitrified Slabs
-                          </Link>
-                          <Link href="/flooring" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            20mm Exterior Paver Profiles
-                          </Link>
-                          <Link href="/flooring" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Indoor-to-Outdoor Continuity
-                          </Link>
-                          <Link href="/flooring" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            R11 Anti-Slip Structured Finish
-                          </Link>
-                          <Link href="/flooring" onClick={() => setActiveDropdown(null)} className="hover:text-[#1A1A1A] hover:translate-x-0.5 transition-all">
-                            Radiant Heat Optimized
-                          </Link>
-                        </div>
-                        <div className="mt-5 pt-3 border-t border-[#1A1A1A]/10 text-[9px] font-mono tracking-widest uppercase text-[#736E68]">
-                          9mm · 20mm Paver Profile
-                        </div>
-                      </div>
-
-                      {/* Column 4: Specification & Atelier */}
-                      <div className="pl-8">
-                        <div className="text-xs font-serif uppercase tracking-[0.2em] font-semibold text-[#1A1A1A] mb-1.5">
-                          Specification Desk
-                        </div>
-                        <button
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            onOpenBookCall({ service: 'Architectural Surface Review' });
-                          }}
-                          className="text-[10px] uppercase tracking-[0.22em] text-amber-800 hover:text-amber-950 font-medium mb-4 block text-left cursor-pointer"
-                        >
-                          Architectural Review &rarr;
-                        </button>
-                        <div className="flex flex-col space-y-2 text-[11px] uppercase tracking-[0.16em] text-[#4A4642] font-normal">
-                          <button
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              if (onOpenEstimator) onOpenEstimator();
-                              else onOpenQuoteModal({ material: 'Porcelain Surface Package' });
-                            }}
-                            className="hover:text-[#1A1A1A] text-left hover:translate-x-0.5 transition-all cursor-pointer"
-                          >
-                            Surface Takeoff Estimator
-                          </button>
-                          <button
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              openVisualizerWip();
-                            }}
-                            className="hover:text-[#1A1A1A] text-left hover:translate-x-0.5 transition-all cursor-pointer flex items-center justify-between"
-                          >
-                            <span>Room Visualizer Studio</span>
-                            <span className="text-[9px] font-mono text-amber-700">Preview</span>
-                          </button>
-                          <button
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              onOpenBookCall({ service: 'Curated Swatches' });
-                            }}
-                            className="hover:text-[#1A1A1A] text-left hover:translate-x-0.5 transition-all cursor-pointer"
-                          >
-                            Curated Sample Kit
-                          </button>
-                          <button
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              onOpenBookCall({ service: 'CAD Drawings' });
-                            }}
-                            className="hover:text-[#1A1A1A] text-left hover:translate-x-0.5 transition-all cursor-pointer"
-                          >
-                            CAD Architectural Takeoff
-                          </button>
-                          <button
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              onOpenBookCall({ service: 'Architectural Consultation' });
-                            }}
-                            className="hover:text-[#1A1A1A] text-left hover:translate-x-0.5 transition-all cursor-pointer"
-                          >
-                            1-on-1 Materials Consultant
-                          </button>
-                        </div>
-                        <div className="mt-5 pt-3 border-t border-[#1A1A1A]/10 text-[9px] font-mono tracking-widest uppercase text-amber-800 font-medium">
-                          Direct Jobsite Freight Delivery
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom Horizon Action Shelf */}
-                    <div className="mt-6 pt-5 border-t border-[#1A1A1A]/10 flex items-center justify-between text-xs font-sans">
-                      <div className="opacity-60 font-light flex items-center gap-4 text-[11px]">
-                        <span>Monolithic porcelain surfaces sculpted for architectural continuity</span>
-                        <span>·</span>
-                        <span>ASTM C373 Water Absorption &lt;0.04%</span>
-                        <span>·</span>
-                        <span>Thermal shock proof</span>
-                      </div>
-                      <div className="flex items-center gap-6">
-                        <button
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            onOpenBookCall({ service: 'Sample Swatch Request' });
-                          }}
-                          className="hover:text-amber-800 uppercase tracking-[0.2em] text-[10.5px] font-medium transition-colors cursor-pointer flex items-center gap-1.5"
-                        >
-                          <span>Request Curated Swatches</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            onOpenBookCall({ service: 'Architectural Consultation' });
-                          }}
-                          className="hover:text-amber-800 uppercase tracking-[0.2em] text-[10.5px] font-medium transition-colors cursor-pointer flex items-center gap-1.5"
-                        >
-                          <span>Book Consultation</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    {/* 4-Column Design Tools Ledger */}
-                    <div className="grid grid-cols-4 divide-x divide-[#1A1A1A]/10">
-                      {/* Tool 1: Takeoff Estimator */}
-                      <div className="pr-8">
-                        <div className="text-xs font-serif uppercase tracking-[0.2em] font-semibold text-[#1A1A1A] mb-1.5">
-                          Surface Estimator
-                        </div>
-                        <button
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            if (onOpenEstimator) onOpenEstimator();
-                            else onOpenQuoteModal({ material: 'Porcelain Surface Package' });
-                          }}
-                          className="text-[10px] uppercase tracking-[0.22em] text-amber-800 hover:text-amber-950 font-medium mb-4 block text-left cursor-pointer"
-                        >
-                          Launch Estimator &rarr;
-                        </button>
-                        <div className="flex flex-col space-y-2 text-[11px] uppercase tracking-[0.16em] text-[#4A4642] font-normal">
-                          <span>Instant Square-Foot Takeoff</span>
-                          <span>Slab Yield &amp; Cut Optimization</span>
-                          <span>Waterfall &amp; Miter Apron Costing</span>
-                          <span>Live Budget Summary in 30s</span>
-                        </div>
-                        <div className="mt-5 pt-3 border-t border-[#1A1A1A]/10 text-[9px] font-mono tracking-widest uppercase text-[#736E68]">
-                          Real-Time Estimation Engine
-                        </div>
-                      </div>
-
-                      {/* Tool 2: Room Visualizer Studio */}
-                      <div className="px-8">
-                        <div className="text-xs font-serif uppercase tracking-[0.2em] font-semibold text-[#1A1A1A] mb-1.5">
-                          Room Visualizer Studio
-                        </div>
-                        <button
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            openVisualizerWip();
-                          }}
-                          className="text-[10px] uppercase tracking-[0.22em] text-amber-800 hover:text-amber-950 font-medium mb-4 block text-left cursor-pointer"
-                        >
-                          Open Preview Studio &rarr;
-                        </button>
-                        <div className="flex flex-col space-y-2 text-[11px] uppercase tracking-[0.16em] text-[#4A4642] font-normal">
-                          <span>Perspective Room Homography</span>
-                          <span>Calacatta &amp; Statuario Vein Flows</span>
-                          <span>Ambient Lighting Transfer</span>
-                          <span>In-Browser AI Segmentation</span>
-                        </div>
-                        <div className="mt-5 pt-3 border-t border-[#1A1A1A]/10 text-[9px] font-mono tracking-widest uppercase text-amber-800 font-medium flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
-                          <span>In Calibration</span>
-                        </div>
-                      </div>
-
-                      {/* Tool 3: Architectural Consultation */}
-                      <div className="px-8">
-                        <div className="text-xs font-serif uppercase tracking-[0.2em] font-semibold text-[#1A1A1A] mb-1.5">
-                          Architectural Review
-                        </div>
-                        <button
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            onOpenBookCall({ service: 'Architectural Surface Review' });
-                          }}
-                          className="text-[10px] uppercase tracking-[0.22em] text-amber-800 hover:text-amber-950 font-medium mb-4 block text-left cursor-pointer"
-                        >
-                          Schedule Review &rarr;
-                        </button>
-                        <div className="flex flex-col space-y-2 text-[11px] uppercase tracking-[0.16em] text-[#4A4642] font-normal">
-                          <span>1-on-1 Materials Consultant</span>
-                          <span>CAD Architectural Drawing Review</span>
-                          <span>ASTM Physical Durability Reports</span>
-                          <span>Contractor Wet-Saw Manuals</span>
-                        </div>
-                        <div className="mt-5 pt-3 border-t border-[#1A1A1A]/10 text-[9px] font-mono tracking-widest uppercase text-[#736E68]">
-                          15-Minute Dedicated Session
-                        </div>
-                      </div>
-
-                      {/* Tool 4: Physical Swatch Kit */}
-                      <div className="pl-8">
-                        <div className="text-xs font-serif uppercase tracking-[0.2em] font-semibold text-[#1A1A1A] mb-1.5">
-                          Physical Swatch Kit
-                        </div>
-                        <button
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            onOpenBookCall({ service: 'Curated Swatches' });
-                          }}
-                          className="text-[10px] uppercase tracking-[0.22em] text-amber-800 hover:text-amber-950 font-medium mb-4 block text-left cursor-pointer"
-                        >
-                          Order Swatch Box &rarr;
-                        </button>
-                        <div className="flex flex-col space-y-2 text-[11px] uppercase tracking-[0.16em] text-[#4A4642] font-normal">
-                          <span>Box of 4 Architectural Slabs</span>
-                          <span>Matte Honed &amp; Polished Silk</span>
-                          <span>Delivered in 48h to Jobsite</span>
-                          <span>Trade &amp; Designer Kits</span>
-                        </div>
-                        <div className="mt-5 pt-3 border-t border-[#1A1A1A]/10 text-[9px] font-mono tracking-widest uppercase text-amber-800 font-medium">
-                          Complimentary for Architects
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom Horizon Action Shelf */}
-                    <div className="mt-6 pt-5 border-t border-[#1A1A1A]/10 flex items-center justify-between text-xs font-sans">
-                      <div className="opacity-60 font-light flex items-center gap-4 text-[11px]">
-                        <span>Digital CAD surface maps</span>
-                        <span>·</span>
-                        <span>Itemized architectural takeoffs dispatched same day</span>
-                      </div>
-                      <div className="flex items-center gap-6">
-                        <button
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            onOpenBookCall({ service: 'Architectural Drawing Review' });
-                          }}
-                          className="hover:text-amber-800 uppercase tracking-[0.2em] text-[10.5px] font-medium transition-colors cursor-pointer flex items-center gap-1.5"
-                        >
-                          <span>Submit Architectural Drawings</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
