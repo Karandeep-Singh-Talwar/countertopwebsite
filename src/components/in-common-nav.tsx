@@ -245,74 +245,89 @@ export function InCommonNav({
                   <button
                     onClick={() => setActiveDropdown(isOpen ? null : section.id)}
                     aria-expanded={isOpen}
-                    className={`inline-flex items-center gap-1.5 py-2 whitespace-nowrap cursor-pointer transition-opacity duration-200 hover:opacity-70 font-medium uppercase tracking-[0.2em] text-xs ${
+                    className={`inline-flex items-center gap-1.5 py-2 whitespace-nowrap cursor-pointer transition-all duration-200 font-medium uppercase tracking-[0.2em] text-xs ${
                       showDarkText ? 'text-[#1A1A1A]' : 'text-white'
-                    }`}
+                    } ${isOpen ? 'opacity-100 text-amber-800' : 'hover:opacity-70'}`}
                   >
                     <span>{section.title}</span>
                     <ChevronDown
-                      className={`w-3.5 h-3.5 transition-transform duration-200 opacity-70 ${
-                        isOpen ? 'rotate-180' : ''
+                      className={`w-3.5 h-3.5 transition-transform duration-300 ease-[0.16,1,0.3,1] ${
+                        isOpen ? 'rotate-180 text-amber-800' : 'opacity-70'
                       }`}
                     />
                   </button>
 
-                  {/* Dropdown Menu Flyout: Luminous Warm Architectural Theme */}
+                  {/* Dropdown Menu Flyout: Sleek Ultra-Glassmorphic Architectural Theme */}
                   <AnimatePresence>
                     {isOpen && section.items && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 6, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 4, scale: 0.98 }}
-                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute top-full left-0 mt-2.5 w-64 bg-[#FAF8F5]/95 md:bg-white/92 backdrop-blur-2xl border border-[#E8E4DC] text-[#1A1A1A] p-2 rounded-xl shadow-[0_20px_45px_-10px_rgba(26,23,20,0.15)] z-50 text-left select-none"
-                      >
-                        <div className="flex flex-col gap-1">
-                          {section.items.map((item) => {
-                            if (item.action) {
-                              return (
-                                <button
-                                  key={item.name}
-                                  onClick={() => {
-                                    setActiveDropdown(null);
-                                    item.action?.();
-                                  }}
-                                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs uppercase tracking-[0.16em] font-medium text-[#2C2825] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/[0.05] transition-all cursor-pointer text-left group"
-                                >
-                                  <div className="flex items-center gap-2">
-                                    <span>{item.name}</span>
+                      <div className="absolute top-full left-0 pt-2 z-50 select-none">
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.96, filter: 'blur(6px)' }}
+                          animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                          exit={{ opacity: 0, y: 8, scale: 0.97, filter: 'blur(4px)' }}
+                          transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+                          className={`w-72 p-2 rounded-2xl transition-colors duration-300 text-left ${
+                            showDarkText
+                              ? 'bg-[#FAF8F5]/85 md:bg-white/80 backdrop-blur-3xl backdrop-saturate-180 border border-[#E8E4DC]/90 text-[#1A1A1A] shadow-[0_24px_50px_-12px_rgba(26,23,20,0.14),0_0_0_1px_rgba(255,255,255,0.8)_inset]'
+                              : 'bg-white/80 md:bg-[#FAF8F5]/80 backdrop-blur-3xl backdrop-saturate-180 border border-white/60 text-[#1A1A1A] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25),0_0_0_1px_rgba(255,255,255,0.7)_inset]'
+                          }`}
+                        >
+                          <div className="flex flex-col gap-1">
+                            {section.items.map((item, idx) => {
+                              const itemContent = (
+                                <>
+                                  <div className="flex items-center gap-2 min-w-0">
+                                    <span className="whitespace-nowrap font-medium text-xs uppercase tracking-[0.16em] truncate">
+                                      {item.name}
+                                    </span>
                                     {item.badge && (
-                                      <span className="text-[9px] uppercase font-sans tracking-widest px-2 py-0.5 rounded-full bg-amber-900/10 text-amber-900 border border-amber-900/20 font-medium">
+                                      <span className="text-[9px] uppercase font-sans tracking-widest px-2 py-0.5 rounded-full bg-amber-900/10 text-amber-900 border border-amber-900/20 font-medium shrink-0">
                                         {item.badge}
                                       </span>
                                     )}
                                   </div>
-                                  <ChevronRight className="w-3.5 h-3.5 text-[#8C827A] group-hover:text-amber-800 group-hover:translate-x-0.5 transition-all" />
-                                </button>
+                                  <ChevronRight className="w-3.5 h-3.5 text-[#8C827A] group-hover:text-amber-800 group-hover:translate-x-1 transition-all duration-300 ease-out shrink-0" />
+                                </>
                               );
-                            }
 
-                            return (
-                              <Link
-                                key={item.name}
-                                href={item.href || '/'}
-                                onClick={() => setActiveDropdown(null)}
-                                className="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs uppercase tracking-[0.16em] font-medium text-[#2C2825] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/[0.05] transition-all cursor-pointer group"
-                              >
-                                <div className="flex items-center gap-2">
-                                  <span>{item.name}</span>
-                                  {item.badge && (
-                                    <span className="text-[9px] uppercase font-sans tracking-widest px-2 py-0.5 rounded-full bg-amber-900/10 text-amber-900 border border-amber-900/20 font-medium">
-                                      {item.badge}
-                                    </span>
-                                  )}
-                                </div>
-                                <ChevronRight className="w-3.5 h-3.5 text-[#8C827A] group-hover:text-amber-800 group-hover:translate-x-0.5 transition-all" />
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </motion.div>
+                              if (item.action) {
+                                return (
+                                  <motion.button
+                                    key={item.name}
+                                    initial={{ opacity: 0, x: -6 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.2, delay: idx * 0.035, ease: [0.16, 1, 0.3, 1] }}
+                                    onClick={() => {
+                                      setActiveDropdown(null);
+                                      item.action?.();
+                                    }}
+                                    className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs uppercase tracking-[0.16em] font-medium text-[#2C2825] hover:text-[#1A1A1A] hover:bg-black/[0.05] active:scale-[0.99] transition-all duration-200 cursor-pointer text-left group"
+                                  >
+                                    {itemContent}
+                                  </motion.button>
+                                );
+                              }
+
+                              return (
+                                <motion.div
+                                  key={item.name}
+                                  initial={{ opacity: 0, x: -6 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ duration: 0.2, delay: idx * 0.035, ease: [0.16, 1, 0.3, 1] }}
+                                >
+                                  <Link
+                                    href={item.href || '/'}
+                                    onClick={() => setActiveDropdown(null)}
+                                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs uppercase tracking-[0.16em] font-medium text-[#2C2825] hover:text-[#1A1A1A] hover:bg-black/[0.05] active:scale-[0.99] transition-all duration-200 cursor-pointer group"
+                                  >
+                                    {itemContent}
+                                  </Link>
+                                </motion.div>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      </div>
                     )}
                   </AnimatePresence>
                 </div>
