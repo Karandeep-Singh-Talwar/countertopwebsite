@@ -167,7 +167,7 @@ export function BookCallModal({
               <div className="flex items-center justify-between mb-6 pb-3 border-b border-gray-200 text-xs font-semibold">
                 {[
                   { num: 1, title: 'Project Scope' },
-                  { num: 2, title: 'Format & Time' },
+                  { num: 2, title: 'Date & Time' },
                   { num: 3, title: 'Your Details' },
                 ].map((s) => (
                   <div key={s.num} className="flex items-center gap-2">
@@ -265,7 +265,7 @@ export function BookCallModal({
                       onClick={() => setStep(2)}
                       className="px-6 py-3 bg-black hover:bg-gray-800 text-white font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition"
                     >
-                      <span>Next: Time &amp; Format</span>
+                      <span>Next: Date &amp; Time</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -275,33 +275,6 @@ export function BookCallModal({
               {/* Step 2: Time & Format */}
               {step === 2 && (
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-black mb-2">
-                      Consultation Method
-                    </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      {[
-                        { title: '15-Min Phone Call', desc: 'Fast ballpark estimate & slab stock' },
-                        { title: '30-Min Zoom 3D Call', desc: 'Live slab veining & digital 3D model' },
-                        { title: 'In-Home Laser Templating', desc: 'Technician measures kitchen with 3D laser' },
-                      ].map((item) => (
-                        <button
-                          key={item.title}
-                          type="button"
-                          onClick={() => setConsultationType(item.title)}
-                          className={`p-3 text-left border text-xs transition ${
-                            consultationType === item.title
-                              ? 'border-black bg-gray-50 ring-1 ring-black text-black'
-                              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-400'
-                          }`}
-                        >
-                          <div className="font-bold text-black">{item.title}</div>
-                          <div className="text-[11px] text-gray-500 mt-1">{item.desc}</div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-black mb-2">
                       Preferred Day
