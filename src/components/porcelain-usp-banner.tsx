@@ -249,12 +249,8 @@ export function PorcelainUspBanner({
                     )}
                   </h4>
 
-                  {/* Verona Porcelain Block */}
-                  <div className="mt-6">
-                    <div className="text-[9px] font-mono font-semibold tracking-[0.22em] text-[#D4AF37] uppercase mb-1.5 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                      <span>CARRARA &amp; CLAY</span>
-                    </div>
+                  {/* Primary Feature Benefit */}
+                  <div className="mt-4">
                     <p className="text-[11.5px] sm:text-xs text-neutral-200/90 leading-relaxed font-light">
                       {item.verona}
                     </p>
