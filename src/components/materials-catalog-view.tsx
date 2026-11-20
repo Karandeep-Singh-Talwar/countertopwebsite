@@ -128,8 +128,8 @@ export function MaterialsCatalogView({
       {/* 2. Four Material Switcher Pillars */}
       <section className="border-b border-[#1A1A1A]/10 bg-white sticky top-[68px] z-30 shadow-sm">
         <div className="max-w-[1680px] mx-auto px-6 md:px-12">
-          <div className="flex items-center justify-between overflow-x-auto py-1 scrollbar-none gap-2 sm:gap-4">
-            <div className="flex items-center gap-2 sm:gap-4 py-2">
+          <div className="flex items-center justify-center overflow-x-auto py-1 scrollbar-none gap-2 sm:gap-6">
+            <div className="flex items-center justify-center gap-2 sm:gap-6 py-2">
               {MATERIAL_TABS.map((tab) => {
                 const isActive = selectedMaterial === tab.id;
                 return (
@@ -154,18 +154,6 @@ export function MaterialsCatalogView({
                   </button>
                 );
               })}
-            </div>
-
-            {/* Quick Action */}
-            <div className="hidden lg:flex items-center gap-6 text-xs font-sans tracking-[0.15em] uppercase text-[#6C6863]">
-              <span>Direct Jobsite Logistics</span>
-              <button
-                onClick={() => onOpenBookCall({ service: 'Material Consultation', material: `${meta.title} (${categoryTitle})` })}
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
-              >
-                <span>Book Consultation</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
             </div>
           </div>
         </div>

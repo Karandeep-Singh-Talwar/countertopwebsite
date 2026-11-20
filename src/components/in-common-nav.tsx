@@ -136,17 +136,19 @@ export function InCommonNav({
           {/* Right Utility: Book Consultation CTA & Mobile Toggle */}
           <div className="flex items-center justify-end space-x-4">
             <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+              whileHover={{ x: 2 }}
+              transition={{ duration: 0.2 }}
               onClick={() => onOpenBookCall({ service: 'Architectural Consultation' })}
-              className={`hidden md:inline-flex items-center px-4 py-1.5 text-[10px] uppercase tracking-[0.22em] font-medium transition-all duration-300 cursor-pointer border backdrop-blur-sm ${
+              className={`hidden md:inline-flex items-center gap-2 py-1 text-[11px] tracking-[0.2em] font-medium transition-colors duration-300 cursor-pointer group ${
                 showDarkText
-                  ? 'border-[#1A1A1A]/30 text-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-[#FAF8F5]'
-                  : 'border-white/40 text-white hover:bg-white hover:text-[#1A1A1A]'
+                  ? 'text-[#1A1A1A] hover:text-amber-800'
+                  : 'text-white/90 hover:text-white'
               }`}
             >
-              <span>Book Consultation</span>
+              <span className="border-b border-current/30 group-hover:border-current pb-0.5 transition-colors">
+                Book Consultation
+              </span>
+              <ArrowRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
             </motion.button>
 
             {/* Mobile Hamburger Toggle */}
@@ -170,7 +172,7 @@ export function InCommonNav({
         <div className="hidden md:block w-full border-b border-current/10" />
 
         {/* Tier 2: Centered Heritage Navigation Bar */}
-        <nav className="hidden md:flex items-center justify-center space-x-10 lg:space-x-14 py-2 text-xs tracking-[0.22em] font-sans font-medium uppercase relative">
+        <nav className="hidden md:flex items-center justify-center space-x-10 lg:space-x-14 py-2 text-xs tracking-[0.22em] font-sans font-medium relative">
           {/* 1. Products Dropdown Trigger & Clean Floating Menu */}
           <div
             className="relative"
@@ -358,7 +360,7 @@ export function InCommonNav({
           <div className="border-b border-[#E8E4DC] pb-4">
             <button
               onClick={() => setMobileOpenSection(mobileOpenSection === 'products' ? null : 'products')}
-              className="w-full flex items-center justify-between text-left py-1 text-xs uppercase tracking-[0.25em] font-medium text-[#1A1A1A] cursor-pointer"
+              className="w-full flex items-center justify-between text-left py-1 text-xs tracking-[0.22em] font-medium text-[#1A1A1A] cursor-pointer"
             >
               <span>Products</span>
               <ChevronDown
@@ -368,7 +370,7 @@ export function InCommonNav({
               />
             </button>
             {mobileOpenSection === 'products' && (
-              <div className="mt-3 pl-2 flex flex-col space-y-2 text-xs uppercase tracking-wider">
+              <div className="mt-3 pl-2 flex flex-col space-y-2 text-xs tracking-wider">
                 <Link
                   href="/countertops"
                   onClick={() => setMobileMenuOpen(false)}
@@ -401,7 +403,7 @@ export function InCommonNav({
           <div className="border-b border-[#E8E4DC] pb-4">
             <button
               onClick={() => setMobileOpenSection(mobileOpenSection === 'tools' ? null : 'tools')}
-              className="w-full flex items-center justify-between text-left py-1 text-xs uppercase tracking-[0.25em] font-medium text-[#1A1A1A] cursor-pointer"
+              className="w-full flex items-center justify-between text-left py-1 text-xs tracking-[0.22em] font-medium text-[#1A1A1A] cursor-pointer"
             >
               <span>Design Tools</span>
               <ChevronDown
@@ -411,7 +413,7 @@ export function InCommonNav({
               />
             </button>
             {mobileOpenSection === 'tools' && (
-              <div className="mt-3 pl-2 flex flex-col space-y-2 text-xs uppercase tracking-wider">
+              <div className="mt-3 pl-2 flex flex-col space-y-2 text-xs tracking-wider">
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -444,7 +446,7 @@ export function InCommonNav({
                 setMobileMenuOpen(false);
                 openResourcesWip();
               }}
-              className="w-full flex items-center justify-between text-left py-1 text-xs uppercase tracking-[0.25em] font-medium text-[#1A1A1A] cursor-pointer"
+              className="w-full flex items-center justify-between text-left py-1 text-xs tracking-[0.22em] font-medium text-[#1A1A1A] cursor-pointer"
             >
               <span>Resources</span>
               <span className="text-[10px] text-amber-800 font-sans tracking-widest uppercase">In Calibration</span>
@@ -456,7 +458,7 @@ export function InCommonNav({
             <Link
               href="/contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full flex items-center justify-between text-left py-1 text-xs uppercase tracking-[0.25em] font-medium text-[#1A1A1A] cursor-pointer"
+              className="w-full flex items-center justify-between text-left py-1 text-xs tracking-[0.22em] font-medium text-[#1A1A1A] cursor-pointer"
             >
               <span>Contact Us</span>
               <ArrowRight className="w-4 h-4 text-[#8C827A]" />
