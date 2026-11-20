@@ -153,7 +153,7 @@ export function InCommonNav({
         {
           name: 'Visualizer',
           subtitle: 'In-browser perspective room studio',
-          badge: 'Under Progress',
+          badge: 'Preview',
           action: () => {
             setVisualizerWipOpen(true);
           },
@@ -257,37 +257,53 @@ export function InCommonNav({
                     />
                   </button>
 
-                  {/* Dropdown Menu Flyout: Sleek Ultra-Glassmorphic Architectural Theme */}
+                  {/* Dropdown Menu Flyout: Sleek Architectural Glass */}
                   <AnimatePresence>
                     {isOpen && section.items && (
-                      <div className="absolute top-full left-0 pt-2 z-50 select-none">
+                      <div className="absolute top-full left-0 pt-2.5 z-50 select-none">
                         <motion.div
-                          initial={{ opacity: 0, y: 10, scale: 0.96, filter: 'blur(6px)' }}
+                          initial={{ opacity: 0, y: 8, scale: 0.98, filter: 'blur(4px)' }}
                           animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-                          exit={{ opacity: 0, y: 8, scale: 0.97, filter: 'blur(4px)' }}
-                          transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-                          className={`w-72 p-2 rounded-2xl transition-colors duration-300 text-left ${
+                          exit={{ opacity: 0, y: 6, scale: 0.98, filter: 'blur(4px)' }}
+                          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                          className={`w-80 p-2 rounded-xl transition-all duration-300 text-left ${
                             showDarkText
-                              ? 'bg-[#FAF8F5]/85 md:bg-white/80 backdrop-blur-3xl backdrop-saturate-180 border border-[#E8E4DC]/90 text-[#1A1A1A] shadow-[0_24px_50px_-12px_rgba(26,23,20,0.14),0_0_0_1px_rgba(255,255,255,0.8)_inset]'
-                              : 'bg-white/80 md:bg-[#FAF8F5]/80 backdrop-blur-3xl backdrop-saturate-180 border border-white/60 text-[#1A1A1A] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25),0_0_0_1px_rgba(255,255,255,0.7)_inset]'
+                              ? 'bg-[#FAF8F5]/98 backdrop-blur-2xl border border-[#E8E4DC] text-[#1A1A1A] shadow-[0_20px_45px_-10px_rgba(26,23,20,0.15),0_0_0_1px_rgba(255,255,255,0.8)_inset]'
+                              : 'bg-[#121110]/95 backdrop-blur-2xl border border-white/15 text-[#F5F2EB] shadow-[0_25px_60px_-10px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.1)_inset]'
                           }`}
                         >
                           <div className="flex flex-col gap-1">
                             {section.items.map((item, idx) => {
                               const itemContent = (
-                                <>
-                                  <div className="flex items-center gap-2 min-w-0">
-                                    <span className="whitespace-nowrap font-medium text-xs uppercase tracking-[0.16em] truncate">
+                                <div className="flex items-center justify-between w-full py-1">
+                                  <div className="flex items-center gap-3 min-w-0">
+                                    <span
+                                      className={`text-[10px] font-mono tracking-wider transition-colors duration-200 shrink-0 ${
+                                        showDarkText
+                                          ? 'text-[#8C827A] group-hover:text-amber-800'
+                                          : 'text-white/40 group-hover:text-amber-300'
+                                      }`}
+                                    >
+                                      0{idx + 1}
+                                    </span>
+                                    <span className="whitespace-nowrap font-medium text-xs tracking-[0.16em] uppercase truncate">
                                       {item.name}
                                     </span>
                                     {item.badge && (
-                                      <span className="text-[9px] uppercase font-sans tracking-widest px-2 py-0.5 rounded-full bg-amber-900/10 text-amber-900 border border-amber-900/20 font-medium shrink-0">
-                                        {item.badge}
+                                      <span className="inline-flex items-center gap-1.5 text-[9px] font-mono tracking-[0.15em] uppercase text-amber-500/90 font-medium shrink-0">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                                        <span>{item.badge}</span>
                                       </span>
                                     )}
                                   </div>
-                                  <ChevronRight className="w-3.5 h-3.5 text-[#8C827A] group-hover:text-amber-800 group-hover:translate-x-1 transition-all duration-300 ease-out shrink-0" />
-                                </>
+                                  <ChevronRight
+                                    className={`w-3.5 h-3.5 transition-all duration-300 ease-out group-hover:translate-x-1 shrink-0 ${
+                                      showDarkText
+                                        ? 'text-[#8C827A] group-hover:text-amber-800'
+                                        : 'text-white/40 group-hover:text-amber-300'
+                                    }`}
+                                  />
+                                </div>
                               );
 
                               if (item.action) {
@@ -301,7 +317,11 @@ export function InCommonNav({
                                       setActiveDropdown(null);
                                       item.action?.();
                                     }}
-                                    className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs uppercase tracking-[0.16em] font-medium text-[#2C2825] hover:text-[#1A1A1A] hover:bg-black/[0.05] active:scale-[0.99] transition-all duration-200 cursor-pointer text-left group"
+                                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer text-left group active:scale-[0.99] ${
+                                      showDarkText
+                                        ? 'text-[#2C2825] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/[0.05]'
+                                        : 'text-[#E8E4DC] hover:text-white hover:bg-white/[0.08]'
+                                    }`}
                                   >
                                     {itemContent}
                                   </motion.button>
@@ -318,7 +338,11 @@ export function InCommonNav({
                                   <Link
                                     href={item.href || '/'}
                                     onClick={() => setActiveDropdown(null)}
-                                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs uppercase tracking-[0.16em] font-medium text-[#2C2825] hover:text-[#1A1A1A] hover:bg-black/[0.05] active:scale-[0.99] transition-all duration-200 cursor-pointer group"
+                                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer group active:scale-[0.99] ${
+                                      showDarkText
+                                        ? 'text-[#2C2825] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/[0.05]'
+                                        : 'text-[#E8E4DC] hover:text-white hover:bg-white/[0.08]'
+                                    }`}
                                   >
                                     {itemContent}
                                   </Link>
@@ -432,8 +456,9 @@ export function InCommonNav({
                             <div className="text-xs uppercase tracking-wider font-medium text-[#1A1A1A] group-hover:text-amber-800 flex items-center gap-1.5">
                               <span>{item.name}</span>
                               {item.badge && (
-                                <span className="text-[8px] uppercase font-mono tracking-widest px-1 py-0.5 bg-amber-800/10 text-amber-800 border border-amber-800/20">
-                                  {item.badge}
+                                <span className="inline-flex items-center gap-1.5 text-[9px] font-mono tracking-[0.15em] uppercase text-amber-700 font-medium">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                                  <span>{item.badge}</span>
                                 </span>
                               )}
                             </div>
