@@ -51,6 +51,7 @@ export function InCommonNav({
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileOpenSection, setMobileOpenSection] = useState<string | null>('products');
   const [resourcesWipOpen, setResourcesWipOpen] = useState(false);
+  const [visualizerWipOpen, setVisualizerWipOpen] = useState(false);
 
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
@@ -114,24 +115,57 @@ export function InCommonNav({
 
   const navSections: NavSection[] = [
     {
-      id: 'countertops',
-      title: 'Countertops',
-      href: '/countertops',
+      id: 'products',
+      title: 'Products',
+      items: [
+        {
+          name: 'Countertops',
+          subtitle: 'Large-format porcelain slabs',
+          href: '/countertops',
+        },
+        {
+          name: 'Backsplash & Wall Tile',
+          subtitle: 'Continuous wall slabs & tiles',
+          href: '/backsplash-walltile',
+        },
+        {
+          name: 'Flooring',
+          subtitle: 'High-traffic vitrified pavers & tiles',
+          href: '/flooring',
+        },
+      ],
     },
     {
-      id: 'backsplash-walltile',
-      title: 'Backsplash & Wall Tile',
-      href: '/backsplash-walltile',
+      id: 'design-tools',
+      title: 'Design Tools',
+      items: [
+        {
+          name: 'Estimator',
+          subtitle: 'Instant square footage & budget estimation',
+          action: () => {
+            if (onOpenEstimator) {
+              onOpenEstimator();
+            } else {
+              onOpenQuoteModal({ material: 'Porcelain Surface Package' });
+            }
+          },
+        },
+        {
+          name: 'Visualizer',
+          subtitle: 'In-browser perspective room studio',
+          badge: 'Under Progress',
+          action: () => {
+            setVisualizerWipOpen(true);
+          },
+        },
+      ],
     },
     {
-      id: 'flooring',
-      title: 'Flooring',
-      href: '/flooring',
-    },
-    {
-      id: 'visualizer',
-      title: 'Room Visualizer',
-      href: '/visualizer',
+      id: 'resources',
+      title: 'Resources',
+      action: () => {
+        setResourcesWipOpen(true);
+      },
     },
     {
       id: 'contact',
@@ -231,20 +265,52 @@ export function InCommonNav({
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 4, scale: 0.98 }}
                         transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute top-full left-0 mt-2 w-56 bg-[#141413]/98 backdrop-blur-xl border border-white/10 text-white p-2 rounded-xl shadow-2xl z-50 text-left select-none"
+                        className="absolute top-full left-0 mt-2 w-60 bg-[#141413]/98 backdrop-blur-2xl border border-white/10 text-white p-2 rounded-xl shadow-2xl z-50 text-left select-none"
                       >
                         <div className="flex flex-col gap-1">
-                          {section.items.map((item) => (
-                            <Link
-                              key={item.name}
-                              href={item.href || '/'}
-                              onClick={() => setActiveDropdown(null)}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs uppercase tracking-[0.15em] font-medium text-neutral-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                            >
-                              <span>{item.name}</span>
-                              <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100" />
-                            </Link>
-                          ))}
+                          {section.items.map((item) => {
+                            if (item.action) {
+                              return (
+                                <button
+                                  key={item.name}
+                                  onClick={() => {
+                                    setActiveDropdown(null);
+                                    item.action?.();
+                                  }}
+                                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs uppercase tracking-[0.15em] font-medium text-neutral-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer text-left group"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <span>{item.name}</span>
+                                    {item.badge && (
+                                      <span className="text-[8px] uppercase font-mono tracking-wider px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                                        {item.badge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                                </button>
+                              );
+                            }
+
+                            return (
+                              <Link
+                                key={item.name}
+                                href={item.href || '/'}
+                                onClick={() => setActiveDropdown(null)}
+                                className="flex items-center justify-between px-3 py-2.5 rounded-lg text-xs uppercase tracking-[0.15em] font-medium text-neutral-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer group"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span>{item.name}</span>
+                                  {item.badge && (
+                                    <span className="text-[8px] uppercase font-mono tracking-wider px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                                      {item.badge}
+                                    </span>
+                                  )}
+                                </div>
+                                <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                              </Link>
+                            );
+                          })}
                         </div>
                       </motion.div>
                     )}
@@ -465,6 +531,63 @@ export function InCommonNav({
                 </button>
                 <button
                   onClick={() => setResourcesWipOpen(false)}
+                  className="px-6 py-3 border border-[#1A1A1A]/20 hover:border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center"
+                >
+                  Dismiss
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Work In Progress Modal for Visualizer */}
+      <AnimatePresence>
+        {visualizerWipOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-lg bg-[#FAF8F5] border border-[#1A1A1A]/20 shadow-2xl p-8 sm:p-10 text-[#1A1A1A]"
+            >
+              <button
+                onClick={() => setVisualizerWipOpen(false)}
+                className="absolute top-5 right-5 p-2 text-[#6C6863] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="text-[11px] uppercase tracking-[0.25em] text-amber-800 font-sans font-medium mb-3">
+                Architectural Visualizer Studio
+              </div>
+
+              <h3 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#1A1A1A] leading-tight">
+                Work in <span className="italic font-light text-amber-900">Progress</span>
+              </h3>
+
+              <p className="mt-4 text-sm text-[#59534E] leading-relaxed font-normal">
+                Our in-browser 3D surface visualizer and real-time room perspective tool is currently undergoing calibration and performance upgrades.
+              </p>
+
+              <p className="mt-3 text-sm text-[#1A1A1A] font-serif italic">
+                In the meantime, request curated sample swatches or schedule a 1-on-1 digital consultation with our surface design team.
+              </p>
+
+              <div className="mt-8 pt-6 border-t border-[#1A1A1A]/10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <button
+                  onClick={() => {
+                    setVisualizerWipOpen(false);
+                    onOpenBookCall({ service: 'Room Visualizer Consultation' });
+                  }}
+                  className="flex-1 py-3 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center"
+                >
+                  Book Consultation
+                </button>
+                <button
+                  onClick={() => setVisualizerWipOpen(false)}
                   className="px-6 py-3 border border-[#1A1A1A]/20 hover:border-[#1A1A1A] text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center"
                 >
                   Dismiss
