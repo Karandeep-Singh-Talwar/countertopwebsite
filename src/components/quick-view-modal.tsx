@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, Flame, Droplets, ShieldCheck, MapPin, Check, ArrowRight, Phone } from 'lucide-react';
+import { X, Sparkles, Flame, Droplets, ShieldCheck, MapPin, Check, Phone } from 'lucide-react';
 import { SlabProduct } from '@/data/stone-data';
 
 interface QuickViewModalProps {
@@ -146,7 +146,6 @@ export function QuickViewModal({ slab, onClose, onBookCallForSlab }: QuickViewMo
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>Book Call with this Slab Spec</span>
-                  <ArrowRight className="w-4 h-4" />
                 </button>
 
                 <div className="text-center">

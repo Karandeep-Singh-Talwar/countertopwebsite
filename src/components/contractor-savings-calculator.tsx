@@ -5,7 +5,6 @@ import confetti from 'canvas-confetti';
 import {
   Check,
   ShieldCheck,
-  ArrowRight,
   RotateCcw,
   Package,
   Layers
@@ -695,7 +694,6 @@ export const ContractorSavingsCalculator: React.FC<ContractorSavingsCalculatorPr
                       className="w-full py-3.5 px-5 bg-gradient-to-r from-[#D4AF37] via-[#DFBD4B] to-[#D4AF37] hover:brightness-105 text-[#111113] font-sans font-medium text-sm tracking-wide rounded-xs transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
                     >
                       <span>{isSubmittingLead ? 'Sending Breakdown...' : 'Email My Price Breakdown & Unlock Quote'}</span>
-                      <ArrowRight className="w-4 h-4" />
                     </button>
 
                     <div className="flex items-center justify-center gap-2 text-xs text-white/45 font-sans text-center pt-1">

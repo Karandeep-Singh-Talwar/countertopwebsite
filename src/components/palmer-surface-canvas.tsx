@@ -8,7 +8,6 @@ import {
   Sparkles, 
   Menu, 
   X, 
-  ArrowRight, 
   Calendar, 
   Mail, 
   ShieldCheck, 
@@ -896,7 +895,6 @@ export function PalmerSurfaceCanvas({
                 className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-neutral-900 text-white text-xs uppercase tracking-widest font-medium shadow-lg hover:bg-neutral-800 transition duration-300 cursor-pointer"
               >
                 <span>Explore Collections</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </button>
 
               <button
@@ -1071,7 +1069,7 @@ export function PalmerSurfaceCanvas({
                 onClick={() => onOpenBookCall({ service: 'Sample Swatch Request' })}
                 className="text-xs font-semibold uppercase tracking-wider text-neutral-900 hover:underline cursor-pointer"
               >
-                Request Swatches &rarr;
+                Request Swatches
               </button>
             </div>
           </div>
@@ -1178,7 +1176,7 @@ export function PalmerSurfaceCanvas({
                     }}
                     className="text-neutral-900 font-semibold hover:underline"
                   >
-                    Request Swatches &rarr;
+                    Request Swatches
                   </button>
                 </div>
               </div>

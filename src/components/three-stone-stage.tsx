@@ -12,7 +12,6 @@ import {
   Maximize2, 
   Layers, 
   Check, 
-  ChevronRight,
   Shield,
   Clock
 } from 'lucide-react';

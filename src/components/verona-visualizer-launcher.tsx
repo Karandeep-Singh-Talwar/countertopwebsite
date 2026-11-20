@@ -9,8 +9,6 @@ import {
   Eye,
   Camera,
   X,
-  ArrowRight,
-  ChevronRight,
 } from 'lucide-react';
 
 const QUICK_SWATCHES = [
@@ -173,7 +171,6 @@ export function VeronaVisualizerLauncher() {
                       </p>
                     </div>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-[#8C827A] group-hover:translate-x-1 transition-transform" />
                 </Link>
 
                 {/* Primary Action 2: Pre-Configured Luxury Designer Rooms */}
@@ -255,7 +252,6 @@ export function VeronaVisualizerLauncher() {
                   className="shimmer-liquid-sheen relative overflow-hidden inline-flex items-center gap-2 px-5 py-2.5 bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer"
                 >
                   <span>Open Full Studio</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </motion.div>

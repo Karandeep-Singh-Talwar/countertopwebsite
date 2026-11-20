@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Calculator, 
   Calendar, 
-  ArrowRight,
   X,
   Sparkles
 } from 'lucide-react';
@@ -200,9 +199,8 @@ export function PorcelainCatalog({
                   </div>
                 </div>
 
-                <div className="pt-4 flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-[#1A1A1A] group-hover:translate-x-1 transition-transform">
+                <div className="pt-4 flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-[#1A1A1A]">
                   <span>View Material Specs</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </motion.div>
             );

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Star, MapPin, Calendar, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Star, MapPin, Calendar, CheckCircle2 } from 'lucide-react';
 import { TRANSFORMATION_CASES } from '@/data/stone-data';
 
 interface TransformationShowcaseProps {
@@ -145,7 +145,6 @@ export function TransformationShowcase({ onBookCallForProject }: TransformationS
                   className="px-4 py-2 bg-white text-black hover:bg-[#c59f60] font-bold text-xs uppercase tracking-wider transition flex items-center gap-1"
                 >
                   <span>Book Call</span>
-                  <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
             </div>

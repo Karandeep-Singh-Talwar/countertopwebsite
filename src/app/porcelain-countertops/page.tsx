@@ -6,7 +6,7 @@ import { InCommonNav } from '@/components/in-common-nav';
 import { PorcelainCatalog } from '@/components/porcelain-catalog';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
-import { Sparkles, Hammer, ShieldCheck, Flame, DollarSign, Calculator, ArrowRight, Layers } from 'lucide-react';
+import { Sparkles, Hammer, ShieldCheck, Flame, DollarSign, Calculator, Layers } from 'lucide-react';
 
 export default function PorcelainCountertopsPage() {
   const [isBookCallOpen, setIsBookCallOpen] = useState(false);
@@ -78,7 +78,6 @@ export default function PorcelainCountertopsPage() {
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
                 <span>Request Swatches</span>
-                <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => handleOpenBookCall({ service: 'Contractor Porcelain Consultation' })}

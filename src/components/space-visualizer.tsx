@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Check, ArrowRight, Flame, Droplets, RefreshCw, Calendar, Phone } from 'lucide-react';
+import { Sparkles, Check, Flame, Droplets, RefreshCw, Calendar, Phone } from 'lucide-react';
 
 interface StoneOption {
   id: string;

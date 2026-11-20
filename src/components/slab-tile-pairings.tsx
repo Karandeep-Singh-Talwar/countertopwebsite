@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Sparkles, Layers, ArrowRight, ShieldCheck, Box } from 'lucide-react';
+import { Sparkles, Layers, ShieldCheck, Box } from 'lucide-react';
 
 interface CoordinatedPairing {
   id: string;
@@ -163,7 +163,6 @@ export function SlabTilePairings({ onBookCallForPairing, onOrderSampleBox }: Sla
                     className="flex-1 sm:flex-initial px-4 py-2.5 rounded-lg bg-[#c59f60] hover:bg-[#b0894b] text-black text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition shadow-md shadow-[#c59f60]/20"
                   >
                     <span>Book Call</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>

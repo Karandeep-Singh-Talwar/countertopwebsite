@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Box, CheckCircle2, Truck, ShieldCheck, ArrowRight, User, Mail, MapPin } from 'lucide-react';
+import { X, Box, CheckCircle2, Truck, ShieldCheck, User, Mail, MapPin } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface SampleKitModalProps {

@@ -4,7 +4,6 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 
 interface CategoriesOverviewProps {
   activeCategory?: string;
@@ -118,10 +117,9 @@ export function CategoriesOverview({
               <div className="pt-2 flex items-center justify-end">
                 <Link
                   href={cat.href}
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] hover:text-amber-800 group/link py-1 transition-colors cursor-pointer"
+                  className="inline-flex items-center text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] hover:text-amber-800 group/link py-1 border-b border-[#1A1A1A]/30 hover:border-[#1A1A1A] transition-colors cursor-pointer"
                 >
                   <span>Explore Collection</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5 text-[#8C827A] group-hover/link:text-amber-800" />
                 </Link>
               </div>
             </motion.div>

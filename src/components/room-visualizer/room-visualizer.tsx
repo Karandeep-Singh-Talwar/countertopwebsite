@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Download, Eye, RefreshCcw, ArrowRight, Loader2, ImageUp } from 'lucide-react';
+import { Download, Eye, RefreshCcw, Loader2, ImageUp } from 'lucide-react';
 import { PORCELAIN_CATALOG } from '@/data/porcelain-catalog-data';
 import { UNIFIED_CATALOG } from '@/data/unified-materials-data';
 import type { Quad } from '@/lib/visualizer/homography';
@@ -472,7 +472,7 @@ export function RoomVisualizer({ onConsultLook, onRequestQuote, initialMaterial,
           disabled={surfaces.length === 0}
           className="w-full flex items-center justify-center gap-2 py-4 bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.2em] cursor-pointer hover:bg-black disabled:opacity-40"
         >
-          Consult on this look <ArrowRight className="w-4 h-4" />
+          Consult on this look
         </button>
       </aside>
     </div>

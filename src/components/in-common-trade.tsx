@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ArrowRight, Sparkles, Shield, Compass, FileText, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Shield, Compass, FileText, CheckCircle2 } from 'lucide-react';
 
 interface InCommonTradeProps {
   onOpenBookCall: (opts?: { service?: string; material?: string }) => void;
@@ -59,7 +59,6 @@ export function InCommonTrade({ onOpenBookCall, onOpenQuoteModal }: InCommonTrad
                 className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-[#1A1A1A] hover:underline cursor-pointer py-2 font-medium"
               >
                 <span>Submit RFP / Tender Plans</span>
-                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>

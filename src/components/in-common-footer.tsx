@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Mail, Phone, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, CheckCircle2 } from 'lucide-react';
 
 interface InCommonFooterProps {
   onOpenBookCall: (opts?: { service?: string; material?: string }) => void;
@@ -94,7 +94,6 @@ export function InCommonFooter({
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
               >
                 <span>Request Swatches</span>
-                <ArrowRight className="w-3.5 h-3.5" />
               </motion.button>
               <motion.button
                 whileHover={{ y: -2 }}

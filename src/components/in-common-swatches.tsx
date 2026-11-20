@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Check, Calculator, Calendar, ArrowRight, Sparkles, Layers, Sliders } from 'lucide-react';
+import { Check, Calculator, Calendar, Sparkles, Layers, Sliders } from 'lucide-react';
 
 interface InCommonSwatchesProps {
   onOpenQuoteModal: (opts?: { material?: string }) => void;

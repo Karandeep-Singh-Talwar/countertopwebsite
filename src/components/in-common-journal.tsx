@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
 
 interface InCommonJournalProps {
   onOpenArticle?: (title: string) => void;
@@ -70,9 +69,8 @@ export function InCommonJournal({ onOpenArticle }: InCommonJournalProps) {
                   </p>
 
                   {/* Read More Link matching In Common With */}
-                  <div className="mt-auto text-[11px] uppercase tracking-[0.16em] text-[#1A1A1A] group-hover:text-amber-900 transition-colors inline-flex items-center gap-1 font-medium">
+                  <div className="mt-auto text-[11px] uppercase tracking-[0.16em] text-[#1A1A1A] group-hover:text-amber-900 transition-colors inline-flex items-center font-medium">
                     <span>Read More</span>
-                    <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                   </div>
                 </article>
               ))}

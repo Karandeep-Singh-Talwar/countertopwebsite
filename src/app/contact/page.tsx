@@ -14,7 +14,6 @@ import {
   Calculator,
   ShieldCheck,
   Layers,
-  ArrowRight,
   Sparkles,
 } from 'lucide-react';
 import { InCommonNav } from '@/components/in-common-nav';
@@ -182,7 +181,6 @@ export default function ContactPage() {
                       className="shimmer-liquid-sheen relative overflow-hidden px-6 py-2.5 bg-[#1A1A1A] text-white text-xs uppercase tracking-[0.2em] font-medium hover:bg-black transition-colors cursor-pointer inline-flex items-center gap-2"
                     >
                       <span>Preview in Room Visualizer</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </motion.div>

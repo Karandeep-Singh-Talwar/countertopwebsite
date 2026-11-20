@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ArrowRight, MapPin, Clock, Calendar, Phone } from 'lucide-react';
+import { MapPin, Clock, Calendar, Phone } from 'lucide-react';
 
 interface InCommonShowroomProps {
   onOpenBookCall: (opts?: { service?: string; material?: string }) => void;
@@ -40,10 +40,9 @@ export function InCommonShowroom({ onOpenBookCall }: InCommonShowroomProps) {
                 </p>
                 <button
                   onClick={() => onOpenBookCall({ service: 'Quarters Showroom Private Appointment' })}
-                  className="inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-[#1A1A1A] hover:text-amber-900 transition-colors font-medium cursor-pointer"
+                  className="inline-flex items-center text-[12px] uppercase tracking-[0.16em] text-[#1A1A1A] hover:text-amber-900 border-b border-[#1A1A1A]/30 hover:border-[#1A1A1A] transition-colors font-medium cursor-pointer py-0.5"
                 >
                   <span>Book a Private Studio Appointment</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>

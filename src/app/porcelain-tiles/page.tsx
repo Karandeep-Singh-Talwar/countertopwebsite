@@ -8,7 +8,7 @@ import { InCommonNav } from '@/components/in-common-nav';
 import { InCommonFooter } from '@/components/in-common-footer';
 import { BookCallModal } from '@/components/book-call-modal';
 import { PORCELAIN_CATALOG, PorcelainMaterial } from '@/data/porcelain-catalog-data';
-import { ArrowRight, Calculator, X } from 'lucide-react';
+import { Calculator, X } from 'lucide-react';
 
 export default function PorcelainTilesPage() {
   const [catalog, setCatalog] = useState<PorcelainMaterial[]>(PORCELAIN_CATALOG);
@@ -131,7 +131,6 @@ export default function PorcelainTilesPage() {
                     className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] py-1 border-b border-[#1A1A1A] hover:text-amber-800 hover:border-amber-800 transition-colors cursor-pointer"
                   >
                     <span>Request Tile Swatches</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
@@ -215,9 +214,8 @@ export default function PorcelainTilesPage() {
                   </div>
                 </div>
 
-                <div className="pt-4 flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-[#1A1A1A] group-hover:translate-x-1 transition-transform">
+                <div className="pt-4 flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium text-[#1A1A1A]">
                   <span>View Tile Specifications</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </motion.div>
             ))}

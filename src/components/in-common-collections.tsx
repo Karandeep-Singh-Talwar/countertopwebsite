@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface InCommonCollectionsProps {
   onSelectCollection: (colId: string) => void;
@@ -96,7 +96,6 @@ export function InCommonCollections({
 
                     <div className="pt-4 border-t border-white/20 flex items-center justify-between text-[11px] uppercase tracking-[0.18em] text-white/90 group-hover:text-amber-200 transition-colors">
                       <span>Explore {col.name} Series</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </div>
                 </div>

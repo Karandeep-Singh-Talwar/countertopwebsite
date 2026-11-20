@@ -10,13 +10,11 @@ import {
   Flame,
   Droplets,
   Layers,
-  ArrowRight,
   Calculator,
   Calendar,
   X,
   Maximize2,
   Check,
-  ChevronRight,
 } from 'lucide-react';
 import {
   type ApplicationCategory,
@@ -281,7 +279,6 @@ export function MaterialsCatalogView({
                       className="shimmer-liquid-sheen relative overflow-hidden inline-flex items-center gap-1.5 px-4 py-2 bg-[#1A1A1A] hover:bg-black text-white text-[11px] uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer shadow-sm hover:shadow-md"
                     >
                       <span>Inquire</span>
-                      <ArrowRight className="w-3 h-3" />
                     </motion.button>
                   </div>
                 </div>

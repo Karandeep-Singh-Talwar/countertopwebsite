@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Clock, Phone, Mail, CheckCircle2, ArrowRight, ArrowLeft, ShieldCheck, User, Home, Layers } from 'lucide-react';
+import { X, Calendar, Clock, Phone, Mail, CheckCircle2, ArrowLeft, ShieldCheck, User, Home, Layers } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface BookCallModalProps {
@@ -266,7 +266,6 @@ export function BookCallModal({
                       className="px-6 py-3 bg-black hover:bg-gray-800 text-white font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition"
                     >
                       <span>Next: Date &amp; Time</span>
-                      <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -337,7 +336,6 @@ export function BookCallModal({
                       className="px-6 py-3 bg-black hover:bg-gray-800 text-white font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition"
                     >
                       <span>Next: Contact Details</span>
-                      <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>

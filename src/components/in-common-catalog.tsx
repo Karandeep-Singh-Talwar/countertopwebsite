@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface InCommonCatalogProps {
   onSelectCategory: (category: 'countertops' | 'tiles' | 'bespoke') => void;
@@ -102,7 +102,6 @@ export function InCommonCatalog({
                   {/* Shop link */}
                   <div className="mt-2 text-[12px] uppercase tracking-wider text-[#767168] group-hover:text-[#1A1A1A] transition-colors flex items-center gap-1">
                     <span>{cat.actionText}</span>
-                    <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
               ))}
@@ -115,7 +114,6 @@ export function InCommonCatalog({
                 className="text-[12px] uppercase tracking-[0.16em] text-[#1A1A1A] hover:text-amber-900 transition-colors cursor-pointer flex items-center gap-2"
               >
                 <span>Shop All Surfaces &amp; In-Page Colors</span>
-                <ArrowRight className="w-3.5 h-3.5" />
               </button>
 
               <div className="flex items-center space-x-4">

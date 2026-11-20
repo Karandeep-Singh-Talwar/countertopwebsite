@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronDown,
-  ArrowRight,
   X,
 } from 'lucide-react';
 import { VeronaCrestLogo } from '@/components/verona-crest-logo';
@@ -136,10 +135,10 @@ export function InCommonNav({
           {/* Right Utility: Book Consultation CTA & Mobile Toggle */}
           <div className="flex items-center justify-end space-x-4">
             <motion.button
-              whileHover={{ x: 2 }}
+              whileHover={{ opacity: 0.7 }}
               transition={{ duration: 0.2 }}
               onClick={() => onOpenBookCall({ service: 'Architectural Consultation' })}
-              className={`hidden md:inline-flex items-center gap-2 py-1 text-[11px] tracking-[0.2em] font-medium transition-colors duration-300 cursor-pointer group ${
+              className={`hidden md:inline-flex items-center py-1 text-[11px] tracking-[0.2em] font-medium transition-colors duration-300 cursor-pointer group ${
                 showDarkText
                   ? 'text-[#1A1A1A] hover:text-amber-800'
                   : 'text-white/90 hover:text-white'
@@ -148,7 +147,6 @@ export function InCommonNav({
               <span className="border-b border-current/30 group-hover:border-current pb-0.5 transition-colors">
                 Book Consultation
               </span>
-              <ArrowRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
             </motion.button>
 
             {/* Mobile Hamburger Toggle */}
@@ -214,12 +212,9 @@ export function InCommonNav({
                         onClick={() => setActiveDropdown(null)}
                         className="group block py-2.5 px-3 hover:bg-[#1A1A1A]/[0.03] transition-colors"
                       >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
-                            Countertops &amp; Islands
-                          </span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
-                        </div>
+                        <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                          Countertops &amp; Islands
+                        </span>
                       </Link>
 
                       {/* 2. Backsplash & Wall Tile */}
@@ -228,12 +223,9 @@ export function InCommonNav({
                         onClick={() => setActiveDropdown(null)}
                         className="group block py-2.5 px-3 hover:bg-[#1A1A1A]/[0.03] transition-colors"
                       >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
-                            Backsplash &amp; Wall Tile
-                          </span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
-                        </div>
+                        <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                          Backsplash &amp; Wall Tile
+                        </span>
                       </Link>
 
                       {/* 3. Flooring */}
@@ -242,12 +234,9 @@ export function InCommonNav({
                         onClick={() => setActiveDropdown(null)}
                         className="group block py-2.5 px-3 hover:bg-[#1A1A1A]/[0.03] transition-colors"
                       >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
-                            Architectural Flooring
-                          </span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
-                        </div>
+                        <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                          Architectural Flooring
+                        </span>
                       </Link>
                     </div>
                   </div>
@@ -303,12 +292,9 @@ export function InCommonNav({
                         }}
                         className="w-full text-left group block py-2.5 px-3 hover:bg-[#1A1A1A]/[0.03] transition-colors cursor-pointer"
                       >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
-                            Takeoff Estimator
-                          </span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-amber-800" />
-                        </div>
+                        <span className="text-xs uppercase tracking-[0.18em] font-serif font-medium text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
+                          Takeoff Estimator
+                        </span>
                       </button>
 
                       {/* Tool 2: Visualizer (WIP Trigger) */}
@@ -374,26 +360,23 @@ export function InCommonNav({
                 <Link
                   href="/countertops"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-1.5 text-[#4A4642] hover:text-[#1A1A1A] flex items-center justify-between"
+                  className="py-1.5 text-[#4A4642] hover:text-[#1A1A1A] block"
                 >
                   <span>Countertops &amp; Islands</span>
-                  <ArrowRight className="w-3.5 h-3.5 opacity-50" />
                 </Link>
                 <Link
                   href="/backsplash-walltile"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-1.5 text-[#4A4642] hover:text-[#1A1A1A] flex items-center justify-between"
+                  className="py-1.5 text-[#4A4642] hover:text-[#1A1A1A] block"
                 >
                   <span>Backsplash &amp; Wall Tile</span>
-                  <ArrowRight className="w-3.5 h-3.5 opacity-50" />
                 </Link>
                 <Link
                   href="/flooring"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-1.5 text-[#4A4642] hover:text-[#1A1A1A] flex items-center justify-between"
+                  className="py-1.5 text-[#4A4642] hover:text-[#1A1A1A] block"
                 >
                   <span>Architectural Flooring</span>
-                  <ArrowRight className="w-3.5 h-3.5 opacity-50" />
                 </Link>
               </div>
             )}
@@ -420,10 +403,9 @@ export function InCommonNav({
                     if (onOpenEstimator) onOpenEstimator();
                     else onOpenQuoteModal({ material: 'Porcelain Surface Package' });
                   }}
-                  className="py-1.5 text-left text-[#4A4642] hover:text-[#1A1A1A] flex items-center justify-between cursor-pointer"
+                  className="py-1.5 text-left text-[#4A4642] hover:text-[#1A1A1A] block cursor-pointer"
                 >
                   <span>Takeoff Estimator</span>
-                  <ArrowRight className="w-3.5 h-3.5 opacity-50" />
                 </button>
                 <button
                   onClick={() => {
@@ -461,7 +443,6 @@ export function InCommonNav({
               className="w-full flex items-center justify-between text-left py-1 text-xs tracking-[0.22em] font-medium text-[#1A1A1A] cursor-pointer"
             >
               <span>Contact Us</span>
-              <ArrowRight className="w-4 h-4 text-[#8C827A]" />
             </Link>
           </div>
 

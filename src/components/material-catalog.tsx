@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Search, SlidersHorizontal, Flame, Droplets, Check, ArrowUpRight, Phone, Eye } from 'lucide-react';
+import { Sparkles, Search, SlidersHorizontal, Flame, Droplets, Check, Phone, Eye } from 'lucide-react';
 import { SLAB_PRODUCTS, SlabProduct } from '@/data/stone-data';
 
 interface MaterialCatalogProps {
@@ -230,7 +230,6 @@ export function MaterialCatalog({ onSelectSlabForCall, onOpenQuickView }: Materi
                       className="px-3.5 py-2.5 rounded-lg bg-[#c59f60] hover:bg-[#b0894b] text-black font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 transition shadow-md shadow-[#c59f60]/20"
                     >
                       <span>Book Call</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>

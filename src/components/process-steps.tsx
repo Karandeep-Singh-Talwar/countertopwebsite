@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, PhoneCall, Scan, Cpu, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Sparkles, PhoneCall, Scan, Cpu, CheckCircle2 } from 'lucide-react';
 
 interface ProcessStepsProps {
   onOpenBookCall: () => void;
@@ -114,7 +114,6 @@ export function ProcessSteps({ onOpenBookCall }: ProcessStepsProps) {
             className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#c59f60] hover:bg-[#b0894b] text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shrink-0"
           >
             <span>Book 15-Min Call</span>
-            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>

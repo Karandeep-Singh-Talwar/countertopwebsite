@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Calculator, Calendar, ArrowRight, ShieldCheck, Flame, Droplets } from 'lucide-react';
+import { Calculator, Calendar, ShieldCheck, Flame, Droplets } from 'lucide-react';
 
 interface InCommonFeaturesProps {
   onOpenQuoteModal: (opts?: { material?: string }) => void;
