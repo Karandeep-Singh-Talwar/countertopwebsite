@@ -233,13 +233,10 @@ export function PorcelainUspBanner({
                 className="group rounded-2xl border border-white/[0.06] bg-[#0E0E10] hover:border-amber-400/20 p-6 lg:p-7 flex flex-col justify-between transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.5)]"
               >
                 <div>
-                  {/* Top: Numeral & Category Tag */}
-                  <div className="flex items-baseline justify-between mb-4">
+                  {/* Top: Numeral */}
+                  <div className="mb-4">
                     <span className="font-serif text-3xl font-light text-neutral-500/80 tracking-tight">
                       {item.num}
-                    </span>
-                    <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-amber-500/80 font-medium">
-                      {item.category}
                     </span>
                   </div>
 
