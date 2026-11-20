@@ -15,7 +15,7 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "VERONA Surfaces | Luxury Architectural Countertops, Wall Surfaces & Flooring",
+  title: "Carrara & Clay | Luxury Architectural Countertops, Wall Surfaces & Flooring",
   description: "Curated architectural surfaces and slabs across vitrified porcelain, natural granite, engineered quartz, and metamorphic quartzite for luxury countertops, backsplashes, and flooring.",
   keywords: "porcelain countertops, quartzite slabs, granite countertops, quartz surfaces, architectural tiles, kitchen islands, backsplash tiles, large format tiles",
 };

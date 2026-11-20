@@ -369,7 +369,7 @@ export const CATALOG_PRODUCTS: MaterialColorItem[] = [
     slabSize: 'Quarry Block Cut',
     veining: 'Subtle Feathered',
     image: 'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=1000&q=80',
-    description: 'Direct imported from Tuscany. Iconic soft feathered grey veining on pure white Italian marble. Hand-sealed with Verona Nano-Guard.',
+    description: 'Direct imported from Tuscany. Iconic soft feathered grey veining on pure white Italian marble. Hand-sealed with Carrara & Clay Nano-Guard.',
     badge: 'HISTORIC QUARRY',
     bestFor: 'Baking Islands & Primary Bathroom Suites',
   },

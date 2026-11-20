@@ -358,7 +358,7 @@ export default function AdminCatalogPage() {
               <Lock className="w-5 h-5" />
             </div>
             <div>
-              <h1 className="text-xl font-serif text-white tracking-wide">VERONA Admin</h1>
+              <h1 className="text-xl font-serif text-white tracking-wide">Carrara &amp; Clay Admin</h1>
               <p className="text-xs font-mono text-stone-400">Catalogue &amp; Face Image Management</p>
             </div>
           </div>
@@ -432,7 +432,7 @@ export default function AdminCatalogPage() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-base font-serif tracking-wider font-semibold">VERONA CATALOG MANAGER</h1>
+                <h1 className="text-base font-serif tracking-wider font-semibold">CARRARA &amp; CLAY CATALOG MANAGER</h1>
                 <span className="text-[10px] font-mono uppercase bg-amber-900/60 text-amber-300 px-2 py-0.5 border border-amber-700/50">
                   Live Sync
                 </span>

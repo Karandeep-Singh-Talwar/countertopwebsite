@@ -131,7 +131,7 @@ export function VeronaVisualizerLauncher() {
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-[0.25em] text-amber-800 font-medium block">
-                      VERONA SURFACES · DESIGN STUDIO
+                      CARRARA &amp; CLAY · DESIGN STUDIO
                     </span>
                     <h3 className="text-lg font-serif font-normal text-[#1A1A1A]">
                       Architectural Room Visualizer
@@ -151,7 +151,7 @@ export function VeronaVisualizerLauncher() {
               {/* Scrollable Body */}
               <div className="p-6 overflow-y-auto space-y-6">
                 <p className="text-xs text-[#6C6863] leading-relaxed">
-                  Preview Verona porcelain slabs and tiles in your actual kitchen or living area with realistic perspective and ambient room lighting.
+                  Preview Carrara &amp; Clay porcelain slabs and tiles in your actual kitchen or living area with realistic perspective and ambient room lighting.
                 </p>
 
                 {/* Primary Action 1: Upload or Snap Room Photo */}

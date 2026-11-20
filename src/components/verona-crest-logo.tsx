@@ -9,7 +9,7 @@ interface VeronaCrestLogoProps {
 }
 
 /**
- * Verona Surfaces Heritage Architectural Crest & Wordmark
+ * Carrara & Clay Heritage Architectural Crest & Wordmark
  * Inspired by classic Italian stone ateliers & heritage European houses.
  */
 export function VeronaCrestLogo({
@@ -145,7 +145,7 @@ export function VeronaCrestLogo({
           className="font-serif text-lg sm:text-xl tracking-tight leading-none text-current"
           style={{ color: textColor }}
         >
-          Verona <span className="italic font-light opacity-90">Surfaces</span>
+          Carrara <span className="italic font-light opacity-90">&amp; Clay</span>
         </span>
         {showSubtitle && (
           <span className="text-[8.5px] uppercase font-sans tracking-[0.3em] opacity-60 mt-1 font-medium">

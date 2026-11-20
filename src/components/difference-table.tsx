@@ -19,10 +19,10 @@ export function DifferenceTable({ onOpenBookCall }: DifferenceTableProps) {
             <span>The Modern Stone Experience</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white tracking-tight">
-            The Verona Direct Difference
+            The Carrara &amp; Clay Direct Difference
           </h2>
           <p className="text-sm sm:text-base text-slate-400 mt-3">
-            Traditional countertop sourcing is often plagued by opaque slab yard pricing, multi-week delays, and subcontractor disputes. Here is how Verona streamlines the journey.
+            Traditional countertop sourcing is often plagued by opaque slab yard pricing, multi-week delays, and subcontractor disputes. Here is how Carrara &amp; Clay streamlines the journey.
           </p>
         </div>
 
@@ -36,7 +36,7 @@ export function DifferenceTable({ onOpenBookCall }: DifferenceTableProps) {
             </div>
             <div className="col-span-7 sm:col-span-4 text-[#fce6bb] flex items-center gap-2 justify-end sm:justify-start">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Verona Direct (Modern)</span>
+              <span>Carrara &amp; Clay Direct (Modern)</span>
             </div>
           </div>
 

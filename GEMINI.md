@@ -8,7 +8,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# Project: VERONA Surfaces
+# Project: Carrara & Clay
 
 Luxury Porcelain Countertops & Architectural Vitrified Tiles catalogue platform.
 

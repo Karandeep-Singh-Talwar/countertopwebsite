@@ -203,25 +203,25 @@ export function PorcelainUspBanner({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="border-t border-white/10 mt-16 md:mt-24 pt-12 md:pt-16"
+          className="border-t border-white/[0.08] mt-16 md:mt-24 pt-12 md:pt-16"
         >
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 lg:mb-16 gap-6">
             <div>
-              <h3 className="text-3xl sm:text-4xl lg:text-[46px] font-serif font-normal text-white tracking-tight leading-[1.15]">
+              <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-serif font-normal text-white tracking-tight leading-[1.18]">
                 Engineered for Permanence,<br />
-                <span className="italic font-light text-neutral-300">Crafted for Living</span>
+                <span className="italic font-light text-neutral-200">Crafted for Living</span>
               </h3>
             </div>
             <div className="max-w-md lg:max-w-lg">
-              <p className="text-sm sm:text-[15px] text-neutral-400 font-light leading-relaxed">
-                Where classic marble demands constant vigilance, Verona vitrified stone offers complete freedom. Hot cast-iron, spilled Chianti, and morning sunlight leave no trace.
+              <p className="text-xs sm:text-[13px] text-neutral-400 font-light leading-relaxed">
+                Where classic marble demands constant vigilance, Carrara &amp; Clay vitrified stone offers complete freedom. Hot cast-iron, spilled Chianti, and morning sunlight leave no trace.
               </p>
             </div>
           </div>
 
           {/* 4 Architectural Comparison Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
             {comparisons.map((item, idx) => (
               <motion.div
                 key={item.num}
@@ -230,42 +230,46 @@ export function PorcelainUspBanner({
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.7, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -4 }}
-                className="group rounded-2xl border border-white/[0.08] bg-[#141416]/90 hover:border-amber-400/30 hover:bg-[#18181B]/95 p-7 flex flex-col justify-between transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.4)]"
+                className="group rounded-2xl border border-white/[0.06] bg-[#0E0E10] hover:border-amber-400/20 p-6 lg:p-7 flex flex-col justify-between transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.5)]"
               >
                 <div>
                   {/* Top: Numeral & Category Tag */}
-                  <div className="flex items-baseline justify-between mb-3">
-                    <span className="font-serif text-2xl sm:text-3xl font-light text-neutral-500/70 tracking-tight">
+                  <div className="flex items-baseline justify-between mb-4">
+                    <span className="font-serif text-3xl font-light text-neutral-500/80 tracking-tight">
                       {item.num}
                     </span>
-                    <span className="font-sans text-[10px] uppercase tracking-[0.24em] text-neutral-400 font-medium">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-amber-500/80 font-medium">
                       {item.category}
                     </span>
                   </div>
 
                   {/* Feature Title */}
-                  <h4 className="font-serif text-xl sm:text-2xl text-white font-normal tracking-tight min-h-[58px] flex items-center leading-snug">
-                    {item.title}
+                  <h4 className="font-serif text-xl sm:text-2xl text-white font-normal tracking-tight min-h-[56px] flex items-center leading-snug">
+                    {item.num === '01' ? (
+                      <>Counter-to-<br />Backsplash</>
+                    ) : (
+                      item.title
+                    )}
                   </h4>
 
                   {/* Verona Porcelain Block */}
                   <div className="mt-6">
-                    <div className="flex items-center gap-2 text-[9.5px] font-sans font-semibold tracking-[0.22em] text-[#D4AF37] uppercase mb-2">
+                    <div className="text-[9px] font-mono font-semibold tracking-[0.22em] text-[#D4AF37] uppercase mb-1.5 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                      <span>Verona Porcelain</span>
+                      <span>CARRARA &amp; CLAY</span>
                     </div>
-                    <p className="text-xs text-neutral-300 leading-relaxed font-normal">
+                    <p className="text-[11.5px] sm:text-xs text-neutral-200/90 leading-relaxed font-light">
                       {item.verona}
                     </p>
                   </div>
 
                   {/* Natural Stone Block */}
-                  <div className="mt-6 pt-5 border-t border-white/[0.07]">
-                    <div className="flex items-center gap-2 text-[9.5px] font-sans font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-neutral-500" />
-                      <span>Natural Stone</span>
+                  <div className="mt-5">
+                    <div className="text-[9px] font-mono font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-1.5 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-neutral-600" />
+                      <span>NATURAL STONE</span>
                     </div>
-                    <p className="text-xs text-neutral-500 leading-relaxed font-light">
+                    <p className="text-[11.5px] sm:text-xs text-neutral-500 leading-relaxed font-light">
                       {item.naturalStone}
                     </p>
                   </div>

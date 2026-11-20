@@ -50,7 +50,7 @@ export function InCommonHero({
           className="max-w-4xl"
         >
           <h1 className="text-white text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-serif font-normal tracking-tight leading-[0.9] text-balance drop-shadow-sm">
-            Verona <span className="italic font-light text-amber-200">Surfaces</span>
+            Carrara <span className="italic font-light text-amber-200">&amp; Clay</span>
           </h1>
           <p className="mt-4 text-white/80 text-lg sm:text-2xl md:text-3xl font-light tracking-tight font-serif italic">
             Porcelain Countertops &amp; Architectural Vitrified Tiles

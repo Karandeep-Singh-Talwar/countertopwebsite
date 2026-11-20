@@ -147,7 +147,7 @@ export function BeforeAfterSlider() {
           <div className="absolute inset-0 w-full h-full">
             <Image
               src={activePreset.afterImg}
-              alt="Verona Countertops After"
+              alt="Carrara &amp; Clay Countertops After"
               fill
               className="object-cover object-center"
               priority

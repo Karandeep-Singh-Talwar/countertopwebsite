@@ -23,7 +23,7 @@ const REVIEWS: Review[] = [
     location: 'Austin, TX',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
     stone: 'Calacatta Gold Supreme Quartz',
-    quote: 'As an interior architect, I am usually terrified of countertop seam lines. Verona’s waterjet laser matching matched the veining across our 12-foot island seamlessly. My clients are mesmerized.',
+    quote: 'As an interior architect, I am usually terrified of countertop seam lines. Carrara & Clay’s waterjet laser matching matched the veining across our 12-foot island seamlessly. My clients are mesmerized.',
     date: 'March 2026',
   },
   {
@@ -33,7 +33,7 @@ const REVIEWS: Review[] = [
     location: 'Denver, CO',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
     stone: 'Taj Mahal Exotic Quartzite',
-    quote: 'We used to wait 5-6 weeks for fabricators. Verona’s 5-day template-to-install turnaround allowed us to close our luxury spec home 3 weeks ahead of schedule. The mitered edges are flawless.',
+    quote: 'We used to wait 5-6 weeks for fabricators. Carrara & Clay’s 5-day template-to-install turnaround allowed us to close our luxury spec home 3 weeks ahead of schedule. The mitered edges are flawless.',
     date: 'February 2026',
   },
   {
@@ -81,7 +81,7 @@ export function ReviewsAndSocialProof() {
             Loved by Homeowners, Trusted by Architects
           </h2>
           <p className="text-sm text-slate-400 mt-2">
-            Read unedited reviews from homeowners who transformed their living spaces with Verona Stone & Tile.
+            Read unedited reviews from homeowners who transformed their living spaces with Carrara &amp; Clay.
           </p>
         </div>
 

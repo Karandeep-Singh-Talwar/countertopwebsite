@@ -43,7 +43,7 @@ export function InCommonFooter({
           <div className="lg:col-span-5 space-y-4">
             <Link href="/" className="inline-block group">
               <h4 className="text-3xl sm:text-4xl font-serif font-normal tracking-tight text-[#1A1A1A] group-hover:text-amber-800 transition-colors">
-                Verona <span className="italic font-light">Surfaces</span>
+                Carrara <span className="italic font-light">&amp; Clay</span>
               </h4>
             </Link>
             <span className="text-[11px] uppercase tracking-[0.25em] text-[#8C827A] font-sans font-medium block">
@@ -60,11 +60,11 @@ export function InCommonFooter({
               Orders &amp; Architectural Inquiries
             </span>
             <a
-              href="mailto:concierge@veronasurfaces.com"
+              href="mailto:concierge@carraraclay.com"
               className="text-[#1A1A1A] hover:text-amber-800 transition-colors font-medium flex items-center gap-2"
             >
               <Mail className="w-3.5 h-3.5 text-amber-800" />
-              <span>concierge@veronasurfaces.com</span>
+              <span>concierge@carraraclay.com</span>
             </a>
             <a
               href="tel:18005557522"
@@ -267,7 +267,7 @@ export function InCommonFooter({
 
         {/* Bottom Bar: Clean Copyright & Legal */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#8C827A] gap-4 font-sans">
-          <p>© 2026 Verona Surfaces. Architectural Surfaces &amp; Slabs. All rights reserved.</p>
+          <p>© 2026 Carrara &amp; Clay. Architectural Surfaces &amp; Slabs. All rights reserved.</p>
           <div className="flex items-center space-x-6 text-[11px]">
             <span className="hover:text-[#1A1A1A] cursor-pointer transition-colors">Privacy Policy</span>
             <span>·</span>

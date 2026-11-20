@@ -124,7 +124,7 @@ export default function ContactPage() {
             </div>
 
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-normal tracking-tight text-[#1A1A1A] leading-[1.05]">
-              Contact <span className="italic font-light text-amber-900">Verona Surfaces</span>
+              Contact <span className="italic font-light text-amber-900">Carrara &amp; Clay</span>
             </h1>
 
             <p className="mt-4 text-[#6C6863] text-base sm:text-lg max-w-3xl font-light leading-relaxed">
@@ -388,7 +388,7 @@ export default function ContactPage() {
 
                 <div className="space-y-4 text-sm text-[#6C6863]">
                   <a
-                    href="mailto:concierge@veronasurfaces.com"
+                    href="mailto:concierge@carraraclay.com"
                     className="flex items-center gap-3 text-[#1A1A1A] hover:text-amber-800 transition-colors group"
                   >
                     <div className="w-9 h-9 rounded-full bg-[#FAF8F5] border border-[#E8E4DC] flex items-center justify-center text-amber-800 group-hover:border-[#1A1A1A] transition-colors shrink-0">
@@ -396,7 +396,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <span className="text-[10px] uppercase tracking-wider text-[#8C827A] block">Email Inquiries</span>
-                      <span className="font-medium text-sm text-[#1A1A1A]">concierge@veronasurfaces.com</span>
+                      <span className="font-medium text-sm text-[#1A1A1A]">concierge@carraraclay.com</span>
                     </div>
                   </a>
 
@@ -491,7 +491,7 @@ export default function ContactPage() {
                 </h3>
               </div>
               <p className="text-sm text-[#6C6863] max-w-lg font-light leading-relaxed">
-                Key questions answered for general contractors, kitchen designers, and architects specifying Verona vitrified porcelain.
+                Key questions answered for general contractors, kitchen designers, and architects specifying Carrara &amp; Clay vitrified porcelain.
               </p>
             </div>
 
@@ -501,7 +501,7 @@ export default function ContactPage() {
                   Can our tile contractor install 9mm porcelain?
                 </h4>
                 <p className="text-xs text-[#6C6863] leading-relaxed">
-                  Yes. Verona calibrated 9mm mass is engineered specifically for installation by tile setters and general contractors using standard continuous-rim diamond wet saws. No expensive specialized stone fabrication shop waits.
+                  Yes. Carrara &amp; Clay calibrated 9mm mass is engineered specifically for installation by tile setters and general contractors using standard continuous-rim diamond wet saws. No expensive specialized stone fabrication shop waits.
                 </p>
               </div>
 
