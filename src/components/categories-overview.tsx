@@ -114,15 +114,14 @@ export function CategoriesOverview({
                 </div>
               </div>
 
-              {/* Borderless Editorial Link (Blank Left Side) */}
-              <div className="pt-4 border-t border-[#1A1A1A]/10 flex items-center justify-end">
+              {/* Borderless Editorial Link */}
+              <div className="pt-2 flex items-center justify-end">
                 <Link
                   href={cat.href}
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] group/link py-1 relative"
+                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#1A1A1A] hover:text-amber-800 group/link py-1 transition-colors cursor-pointer"
                 >
                   <span>Explore Collection</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-                  <span className="absolute bottom-0 left-0 w-0 h-px bg-[#1A1A1A] transition-all duration-300 group-hover:w-full" />
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5 text-[#8C827A] group-hover/link:text-amber-800" />
                 </Link>
               </div>
             </motion.div>

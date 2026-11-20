@@ -3,12 +3,11 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight } from 'lucide-react';
 
 interface InCommonHeroProps {
-  onOpenBookCall: () => void;
-  onOpenQuoteModal: () => void;
-  onExploreClick: () => void;
+  onOpenBookCall?: () => void;
+  onOpenQuoteModal?: () => void;
+  onExploreClick?: () => void;
 }
 
 export function InCommonHero({
@@ -58,40 +57,16 @@ export function InCommonHero({
           </p>
         </motion.div>
 
-        {/* Bottom Bar: Narrative & Actions */}
+        {/* Bottom Bar: Architectural Narrative */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end pt-8 border-t border-white/20"
+          className="pt-8 border-t border-white/20 max-w-2xl"
         >
-          {/* Bottom Left: Editorial Statement */}
-          <div className="md:col-span-7 lg:col-span-6 space-y-4">
-            <p className="text-white/85 text-base sm:text-lg leading-relaxed max-w-lg font-light">
-              Monolithic mineral surfaces sculpted for architectural continuity. Unbroken veining flows effortlessly across kitchen island counters, vertical splashbacks, and floor planes, uniting Italian Calacatta, rare Amazonite, and deep volcanic stone.
-            </p>
-            <button
-              onClick={onExploreClick}
-              className="group inline-flex items-center gap-3 text-white text-xs uppercase tracking-[0.2em] font-medium hover:text-amber-200 transition-colors cursor-pointer"
-            >
-              <span>Explore Surface Catalogue</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
-          </div>
-
-          {/* Bottom Right: Direct Consultation Action */}
-          <div className="md:col-span-5 lg:col-span-6 flex items-stretch sm:items-center justify-end">
-            <motion.button
-              whileHover={{ y: -2, scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-              onClick={onOpenBookCall}
-              className="shimmer-liquid-sheen relative overflow-hidden inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#FAF8F5] hover:bg-white text-[#1A1A1A] text-xs uppercase tracking-[0.2em] font-medium transition-all shadow-lg hover:shadow-2xl cursor-pointer"
-            >
-              <Calendar className="w-3.5 h-3.5" />
-              <span>Book Consultation</span>
-            </motion.button>
-          </div>
+          <p className="text-white/85 text-base sm:text-lg leading-relaxed font-light">
+            Monolithic mineral surfaces sculpted for architectural continuity. Unbroken veining flows effortlessly across kitchen island counters, vertical splashbacks, and floor planes, uniting Italian Calacatta, rare Amazonite, and deep volcanic stone.
+          </p>
         </motion.div>
       </div>
 

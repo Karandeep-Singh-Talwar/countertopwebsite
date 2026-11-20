@@ -235,7 +235,7 @@ export function InCommonFooter({
                 href="/visualizer"
                 className="block hover:text-[#1A1A1A] transition-colors font-medium text-[#1A1A1A]"
               >
-                Room Visualizer AI
+                Room Visualizer
               </Link>
               <button
                 onClick={() => onOpenBookCall({ service: 'Sample Swatch Request' })}

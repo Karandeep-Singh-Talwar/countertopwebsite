@@ -257,15 +257,15 @@ export function InCommonNav({
                     />
                   </button>
 
-                  {/* Dropdown Menu Flyout: Minimalist Category Selector (Zero AI Slop / Zero Verbosity) */}
+                  {/* Dropdown Menu Flyout: Luminous Warm Architectural Theme */}
                   <AnimatePresence>
                     {isOpen && section.items && (
                       <motion.div
                         initial={{ opacity: 0, y: 6, scale: 0.98 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 4, scale: 0.98 }}
-                        transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute top-full left-0 mt-2 w-60 bg-[#141413]/98 backdrop-blur-2xl border border-white/10 text-white p-2 rounded-xl shadow-2xl z-50 text-left select-none"
+                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute top-full left-0 mt-2.5 w-64 bg-[#FAF8F5]/95 md:bg-white/92 backdrop-blur-2xl border border-[#E8E4DC] text-[#1A1A1A] p-2 rounded-xl shadow-[0_20px_45px_-10px_rgba(26,23,20,0.15)] z-50 text-left select-none"
                       >
                         <div className="flex flex-col gap-1">
                           {section.items.map((item) => {
@@ -277,17 +277,17 @@ export function InCommonNav({
                                     setActiveDropdown(null);
                                     item.action?.();
                                   }}
-                                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs uppercase tracking-[0.15em] font-medium text-neutral-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer text-left group"
+                                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs uppercase tracking-[0.16em] font-medium text-[#2C2825] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/[0.05] transition-all cursor-pointer text-left group"
                                 >
                                   <div className="flex items-center gap-2">
                                     <span>{item.name}</span>
                                     {item.badge && (
-                                      <span className="text-[8px] uppercase font-mono tracking-wider px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                                      <span className="text-[9px] uppercase font-sans tracking-widest px-2 py-0.5 rounded-full bg-amber-900/10 text-amber-900 border border-amber-900/20 font-medium">
                                         {item.badge}
                                       </span>
                                     )}
                                   </div>
-                                  <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                                  <ChevronRight className="w-3.5 h-3.5 text-[#8C827A] group-hover:text-amber-800 group-hover:translate-x-0.5 transition-all" />
                                 </button>
                               );
                             }
@@ -297,17 +297,17 @@ export function InCommonNav({
                                 key={item.name}
                                 href={item.href || '/'}
                                 onClick={() => setActiveDropdown(null)}
-                                className="flex items-center justify-between px-3 py-2.5 rounded-lg text-xs uppercase tracking-[0.15em] font-medium text-neutral-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer group"
+                                className="flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs uppercase tracking-[0.16em] font-medium text-[#2C2825] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/[0.05] transition-all cursor-pointer group"
                               >
                                 <div className="flex items-center gap-2">
                                   <span>{item.name}</span>
                                   {item.badge && (
-                                    <span className="text-[8px] uppercase font-mono tracking-wider px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                                    <span className="text-[9px] uppercase font-sans tracking-widest px-2 py-0.5 rounded-full bg-amber-900/10 text-amber-900 border border-amber-900/20 font-medium">
                                       {item.badge}
                                     </span>
                                   )}
                                 </div>
-                                <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                                <ChevronRight className="w-3.5 h-3.5 text-[#8C827A] group-hover:text-amber-800 group-hover:translate-x-0.5 transition-all" />
                               </Link>
                             );
                           })}
